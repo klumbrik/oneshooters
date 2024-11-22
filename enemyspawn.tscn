@@ -1,0 +1,17 @@
+[gd_scene load_steps=2 format=3 uid="uid://ceyrugadvxkjw"]
+
+[ext_resource type="Script" path="res://enemyspawn.gd" id="1_rqtqk"]
+
+[node name="enemyspawn" type="Node2D"]
+position = Vector2(100, 0)
+script = ExtResource("1_rqtqk")
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 3.0
+
+[node name="ColorRect" type="ColorRect" parent="."]
+offset_right = 109.0
+offset_bottom = 113.0
+color = Color(1, 0, 0.478431, 1)
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
