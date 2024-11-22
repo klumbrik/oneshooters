@@ -1,11 +1,14 @@
-[gd_scene load_steps=5 format=3 uid="uid://67ic5nix6m4w"]
+[gd_scene load_steps=6 format=3 uid="uid://67ic5nix6m4w"]
 
 [ext_resource type="PackedScene" uid="uid://d4biv87sinkk1" path="res://character.tscn" id="1_27mtl"]
 [ext_resource type="Script" path="res://main.gd" id="1_puokp"]
 [ext_resource type="PackedScene" uid="uid://ceyrugadvxkjw" path="res://enemyspawn.tscn" id="3_xclp6"]
 [ext_resource type="Texture2D" uid="uid://dlr63l8xx000x" path="res://sprites/oneshootercover.png" id="4_onaq3"]
+[ext_resource type="Script" path="res://rich_text_label.gd" id="5_y043g"]
 
 [node name="main" type="Node2D"]
+position = Vector2(0, 100)
+scale = Vector2(0.7, 0.7)
 script = ExtResource("1_puokp")
 
 [node name="Cover texture" type="Sprite2D" parent="."]
@@ -18,16 +21,27 @@ texture = ExtResource("4_onaq3")
 position = Vector2(141, 624)
 
 [node name="enemyspawn" parent="." instance=ExtResource("3_xclp6")]
-position = Vector2(867, 604)
+position = Vector2(1200, 604)
 
-[node name="RichTextLabel" type="RichTextLabel" parent="."]
-offset_left = 50.0
-offset_top = 47.0
-offset_right = 438.0
-offset_bottom = 197.0
+[node name="MarginContainer" type="MarginContainer" parent="."]
+offset_left = 34.0
+offset_top = -97.0
+offset_right = 423.0
+offset_bottom = 189.0
+
+[node name="RichTextLabel" type="RichTextLabel" parent="MarginContainer"]
+layout_mode = 2
 theme_override_font_sizes/normal_font_size = 46
 bbcode_enabled = true
 text = "gsgdsfgdfsgdsfg
 
                                 "
 scroll_active = false
+script = ExtResource("5_y043g")
+
+[node name="фигнядлятеста" type="ColorRect" parent="."]
+visible = false
+offset_left = 11.4286
+offset_top = 1400.0
+offset_right = 1131.43
+offset_bottom = 1691.0

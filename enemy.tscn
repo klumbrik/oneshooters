@@ -26,4 +26,12 @@ shape = SubResource("RectangleShape2D_7ujxw")
 position = Vector2(55.5, 56)
 shape = SubResource("RectangleShape2D_734gl")
 
+[node name="RichTextLabel" type="RichTextLabel" parent="."]
+offset_left = 48.0
+offset_top = -56.0
+offset_right = 68.0
+offset_bottom = -13.0
+theme_override_font_sizes/normal_font_size = 30
+text = "1"
+
 [connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]

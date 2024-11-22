@@ -1,15 +1,25 @@
 extends CharacterBody2D
 
 
-const SPEED = 300.0
+const SPEED = 100.0
+var hp
+var chance
 #const JUMP_VELOCITY = -400.0
 
-
+func _ready() -> void: #when spawns randomly defines hp
+	chance = randf() 
+	if chance < 0.7:
+		hp = 1
+	else: 
+		hp = 2
+	#hp = randi_range(1,2) 
 func _physics_process(delta: float) -> void:
 	#velocity.limit_length(SPEED)
 	velocity.x = -SPEED
+	$RichTextLabel.text = str(hp)
 	#print(velocity.length())
-	
+	if hp <= 0:
+			die()
 	
 	## Add the gravity.
 	#if not is_on_floor():
@@ -34,4 +44,16 @@ func _physics_process(delta: float) -> void:
 
 func _on_area_2d_area_entered(area: Area2D) -> void:
 	if area.is_in_group('damage'):
-		queue_free()
+		hp -= 1 #damage
+		
+		
+		
+		
+
+
+
+
+func die():
+	queue_free()
+	G.score += 10 #adding 10 points for each enemy defeated
+	

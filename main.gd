@@ -1,11 +1,17 @@
 extends Node2D
 
-
+#main decreased and changed positions. If any problem occurs change back.
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	pass # Replace with function body.
+	set_things_pos()
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
-	$RichTextLabel.text = "bullets: " + str($character.ammo)
+	pass 
+
+
+func set_things_pos(): #setting the positions regardless of resolution разберусь 
+	var screen_size = get_viewport().get_visible_rect().size
+	#position = Vector2(screen_size.x * 0.1, screen_size.y * 0.5)
+	

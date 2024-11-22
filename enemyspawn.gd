@@ -8,7 +8,7 @@ func _ready() -> void:
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
-	pass
+	$Timer.wait_time = randf_range(1, 3) #random time between spawns
 
 
 func _on_timer_timeout() -> void:
