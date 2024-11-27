@@ -1,7 +1,7 @@
 extends CharacterBody2D
 
 
-const SPEED = 100.0
+const SPEED = 150.0
 var hp
 var chance
 #const JUMP_VELOCITY = -400.0
@@ -20,7 +20,8 @@ func _physics_process(delta: float) -> void:
 	#print(velocity.length())
 	if hp <= 0:
 			die()
-	
+	if !G.wave_going: #we stop if the wave stops
+		velocity.x = 0
 	## Add the gravity.
 	#if not is_on_floor():
 		#velocity += get_gravity() * delta

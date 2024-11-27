@@ -1,35 +1,49 @@
-[gd_scene load_steps=6 format=3 uid="uid://67ic5nix6m4w"]
+[gd_scene load_steps=7 format=3 uid="uid://67ic5nix6m4w"]
 
 [ext_resource type="PackedScene" uid="uid://d4biv87sinkk1" path="res://character.tscn" id="1_27mtl"]
 [ext_resource type="Script" path="res://main.gd" id="1_puokp"]
 [ext_resource type="PackedScene" uid="uid://ceyrugadvxkjw" path="res://enemyspawn.tscn" id="3_xclp6"]
-[ext_resource type="Texture2D" uid="uid://dlr63l8xx000x" path="res://sprites/oneshootercover.png" id="4_onaq3"]
+[ext_resource type="Script" path="res://camera_2d.gd" id="4_yq4g2"]
 [ext_resource type="Script" path="res://rich_text_label.gd" id="5_y043g"]
+[ext_resource type="PackedScene" uid="uid://b280h02fo0dqi" path="res://cover.tscn" id="7_bkdw4"]
 
 [node name="main" type="Node2D"]
-position = Vector2(0, 100)
 scale = Vector2(0.7, 0.7)
 script = ExtResource("1_puokp")
+metadata/_edit_lock_ = true
 
-[node name="Cover texture" type="Sprite2D" parent="."]
-texture_filter = 1
-position = Vector2(160, 624)
-scale = Vector2(3, 3)
-texture = ExtResource("4_onaq3")
+[node name="Cover" parent="." instance=ExtResource("7_bkdw4")]
+position = Vector2(224.286, 817.143)
 
 [node name="character" parent="." instance=ExtResource("1_27mtl")]
-position = Vector2(141, 624)
+position = Vector2(157, 733.068)
+metadata/_edit_lock_ = true
+
+[node name="Camera2D" type="Camera2D" parent="character"]
+position = Vector2(-52.3333, -244.356)
+anchor_mode = 0
+ignore_rotation = false
+script = ExtResource("4_yq4g2")
 
 [node name="enemyspawn" parent="." instance=ExtResource("3_xclp6")]
-position = Vector2(1200, 604)
+position = Vector2(1177.14, 708.571)
 
-[node name="MarginContainer" type="MarginContainer" parent="."]
-offset_left = 34.0
-offset_top = -97.0
-offset_right = 423.0
-offset_bottom = 189.0
+[node name="фигнядлятеста" type="ColorRect" parent="."]
+visible = false
+offset_left = 11.4286
+offset_top = 1400.0
+offset_right = 1131.43
+offset_bottom = 1691.0
 
-[node name="RichTextLabel" type="RichTextLabel" parent="MarginContainer"]
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer"]
+offset_left = 464.0
+offset_top = 32.0
+offset_right = 680.0
+offset_bottom = 160.0
+
+[node name="RichTextLabel" type="RichTextLabel" parent="CanvasLayer/MarginContainer"]
 layout_mode = 2
 theme_override_font_sizes/normal_font_size = 46
 bbcode_enabled = true
@@ -38,10 +52,3 @@ text = "gsgdsfgdfsgdsfg
                                 "
 scroll_active = false
 script = ExtResource("5_y043g")
-
-[node name="фигнядлятеста" type="ColorRect" parent="."]
-visible = false
-offset_left = 11.4286
-offset_top = 1400.0
-offset_right = 1131.43
-offset_bottom = 1691.0
