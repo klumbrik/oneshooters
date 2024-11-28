@@ -33,7 +33,8 @@ func _on_break_window_timeout() -> void:
 
 func spawn():
 	var new_enemy = enemy.instantiate()
-	add_child(new_enemy)
+	new_enemy.position = position
+	get_parent().add_child(new_enemy)
 	
 func wave_end():
 	$WaveEnd.wait_time = randf_range(20, 50) #we redefine time for a new wave

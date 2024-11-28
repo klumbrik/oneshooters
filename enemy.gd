@@ -1,7 +1,7 @@
 extends CharacterBody2D
 
 
-const SPEED = 150.0
+const SPEED = 110.0
 var hp
 var chance
 #const JUMP_VELOCITY = -400.0

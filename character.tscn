@@ -157,9 +157,9 @@ wait_time = 0.8
 [node name="ReloadTimer" type="Timer" parent="."]
 wait_time = 0.6
 
-[node name="Area2D" type="Area2D" parent="."]
+[node name="Area2D" type="Area2D" parent="." groups=["character"]]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+[node name="hit_box" type="CollisionShape2D" parent="Area2D"]
 position = Vector2(-3.26667, 5.6)
 shape = SubResource("RectangleShape2D_qc853")
 
@@ -168,6 +168,9 @@ shape = SubResource("RectangleShape2D_qc853")
 [node name="range" type="CollisionShape2D" parent="shootingrange"]
 position = Vector2(110.5, -25.1667)
 shape = SubResource("RectangleShape2D_c3lwm")
+
+[node name="Swipe_Timer" type="Timer" parent="."]
+wait_time = 0.2
 
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
 [connection signal="timeout" from="ReloadTimer" to="." method="_on_reload_timer_timeout"]

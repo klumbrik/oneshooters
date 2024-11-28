@@ -15,9 +15,8 @@ metadata/_edit_lock_ = true
 [node name="Cover" parent="." instance=ExtResource("7_bkdw4")]
 position = Vector2(224.286, 817.143)
 
-[node name="character" parent="." instance=ExtResource("1_27mtl")]
+[node name="character" parent="." groups=["character"] instance=ExtResource("1_27mtl")]
 position = Vector2(157, 733.068)
-metadata/_edit_lock_ = true
 
 [node name="Camera2D" type="Camera2D" parent="character"]
 position = Vector2(-52.3333, -244.356)
@@ -26,7 +25,7 @@ ignore_rotation = false
 script = ExtResource("4_yq4g2")
 
 [node name="enemyspawn" parent="." instance=ExtResource("3_xclp6")]
-position = Vector2(1177.14, 708.571)
+position = Vector2(1234.28, 708.571)
 
 [node name="фигнядлятеста" type="ColorRect" parent="."]
 visible = false
@@ -38,10 +37,10 @@ offset_bottom = 1691.0
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="MarginContainer" type="MarginContainer" parent="CanvasLayer"]
-offset_left = 464.0
+offset_left = 368.0
 offset_top = 32.0
-offset_right = 680.0
-offset_bottom = 160.0
+offset_right = 936.0
+offset_bottom = 272.0
 
 [node name="RichTextLabel" type="RichTextLabel" parent="CanvasLayer/MarginContainer"]
 layout_mode = 2
