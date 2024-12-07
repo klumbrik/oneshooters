@@ -16,9 +16,8 @@ func _on_cover_area_area_entered(area: Area2D) -> void:
 		if !used:
 			used = true #after the character reaches the cover it becomes used
 			G.right_swipe_detected = false
-			G.moving = false
-			G.score += 50
-
+			G.moving = false #character stops
+			G.score += 50 
 
 func _on_cover_area_area_exited(area: Area2D) -> void:
 	if area.is_in_group('character'):
@@ -29,12 +28,14 @@ func _on_cover_area_area_exited(area: Area2D) -> void:
 			if G.covers_to_spawn == 1:
 				spawn_new_cover()
 				print("cover has been spawned")
+				#twice why^&?
 
 func spawn_new_cover():
 	G.covers_to_spawn -= 1
-	print(G.covers_to_spawn)
 	var new_cover = cover.instantiate()
 	new_cover.used = false #accesses local used variable and makes all new covers unused
 	new_cover.position = Vector2(position.x + get_viewport().size.x + 500, position.y)
-	get_parent().add_child(new_cover)
+	new_cover.show_behind_parent = true
+	get_parent().call_deferred("add_child", new_cover) # Use call_deferred to safely add the new cover to the scene tree after the frame has been processed
+	
 	#will need to change layer just for visuals

@@ -4,6 +4,9 @@
 [ext_resource type="Script" path="res://character.gd" id="1_tuy5w"]
 [ext_resource type="Texture2D" uid="uid://0ku171blkavy" path="res://sprites/oneshooterstand.png" id="2_spw5q"]
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_qc853"]
+size = Vector2(26.1, 34.2)
+
 [sub_resource type="Animation" id="Animation_mbwjt"]
 length = 0.001
 tracks/0/type = "value"
@@ -41,6 +44,30 @@ tracks/2/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 0,
 "values": [Vector2(3.4, 10.3)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("../Area2D/hit_box:shape")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [SubResource("RectangleShape2D_qc853")]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("../Area2D/hit_box:position")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(4.66667, 9.66667)]
 }
 
 [sub_resource type="Animation" id="Animation_2324q"]
@@ -81,6 +108,30 @@ tracks/2/keys = {
 "update": 0,
 "values": [Vector2(4.15, 10.1), Vector2(4.15, 10.1)]
 }
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("../Area2D/hit_box:shape")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [SubResource("RectangleShape2D_qc853"), SubResource("RectangleShape2D_qc853")]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("../Area2D/hit_box:position")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(4.66667, 9.66667), Vector2(4.66667, 9.66667)]
+}
 
 [sub_resource type="Animation" id="Animation_avpbm"]
 resource_name = "shoot"
@@ -120,6 +171,18 @@ tracks/2/keys = {
 "update": 0,
 "values": [Vector2(-4.4, 5.6), Vector2(-4.4, 5.6)]
 }
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("../Area2D/hit_box:position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(-3.33333, 5.66667), Vector2(-3.33333, 5.66667)]
+}
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_w06a4"]
 _data = {
@@ -128,11 +191,8 @@ _data = {
 "shoot": SubResource("Animation_avpbm")
 }
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_qc853"]
-size = Vector2(26.1, 34.2)
-
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_c3lwm"]
-size = Vector2(241, 105.667)
+size = Vector2(214, 98.8333)
 
 [node name="character" type="CharacterBody2D"]
 scale = Vector2(3, 3)
@@ -160,19 +220,23 @@ wait_time = 0.6
 [node name="Area2D" type="Area2D" parent="." groups=["character"]]
 
 [node name="hit_box" type="CollisionShape2D" parent="Area2D"]
-position = Vector2(-3.26667, 5.6)
+position = Vector2(4.66667, 9.66667)
 shape = SubResource("RectangleShape2D_qc853")
 
 [node name="shootingrange" type="Area2D" parent="."]
 
 [node name="range" type="CollisionShape2D" parent="shootingrange"]
-position = Vector2(110.5, -25.1667)
+position = Vector2(105, -21.25)
 shape = SubResource("RectangleShape2D_c3lwm")
 
 [node name="Swipe_Timer" type="Timer" parent="."]
 wait_time = 0.2
+one_shot = true
+
+[node name="Node2d bullet measure position" type="Node2D" parent="."]
 
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
 [connection signal="timeout" from="ReloadTimer" to="." method="_on_reload_timer_timeout"]
 [connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]
 [connection signal="body_exited" from="shootingrange" to="." method="_on_shootingrange_body_exited"]
+[connection signal="timeout" from="Swipe_Timer" to="." method="_on_swipe_timer_timeout"]

@@ -20,3 +20,15 @@ func set_things_pos(): #setting the positions regardless of resolution разб�
 
 	
 	
+
+
+func _on_button_button_down() -> void:
+	$CanvasLayer/Button.visible = false
+	get_tree().paused = false
+	G.game_over = false
+	G.moving = false
+	G.right_swipe_detected = false
+	G.ammo = 6
+	G.score = 0
+	get_tree().reload_current_scene()
+	

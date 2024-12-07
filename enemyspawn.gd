@@ -1,10 +1,12 @@
 extends CharacterBody2D
 var enemy = preload("res://enemy.tscn")
+var enabled = true
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	$Timer.start()
-	$WaveEnd.start()
+	if enabled:
+		$Timer.start()
+		$WaveEnd.start()
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta: float) -> void:

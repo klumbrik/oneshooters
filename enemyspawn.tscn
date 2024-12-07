@@ -3,7 +3,6 @@
 [ext_resource type="Script" path="res://enemyspawn.gd" id="1_rqtqk"]
 
 [node name="enemyspawn" type="CharacterBody2D"]
-position = Vector2(100, 0)
 script = ExtResource("1_rqtqk")
 
 [node name="Timer" type="Timer" parent="."]
