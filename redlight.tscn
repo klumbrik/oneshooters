@@ -1,0 +1,23 @@
+[gd_scene load_steps=2 format=3 uid="uid://c7s4for4i1nsk"]
+
+[sub_resource type="Environment" id="Environment_oc6f0"]
+background_mode = 3
+glow_enabled = true
+glow_intensity = 0.67
+glow_strength = 2.0
+glow_blend_mode = 0
+glow_hdr_threshold = 2.0
+
+[node name="Node2D" type="Node2D"]
+light_mask = 4
+visibility_layer = 4
+
+[node name="ColorRect" type="ColorRect" parent="."]
+modulate = Color(2, 2, 2, 1)
+self_modulate = Color(2, 2, 2, 1)
+offset_right = 40.0
+offset_bottom = 40.0
+color = Color(1, 0, 0, 1)
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="ColorRect"]
+environment = SubResource("Environment_oc6f0")

@@ -45,8 +45,10 @@ func _physics_process(_delta: float) -> void: #main function
 
 func _on_timer_timeout() -> void:
 	if ammo > 0:
+		$Sprite2D/AnimationPlayer.seek(0)
+		$Sprite2D/AnimationPlayer.play("shoot")
 		var new_bullet = bullet.instantiate()
-		new_bullet.global_position = Vector2(23, -3) #bullet position for jed
+		new_bullet.global_position = Vector2(23, -5) #bullet position for jed
 		add_child(new_bullet)
 		ammo -= 1
 
@@ -64,6 +66,7 @@ func _on_area_2d_area_entered(area: Area2D) -> void:
 
 func _on_shootingrange_body_exited(body: Node2D) -> void: #bullet range restriction
 	if body.is_in_group("damage"):
+		print("bullet is out")
 		body.queue_free()
 
 
@@ -119,7 +122,7 @@ func initiate_state_machine():
 	character_state_machine.initialize(self)
 	character_state_machine.set_active(true)
 func shooting_enter():
-	$Sprite2D/AnimationPlayer.play("shoot")
+	
 	is_shooting = true
 	$ReloadTimer.stop()
 	
@@ -136,13 +139,14 @@ func ducking_enter(): #state machine funcs
 func ducking_update(delta: float):
 	shoot_controls()
 	if ducking == false:
+		$Sprite2D/AnimationPlayer.play_backwards("duck") #remove if needed 
 		character_state_machine.dispatch(&"state ended")
 	if G.moving == true:
 		character_state_machine.dispatch(&"to run")
 func running_enter():
 	ducking = false
 	is_shooting = false
-	$Sprite2D/AnimationPlayer.play("shoot") #play run here
+	$Sprite2D/AnimationPlayer.play("run") #play run here
 	velocity.x = G.moving_speed
 func running_update(delta: float):
 	move_and_slide()

@@ -8,6 +8,7 @@ var disabled_damage = false
 #const JUMP_VELOCITY = -400.0
 
 func _ready() -> void: #when spawns randomly defines hp
+	$Sprite2D/AnimationPlayer.play("run")
 	chance = randf() 
 	if chance < 0.7:
 		hp = 1
@@ -64,8 +65,8 @@ func _on_area_2d_area_entered(area: Area2D) -> void:
 
 
 func die():
-	queue_free()
-	G.score += 10 #adding 10 points for each enemy defeated
+	$Sprite2D/AnimationPlayer.play("beaten")
+	
 	
 func disable_damage():
 	$CollisionShape2D.disabled = true
@@ -76,3 +77,9 @@ func enable_damage():
 	disabled_damage = false
 
 	
+
+
+func _on_animation_player_animation_finished(anim_name: StringName) -> void:
+	if anim_name == "beaten":
+		queue_free()
+		G.score += 10 #adding 10 points for each enemy defeated
