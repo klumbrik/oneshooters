@@ -28,7 +28,7 @@ func _input(event: InputEvent) -> void:
 			
 			
 func _physics_process(_delta: float) -> void: #main function
-	print(character_state_machine.get_active_state())
+	#print(character_state_machine.get_active_state())
 	G.ammo = ammo
 	if !is_shooting:
 		$Timer.paused = true
@@ -59,10 +59,9 @@ func _on_reload_timer_timeout() -> void:
 
 
 func _on_area_2d_area_entered(area: Area2D) -> void:
-	pass
-	#if area.is_in_group('enemies'):
-		#get_tree().paused = true
-
+	if area.is_in_group('enemies'):
+		get_tree().paused = true
+		G.game_over = true
 
 func _on_shootingrange_body_exited(body: Node2D) -> void: #bullet range restriction
 	if body.is_in_group("damage"):

@@ -1,7 +1,7 @@
 extends CharacterBody2D
 
 
-const SPEED = 105.0
+const SPEED = 150.0
 var hp
 var chance
 var disabled_damage = false
@@ -12,8 +12,10 @@ func _ready() -> void: #when spawns randomly defines hp
 	chance = randf() 
 	if chance < 0.7:
 		hp = 1
+		$ShieldMask.visible = false
 	else: 
 		hp = 2
+		$ShieldMask.visible = true
 	#hp = randi_range(1,2) 
 func _physics_process(delta: float) -> void:
 	#velocity.limit_length(SPEED)
@@ -21,6 +23,8 @@ func _physics_process(delta: float) -> void:
 	$RichTextLabel.text = str(hp)
 	#print(velocity.length())
 	if hp <= 0:
+			$CollisionShape2D.disabled = true
+			$Area2D/CollisionShape2D.disabled = true
 			die()
 	if !G.wave_going: #we stop if the wave stops
 		velocity.x = 0
@@ -52,10 +56,12 @@ func _physics_process(delta: float) -> void:
 func _on_area_2d_area_entered(area: Area2D) -> void:
 	if area.is_in_group('damage'):
 		hp -= 1 #damage
+		get_damage()
 	if area.is_in_group('character'):
-		if !disabled_damage:
-			get_tree().paused = true
-			G.game_over = true
+		#if !disabled_damage:
+			#get_tree().paused = true
+			#G.game_over = true removed it because it worked in a stupid way
+		pass
 		
 		
 		
@@ -65,15 +71,22 @@ func _on_area_2d_area_entered(area: Area2D) -> void:
 
 
 func die():
+	disable_damage()
 	$Sprite2D/AnimationPlayer.play("beaten")
 	
+func get_damage():
+	velocity.x = 0
+	$Sprite2D/AnimationPlayer.play("damage_taken")
 	
 func disable_damage():
 	$CollisionShape2D.disabled = true
+	$Area2D.monitorable = false
 	disabled_damage = true
+	
 	
 func enable_damage():
 	$CollisionShape2D.disabled = false
+	$Area2D.monitorable = true
 	disabled_damage = false
 
 	
@@ -83,3 +96,5 @@ func _on_animation_player_animation_finished(anim_name: StringName) -> void:
 	if anim_name == "beaten":
 		queue_free()
 		G.score += 10 #adding 10 points for each enemy defeated
+	if anim_name == "damage_taken":
+		$Sprite2D/AnimationPlayer.play("run")

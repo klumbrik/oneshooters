@@ -3,7 +3,7 @@ extends RigidBody2D
 #var speed = 1000#
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	pass
+	$BulletTexture/AnimationPlayer.play("thrown")
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
