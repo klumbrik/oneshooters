@@ -11,6 +11,7 @@ var swipe_cur_pos: Vector2
 var swipe_start_pos: Vector2
 var swipe_threshold = 30
 var ducking = false
+var shoot_cooldown_passed = false
 
 var character_state_machine: LimboHSM
 #var right_swipe_detected = false I decided to make this global in G to change it in the cover scene
@@ -18,9 +19,7 @@ var character_state_machine: LimboHSM
 
 func _ready() -> void:
 	initiate_state_machine()
-	G.moving = false
-	$Sprite2D/AnimationPlayer.play("shoot")
-	$Timer.start()
+	character_state_machine.dispatch(&"to shoot") #entering the shooting state
 	
 
 func _input(event: InputEvent) -> void:
@@ -29,6 +28,7 @@ func _input(event: InputEvent) -> void:
 			
 func _physics_process(_delta: float) -> void: #main function
 	#print(character_state_machine.get_active_state())
+	#print(ducking)
 	G.ammo = ammo
 	if !is_shooting:
 		$Timer.paused = true
@@ -43,14 +43,8 @@ func _physics_process(_delta: float) -> void: #main function
 	
 	
 
-func _on_timer_timeout() -> void:
-	if ammo > 0:
-		$Sprite2D/AnimationPlayer.seek(0)
-		$Sprite2D/AnimationPlayer.play("shoot")
-		var new_bullet = bullet.instantiate()
-		new_bullet.global_position = Vector2(23, -5) #bullet position for jed
-		add_child(new_bullet)
-		ammo -= 1
+func _on_timer_timeout() -> void: #when the shooting timer expires
+	shot()
 
 
 func _on_reload_timer_timeout() -> void:
@@ -83,15 +77,21 @@ func _on_shootingrange_body_exited(body: Node2D) -> void: #bullet range restrict
 
 
 func shoot_controls():
-	if !G.moving:
 		if swipe_start_pos.distance_to(swipe_cur_pos) == 0: #if finger is not moving
 			if Input.is_action_pressed("press"): 
 				if swipe_cur_pos == swipe_start_pos:
-					ducking = true #ducking_state()
+					ducking = true
 		if Input.is_action_just_released("press"): #were on one level 
-				ducking = false #shooting state
+				ducking = false
 		
-			
+func shot():
+	if ammo > 0:
+		$Sprite2D/AnimationPlayer.seek(0)
+		$Sprite2D/AnimationPlayer.play("shoot")
+		var new_bullet = bullet.instantiate()
+		new_bullet.global_position = Vector2(25, -5) #bullet position for jed in space of the character scene
+		add_child(new_bullet)
+		ammo -= 1
 
 
 func _on_swipe_timer_timeout() -> void:
@@ -104,55 +104,105 @@ func initiate_state_machine():
 	add_child(character_state_machine)
 	
 	var shooting_state = LimboState.new().named("shooting").call_on_enter(shooting_enter).call_on_update(shooting_update)
-	var ducking_state = LimboState.new().named("ducking").call_on_enter(ducking_enter).call_on_update(ducking_update)
+	var reloading_state = LimboState.new().named("reloading").call_on_enter(reloading_enter).call_on_update(reloading_update)
 	var running_state = LimboState.new().named("running").call_on_enter(running_enter).call_on_update(running_update)
-	
+	var duckingdown_state = LimboState.new().named("duckingdown").call_on_enter(duckingdown_enter).call_on_update(duckingdown_update)
+	var duckingup_state = LimboState.new().named("duckingup").call_on_enter(duckingup_enter).call_on_update(duckingup_update)
 	character_state_machine.add_child(shooting_state)
-	character_state_machine.add_child(ducking_state)
+	character_state_machine.add_child(reloading_state)
 	character_state_machine.add_child(running_state)
-	
+	character_state_machine.add_child(duckingdown_state)
+	character_state_machine.add_child(duckingup_state)
 	
 	character_state_machine.initial_state = shooting_state
 	
-	character_state_machine.add_transition(shooting_state, ducking_state, &"to duck")
-	character_state_machine.add_transition(character_state_machine.ANYSTATE, shooting_state, &"state ended")
+	character_state_machine.add_transition(character_state_machine.ANYSTATE, duckingdown_state, &"to downduck")
+	character_state_machine.add_transition(character_state_machine.ANYSTATE, duckingup_state, &"to upduck")
+	character_state_machine.add_transition(duckingdown_state, reloading_state, &"to reload")
+	character_state_machine.add_transition(character_state_machine.ANYSTATE, shooting_state, &"to shoot")
 	character_state_machine.add_transition(character_state_machine.ANYSTATE, running_state, &"to run")
 	
 	character_state_machine.initialize(self)
 	character_state_machine.set_active(true)
+	
+#state machine funcs on enter and update
 func shooting_enter():
-	
-	is_shooting = true
-	$ReloadTimer.stop()
-	
+	$Sprite2D/AnimationPlayer.play("RESET")
+	G.moving = false
+	$Timer.start()	
+	if shoot_cooldown_passed and !G.moving: #if the character reaches the cooldown he shoots immediately
+		shot()
+		shoot_cooldown_passed = false
 func shooting_update(delta: float):
-	shoot_controls()
-	if ducking == true:
-		character_state_machine.dispatch(&"to duck")
-	if G.moving == true:
+	shoot_controls() #to detect input
+	if $Sprite2D/AnimationPlayer.current_animation == "shoot":
+		if $Sprite2D/AnimationPlayer.current_animation_position >= 0.2: #we need to let the shoot animation play a bit so it looks coherent
+			if ducking:
+				character_state_machine.dispatch(&"to downduck")
+	elif $Sprite2D/AnimationPlayer.current_animation_position == 1 or $Sprite2D/AnimationPlayer.current_animation == "":	
+		if ducking:
+				character_state_machine.dispatch(&"to downduck")
+	
+	if G.moving: #the same condition added on every state update
 		character_state_machine.dispatch(&"to run")
-func ducking_enter(): #state machine funcs
+
+func duckingdown_enter():
+	$Timer.stop() #We stop the timer to stop shooting
 	$Sprite2D/AnimationPlayer.play("duck")
-	is_shooting = false
-	$ReloadTimer.start()
-func ducking_update(delta: float):
-	shoot_controls()
-	if ducking == false:
-		$Sprite2D/AnimationPlayer.play_backwards("duck") #remove if needed 
-		character_state_machine.dispatch(&"state ended")
-	if G.moving == true:
+func duckingdown_update(delta: float):
+	shoot_controls() #to detect input
+	if !ducking:
+		character_state_machine.dispatch(&"to upduck")
+	if $Sprite2D/AnimationPlayer.current_animation_position >= 0.26: #shooting cooldown
+		shoot_cooldown_passed = true
+	if $Sprite2D/AnimationPlayer.current_animation_position >= 0.4:
+		character_state_machine.dispatch(&"to reload")
+	
+	if G.moving: #the same condition added on every state update
 		character_state_machine.dispatch(&"to run")
+
+func duckingup_enter():
+	$Sprite2D/AnimationPlayer.play_backwards("duck")
+func duckingup_update(delta: float):
+	shoot_controls() #to detect input
+	if ducking:
+		character_state_machine.dispatch(&"to downduck")
+	if $Sprite2D/AnimationPlayer.current_animation_position == 0: #changing to the shooting state if we're currently on the 0 sec of the duck animation
+		character_state_machine.dispatch(&"to shoot")
+		
+	if G.moving: #the same condition added on every state update
+		character_state_machine.dispatch(&"to run")
+
+func reloading_enter(): 
+	$ReloadTimer.start()
+func reloading_update(delta: float):
+	shoot_controls() #to detect input
+	if !ducking:
+		$ReloadTimer.stop()
+		character_state_machine.dispatch(&"to upduck")
+
+	if G.moving: #the same condition added on every state update
+			character_state_machine.dispatch(&"to run")
+
 func running_enter():
-	ducking = false
-	is_shooting = false
-	$Sprite2D/AnimationPlayer.play("run") #play run here
-	velocity.x = G.moving_speed
+	$Timer.stop()
+	shoot_cooldown_passed = false
+	$Sprite2D/AnimationPlayer.play("run")
 func running_update(delta: float):
-	move_and_slide()
-	if G.moving == false:
-		character_state_machine.dispatch(&"state ended")
+	shoot_controls() #to detect input
+	if !G.moving:
+		 #change if you want the character to duck automatically after running
+		velocity.x = 0
+		character_state_machine.dispatch("to shoot")
+	else:
+		velocity.x = G.moving_speed
+		move_and_slide()
 
 
+	
+	
+	
+	
 func swipe_detection():
 	if Input.is_action_just_pressed("press"):
 		if !swiping:
@@ -173,4 +223,4 @@ func swipe_detection():
 		swiping = false
 		
 	
-	#considering adding a timer to this detection so that the player doesn't swipe to long. added
+	#considering adding a timer to this detection so that the player doesn't swipe to long. added (done)

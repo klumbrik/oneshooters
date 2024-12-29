@@ -71,9 +71,8 @@ func _on_area_2d_area_entered(area: Area2D) -> void:
 
 
 func die():
-	disable_damage()
 	$Sprite2D/AnimationPlayer.play("beaten")
-	
+	disable_damage()
 func get_damage():
 	velocity.x = 0
 	$Sprite2D/AnimationPlayer.play("damage_taken")

@@ -1,14 +1,34 @@
-[gd_scene load_steps=9 format=3 uid="uid://i7eamu65p2bo"]
+[gd_scene load_steps=15 format=3 uid="uid://i7eamu65p2bo"]
 
 [ext_resource type="Script" path="res://bullet.gd" id="1_3a2da"]
 [ext_resource type="Texture2D" uid="uid://b6i1wo1gnir3l" path="res://sprites/Jedanims/bullet/bulletjed1.png" id="2_18ixx"]
 [ext_resource type="Texture2D" uid="uid://b5cu70njn8820" path="res://sprites/Jedanims/bullet/bulletjed2.png" id="3_gwttk"]
+[ext_resource type="Texture2D" uid="uid://41m8k4gpknba" path="res://sprites/Jedanims/bullet/bulletjed3.png" id="4_orqd3"]
+[ext_resource type="Texture2D" uid="uid://dyl6ghl26pl7v" path="res://sprites/Jedanims/bullet/bulletjed4.png" id="5_pcud0"]
+[ext_resource type="Texture2D" uid="uid://dss7qd4rrga4m" path="res://sprites/Jedanims/bullet/bulletjed5.png" id="6_6tl2j"]
+[ext_resource type="Texture2D" uid="uid://c0x2qgbo8buux" path="res://sprites/Jedanims/bullet/bulletjed6.png" id="7_txwaf"]
+[ext_resource type="Texture2D" uid="uid://b8yknq352tavv" path="res://sprites/Jedanims/bullet/bulletjed7.png" id="8_q2bpb"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_y7d4q"]
 size = Vector2(38.5, 12.8333)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_8aaci"]
 size = Vector2(40, 13.3333)
+
+[sub_resource type="Animation" id="Animation_pmrmv"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("2_18ixx")]
+}
 
 [sub_resource type="Animation" id="Animation_6hnkg"]
 resource_name = "thrown"
@@ -27,8 +47,8 @@ tracks/0/keys = {
 "values": [ExtResource("2_18ixx"), ExtResource("3_gwttk")]
 }
 
-[sub_resource type="Animation" id="Animation_pmrmv"]
-length = 0.001
+[sub_resource type="Animation" id="Animation_meo5f"]
+resource_name = "collided"
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -36,15 +56,16 @@ tracks/0/path = NodePath(".:texture")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
+"times": PackedFloat32Array(0, 0.0333333, 0.0666667, 0.1, 0.133333, 0.166667, 0.2, 0.233333),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
 "update": 1,
-"values": [ExtResource("2_18ixx")]
+"values": [ExtResource("2_18ixx"), ExtResource("3_gwttk"), ExtResource("4_orqd3"), ExtResource("5_pcud0"), ExtResource("6_6tl2j"), ExtResource("7_txwaf"), ExtResource("8_q2bpb"), null]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_4o2au"]
 _data = {
 "RESET": SubResource("Animation_pmrmv"),
+"collided": SubResource("Animation_meo5f"),
 "thrown": SubResource("Animation_6hnkg")
 }
 
@@ -87,3 +108,4 @@ libraries = {
 }
 
 [connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]
+[connection signal="animation_finished" from="BulletTexture/AnimationPlayer" to="." method="_on_animation_player_animation_finished"]
