@@ -1,0 +1,24 @@
+[gd_scene load_steps=3 format=3 uid="uid://uhyemntn1ca5"]
+
+[ext_resource type="Script" path="res://fire_target_visual.gd" id="1_ccdhk"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_h4sro"]
+size = Vector2(96, 104)
+
+[node name="Fire_Target" type="Node2D"]
+script = ExtResource("1_ccdhk")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+offset_top = -24.0
+offset_right = 96.0
+offset_bottom = 80.0
+color = Color(0.2, 0.352941, 1, 0.341176)
+
+[node name="Area2d" type="Area2D" parent="ColorRect" groups=["target_zone"]]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ColorRect/Area2d"]
+position = Vector2(48, 52)
+shape = SubResource("RectangleShape2D_h4sro")
+
+[connection signal="area_entered" from="ColorRect/Area2d" to="." method="_on_area_2d_area_entered"]
+[connection signal="area_exited" from="ColorRect/Area2d" to="." method="_on_area_2d_area_exited"]

@@ -1,6 +1,6 @@
 extends CharacterBody2D
 var enemy = preload("res://enemy.tscn")
-var enabled = false
+var enabled = true
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -10,7 +10,7 @@ func _ready() -> void:
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta: float) -> void:
-	$Timer.wait_time = randf_range(0.5, 2) #random time between spawns
+	$Timer.wait_time = randf_range(0.5, 1.5) #random time between spawns
 	
 	if !G.wave_going: #when wave stops we stop spawning
 		$Timer.stop()
@@ -39,10 +39,10 @@ func spawn():
 	get_parent().add_child(new_enemy)
 	
 func wave_end():
-	$WaveEnd.wait_time = randf_range(5, 10) #we redefine time for a new wave
+	$WaveEnd.wait_time = randf_range(15, 25) #we redefine time for a new wave
 	G.wave_going = false
 	print("wave has ended. wavetime changed")
-	$Break_Window.wait_time = randf_range(3, 5) #define new break time in range
+	$Break_Window.wait_time = randf_range(1, 3) #define new break time in range
 	$Break_Window.start() #then we start a new timer for break time
 	
 func new_wave():

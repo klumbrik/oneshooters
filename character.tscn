@@ -279,6 +279,7 @@ script = ExtResource("1_tuy5w")
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture_filter = 1
 texture = ExtResource("3_bghx8")
+metadata/_edit_lock_ = true
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Sprite2D"]
 libraries = {
@@ -302,9 +303,9 @@ position = Vector2(4.66667, 9.66667)
 shape = SubResource("RectangleShape2D_qc853")
 
 [node name="shootingrange" type="Area2D" parent="."]
-visible = false
 collision_layer = 2
 collision_mask = 2
+metadata/_edit_lock_ = true
 
 [node name="range" type="CollisionShape2D" parent="shootingrange"]
 position = Vector2(105, -21.25)

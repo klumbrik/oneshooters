@@ -18,6 +18,8 @@ var character_state_machine: LimboHSM
 
 
 func _ready() -> void:
+	$Timer.wait_time = 0.8 / G.pacedif_modifier
+	$ReloadTimer.wait_time = 0.6 / G.pacedif_modifier
 	initiate_state_machine()
 	character_state_machine.dispatch(&"to shoot") #entering the shooting state
 	
@@ -38,6 +40,7 @@ func _physics_process(_delta: float) -> void: #main function
 	if G.right_swipe_detected:
 		G.moving = true
 		
+	use_stash()
 	
 			
 	
@@ -59,8 +62,7 @@ func _on_area_2d_area_entered(area: Area2D) -> void:
 
 func _on_shootingrange_body_exited(body: Node2D) -> void: #bullet range restriction
 	if body.is_in_group("damage"):
-		print("bullet is out")
-		body.queue_free()
+		body.emit_signal("range")
 
 
 
@@ -224,3 +226,10 @@ func swipe_detection():
 		
 	
 	#considering adding a timer to this detection so that the player doesn't swipe to long. added (done)
+
+
+func use_stash():
+	if ammo == 0 and G.stash > 0:
+		ammo += 3
+		G.stash -= 3
+		G.emit_signal("out_of_ammo")

@@ -35,6 +35,8 @@ project/assembly_name="Oneshooters"
 
 character=""
 damage=""
+enemies=""
+target_zone=""
 
 [input]
 

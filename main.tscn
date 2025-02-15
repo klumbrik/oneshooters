@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://67ic5nix6m4w"]
+[gd_scene load_steps=11 format=3 uid="uid://67ic5nix6m4w"]
 
 [ext_resource type="PackedScene" uid="uid://d4biv87sinkk1" path="res://character.tscn" id="1_27mtl"]
 [ext_resource type="Script" path="res://main.gd" id="1_puokp"]
@@ -7,6 +7,9 @@
 [ext_resource type="Script" path="res://rich_text_label.gd" id="5_y043g"]
 [ext_resource type="PackedScene" uid="uid://b280h02fo0dqi" path="res://cover.tscn" id="7_bkdw4"]
 [ext_resource type="Script" path="res://button.gd" id="7_fxtsn"]
+[ext_resource type="PackedScene" uid="uid://c3hvy83ddqlbe" path="res://hot_target_spawner.tscn" id="8_yythg"]
+[ext_resource type="PackedScene" uid="uid://drnd0ri06v3jb" path="res://UI_Effects_Player.tscn" id="9_a1eaw"]
+[ext_resource type="Texture2D" uid="uid://hwucs5n2nf56" path="res://sprites/bg_oneshooters.png" id="10_527pu"]
 
 [node name="main" type="Node2D"]
 scale = Vector2(0.7, 0.7)
@@ -16,20 +19,20 @@ metadata/_edit_lock_ = true
 [node name="Cover" parent="." instance=ExtResource("7_bkdw4")]
 show_behind_parent = true
 visibility_layer = 2
-position = Vector2(224.286, 817.143)
+position = Vector2(224.286, 958.572)
 
 [node name="character" parent="." groups=["character"] instance=ExtResource("1_27mtl")]
-position = Vector2(157, 733.068)
-metadata/_edit_lock_ = true
+z_index = 1
+position = Vector2(157, 874.497)
 
 [node name="Camera2D" type="Camera2D" parent="character"]
-position = Vector2(-52.3333, -244.356)
+position = Vector2(-52.3333, -291.499)
 anchor_mode = 0
 ignore_rotation = false
 script = ExtResource("4_yq4g2")
 
 [node name="enemyspawn" parent="." instance=ExtResource("3_xclp6")]
-position = Vector2(1234.28, 708.571)
+position = Vector2(1047.14, 850)
 
 [node name="фигнядлятеста" type="ColorRect" parent="."]
 visible = false
@@ -65,5 +68,27 @@ offset_right = 497.0
 offset_bottom = 872.0
 text = "Play again (Sorry your score isn't saved)"
 script = ExtResource("7_fxtsn")
+
+[node name="Hot_Target_Spawner" parent="." instance=ExtResource("8_yythg")]
+position = Vector2(1691.43, 971.429)
+
+[node name="UX_Player" parent="." instance=ExtResource("9_a1eaw")]
+visible = false
+position = Vector2(68.5714, 628.571)
+
+[node name="BgOneshooters" type="Sprite2D" parent="."]
+z_index = -4
+texture_filter = 1
+position = Vector2(514.286, 914.286)
+scale = Vector2(5.71429, 5.71429)
+texture = ExtResource("10_527pu")
+metadata/_edit_lock_ = true
+
+[node name="ColorRect" type="ColorRect" parent="BgOneshooters"]
+offset_left = -90.0
+offset_top = 160.0
+offset_right = 90.0
+offset_bottom = 266.0
+color = Color(0.188235, 0.164706, 0.239216, 1)
 
 [connection signal="button_down" from="CanvasLayer/Button" to="." method="_on_button_button_down"]
