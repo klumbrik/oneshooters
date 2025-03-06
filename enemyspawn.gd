@@ -1,6 +1,6 @@
 extends CharacterBody2D
 var enemy = preload("res://enemy.tscn")
-var enabled = true
+var enabled = true #disable when tesitng
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:

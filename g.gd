@@ -1,7 +1,10 @@
 extends Node
+
+#signals - mostly for the ux player
 signal enemy_died
 signal out_of_ammo
-var pacedif_modifier = 1.5 #Set to 1 to revert to play with original values. modifier for speed in terms of difficulty (testing). 
+signal enemy_shoots
+var pacedif_modifier = 1 #Set to 1 to revert to play with original values. modifier for speed in terms of difficulty (testing). 
 #Contains global vars
 var game_over = false
 var is_enemy_in_zone: bool
