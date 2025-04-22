@@ -285,7 +285,6 @@ _data = {
 size = Vector2(214, 98.8333)
 
 [node name="character" type="CharacterBody2D"]
-scale = Vector2(3, 3)
 script = ExtResource("1_tuy5w")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]

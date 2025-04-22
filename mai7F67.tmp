@@ -12,46 +12,47 @@
 [ext_resource type="Texture2D" uid="uid://hwucs5n2nf56" path="res://sprites/bg_oneshooters.png" id="10_527pu"]
 
 [node name="main" type="Node2D"]
+scale = Vector2(0.35, 0.35)
 script = ExtResource("1_puokp")
 metadata/_edit_lock_ = true
-metadata/_edit_horizontal_guides_ = [-12.0]
 
 [node name="Cover" parent="." instance=ExtResource("7_bkdw4")]
 show_behind_parent = true
 visibility_layer = 2
-position = Vector2(69, 332)
+position = Vector2(224.286, 958.572)
 
 [node name="character" parent="." groups=["character"] instance=ExtResource("1_27mtl")]
 z_index = 1
-position = Vector2(53, 306)
+position = Vector2(157, 874.497)
+metadata/_edit_lock_ = true
 
 [node name="Camera2D" type="Camera2D" parent="character"]
-position = Vector2(-52.3333, -305.499)
+position = Vector2(-52.3333, -291.499)
 anchor_mode = 0
 ignore_rotation = false
 script = ExtResource("4_yq4g2")
 
 [node name="enemyspawn" parent="." instance=ExtResource("3_xclp6")]
-position = Vector2(357, 300)
+position = Vector2(1032.09, 845.714)
 
 [node name="фигнядлятеста" type="ColorRect" parent="."]
 visible = false
-offset_left = -90.0
-offset_top = 873.0
-offset_right = 1030.0
-offset_bottom = 1164.0
+offset_left = 11.4286
+offset_top = 1400.0
+offset_right = 1131.43
+offset_bottom = 1691.0
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="MarginContainer" type="MarginContainer" parent="CanvasLayer"]
 offset_left = 2.0
 offset_top = 32.0
-offset_right = 359.0
+offset_right = 570.0
 offset_bottom = 272.0
 
 [node name="RichTextLabel" type="RichTextLabel" parent="CanvasLayer/MarginContainer"]
 layout_mode = 2
-theme_override_font_sizes/normal_font_size = 27
+theme_override_font_sizes/normal_font_size = 46
 bbcode_enabled = true
 text = "gsgdsfgdfsgdsfg
 
@@ -71,22 +72,22 @@ script = ExtResource("7_fxtsn")
 [node name="Hot_Target_Spawner" parent="." instance=ExtResource("8_yythg")]
 position = Vector2(1691.43, 971.429)
 
-[node name="UX_PlayerAmmo" parent="." instance=ExtResource("9_a1eaw")]
-position = Vector2(27, 264)
-
-[node name="bg position" type="Node2D" parent="."]
-scale = Vector2(2, 2)
-
-[node name="BgOneshooters" type="Sprite2D" parent="bg position"]
+[node name="BgOneshooters" type="Sprite2D" parent="."]
 z_index = -4
 texture_filter = 1
+position = Vector2(514.286, 914.286)
+scale = Vector2(5.71429, 5.71429)
 texture = ExtResource("10_527pu")
-centered = false
+metadata/_edit_lock_ = true
 
-[node name="ColorRect" type="ColorRect" parent="bg position/BgOneshooters"]
-offset_top = 318.0
-offset_right = 180.0
-offset_bottom = 424.0
+[node name="ColorRect" type="ColorRect" parent="BgOneshooters"]
+offset_left = -90.0
+offset_top = 160.0
+offset_right = 90.0
+offset_bottom = 266.0
 color = Color(0.188235, 0.164706, 0.239216, 1)
+
+[node name="UX_PlayerAmmo" parent="." instance=ExtResource("9_a1eaw")]
+position = Vector2(62.8571, 747.143)
 
 [connection signal="button_down" from="CanvasLayer/Button" to="." method="_on_button_button_down"]

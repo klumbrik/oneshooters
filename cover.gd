@@ -24,17 +24,17 @@ func _on_cover_area_area_exited(area: Area2D) -> void:
 		G.covers_to_spawn = 1# we update new covers to spawn later
 
 		if G.right_swipe_detected:
-			print(G.covers_to_spawn)
+			#print(G.covers_to_spawn)
 			if G.covers_to_spawn == 1:
 				spawn_new_cover()
-				print("cover has been spawned")
+				#print("cover has been spawned")
 				#twice why^&?
 
 func spawn_new_cover():
 	G.covers_to_spawn -= 1
 	var new_cover = cover.instantiate()
 	new_cover.used = false #accesses local used variable and makes all new covers unused
-	new_cover.position = Vector2(position.x + get_viewport().size.x + 500, position.y)
+	new_cover.position = Vector2(get_viewport().get_visible_rect().size.x, position.y) #did't figure out how to get screen width yet
 	new_cover.show_behind_parent = true
 	get_parent().call_deferred("add_child", new_cover) # Use call_deferred to safely add the new cover to the scene tree after the frame has been processed
 	

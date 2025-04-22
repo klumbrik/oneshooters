@@ -13,6 +13,7 @@ scale = Vector2(0.5625, 0.554688)
 texture = ExtResource("1_n6wy1")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-position = Vector2(48, 50)
-scale = Vector2(0.0283691, 0.0283691)
+position = Vector2(-5, -6)
+scale = Vector2(0.0102783, 0.0102783)
 texture = ExtResource("2_iycxq")
+centered = false

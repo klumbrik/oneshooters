@@ -152,10 +152,10 @@ _data = {
 }
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_7ujxw"]
-size = Vector2(113, 117.5)
+size = Vector2(30, 48)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_734gl"]
-size = Vector2(127, 126)
+size = Vector2(32, 47)
 
 [node name="enemy" type="CharacterBody2D" groups=["enemies"]]
 visibility_layer = 2
@@ -163,9 +163,9 @@ script = ExtResource("1_5a16f")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture_filter = 1
-position = Vector2(57, 39)
-scale = Vector2(3, 3)
+position = Vector2(-14, -23)
 texture = ExtResource("2_y7m0n")
+centered = false
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Sprite2D"]
 libraries = {
@@ -179,13 +179,14 @@ offset_bottom = 113.0
 color = Color(1, 0, 0.478431, 1)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(53.5, 55.75)
+position = Vector2(14, 12)
 shape = SubResource("RectangleShape2D_7ujxw")
 
 [node name="Area2D" type="Area2D" parent="." groups=["enemies"]]
+position = Vector2(-42, -29)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
-position = Vector2(55.5, 56)
+position = Vector2(56, 41.5)
 shape = SubResource("RectangleShape2D_734gl")
 
 [node name="RichTextLabel" type="RichTextLabel" parent="."]
@@ -200,7 +201,6 @@ text = "1"
 [node name="ShieldMask" type="Sprite2D" parent="."]
 texture_filter = 1
 position = Vector2(57, 36)
-scale = Vector2(3, 3)
 texture = ExtResource("24_stu56")
 
 [connection signal="animation_finished" from="Sprite2D/AnimationPlayer" to="." method="_on_animation_player_animation_finished"]

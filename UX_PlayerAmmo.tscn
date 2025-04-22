@@ -150,6 +150,7 @@ _data = {
 
 [node name="UX_PlayerAmmo" type="Node2D"]
 z_index = 1
+scale = Vector2(0.3, 0.3)
 script = ExtResource("1_x0pig")
 
 [node name="position_anim" type="Node2D" parent="."]

@@ -10,6 +10,7 @@ script = ExtResource("1_rqtqk")
 [node name="ColorRect" type="ColorRect" parent="."]
 offset_right = 109.0
 offset_bottom = 113.0
+scale = Vector2(0.3, 0.3)
 color = Color(1, 0, 0.478431, 1)
 
 [node name="WaveEnd" type="Timer" parent="."]

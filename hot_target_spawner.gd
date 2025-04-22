@@ -29,5 +29,5 @@ func _on_hot_target_timer_timeout() -> void:
 		spawn()
 
 func _on_enemy_died():
-	print("he is defeated")
+	#print("he is defeated")
 	remove()

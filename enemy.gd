@@ -3,7 +3,7 @@ extends CharacterBody2D
 
 var mouse_onself = false
 var target = preload("res://target.tscn")
-var SPEED = 150.0 * G.pacedif_modifier
+var SPEED = 80.0 * G.pacedif_modifier
 var hp
 var chance
 var disabled_damage = false
@@ -67,7 +67,7 @@ func _on_area_2d_area_entered(area: Area2D) -> void:
 		pass
 	if area.is_in_group('target_zone'):
 		is_in_zone = true
-		print("Entered zone ", is_in_zone)
+		#print("Entered zone ", is_in_zone)
 		
 		
 		
@@ -106,7 +106,7 @@ func enable_damage():
 
 func _on_animation_player_animation_finished(anim_name: StringName) -> void:
 	if anim_name == "beaten":
-		print("before removal, is in zone: ", is_in_zone)
+		#print("before removal, is in zone: ", is_in_zone)
 		is_in_zone = false
 		queue_free()
 		G.score += 10 #adding 10 points for each enemy defeated

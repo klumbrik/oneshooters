@@ -3,9 +3,10 @@
 [ext_resource type="Script" path="res://fire_target_visual.gd" id="1_ccdhk"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_h4sro"]
-size = Vector2(96, 104)
+size = Vector2(48, 104)
 
 [node name="Fire_Target" type="Node2D"]
+scale = Vector2(0.3, 0.3)
 script = ExtResource("1_ccdhk")
 
 [node name="ColorRect" type="ColorRect" parent="."]

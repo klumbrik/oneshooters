@@ -6,7 +6,7 @@ func _ready() -> void:
 	#G.area_res = get_window().get_visible_rect().size #decide which variable is better because they are basically the same with line 17 
 	set_things_pos()
 	G.character_position = $character.position #global or local? 
-	print("character position received:",G.character_position)
+	#print("character position received:",G.character_position)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 

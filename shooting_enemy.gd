@@ -5,7 +5,7 @@ var enemy_moving = true
 var mouse_onself = false
 var target = preload("res://target.tscn")
 var bullet = preload("res://enemy_bullet.tscn")
-var SPEED = 150.0 * G.pacedif_modifier
+var SPEED = 80.0 * G.pacedif_modifier
 var hp
 var chance
 var disabled_damage = false
@@ -52,7 +52,7 @@ func _on_area_2d_area_entered(area: Area2D) -> void:
 		pass
 	if area.is_in_group('target_zone'):
 		is_in_zone = true
-		print("Entered zone ", is_in_zone)
+		#print("Entered zone ", is_in_zone)
 		
 		
 		
@@ -91,7 +91,7 @@ func enable_damage():
 
 func _on_animation_player_animation_finished(anim_name: StringName) -> void:
 	if anim_name == "beaten":
-		print("before removal, is in zone: ", is_in_zone)
+		#print("before removal, is in zone: ", is_in_zone)
 		is_in_zone = false
 		queue_free()
 		G.score += 10 #adding 10 points for each enemy defeated
@@ -120,12 +120,12 @@ func _on_area_2d_area_exited(area: Area2D) -> void:
 func _on_shoot_timer_timeout() -> void:
 	enemy_moving = false # to stop
 	G.emit_signal("enemy_shoots")
-	print("shot happend timer lox") #literally enemy shoots
+	#print("shot happend timer lox") #literally enemy shoots
 	$Shoot_Timer.wait_time = 4 #so called cooldown. Consider carefully knowing that we need time for ux animation (also remember bout timer after the shot)
 	is_shooting = true
 func shot():
 	var new_bullet = bullet.instantiate()
-	new_bullet.global_position = Vector2(36, 16) #bullet position for enemy in space of the shooting_enemy scene
+	new_bullet.global_position = Vector2(3, 1) #bullet position for enemy in space of the shooting_enemy scene
 	add_child(new_bullet)
 
 
@@ -163,7 +163,7 @@ func initiate_state_machine():
 	
 func moving_enter():
 	$Sprite2D/AnimationPlayer.play("run")
-	$Shoot_Timer.wait_time = randf_range(1, 2) #starts shooting after ... to ... seconds
+	$Shoot_Timer.wait_time = randf_range(0.5, 2) #starts shooting after ... to ... seconds
 	$Shoot_Timer.start()
 func moving_update(delta: float):
 	if is_shooting == true:
@@ -173,7 +173,7 @@ func rtransition_enter():
 	$Sprite2D/AnimationPlayer.play("recharge_transition")
 func rtransition_update(delta: float):
 	if $Sprite2D/AnimationPlayer.current_animation_position >= 0.5:
-		print("allo")
+		#print("allo")
 		enemy_state_machine.dispatch(&"to recharge")
 	is_dead()
 func recharging_enter():

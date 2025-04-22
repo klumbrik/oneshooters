@@ -26,11 +26,9 @@ func _on_area_2d_area_entered(area: Area2D) -> void:
 
 func _on_animation_player_animation_finished(anim_name: StringName) -> void:
 	if anim_name == "collided":
-		print("bullet collided")
 		queue_free()
 
 
 func _on_range() -> void:
 	if $BulletTexture/AnimationPlayer.current_animation != "collided":
 		queue_free()
-		print("bullet is out of range")

@@ -7,7 +7,6 @@
 size = Vector2(10, 16.5)
 
 [node name="Cover" type="Node2D"]
-scale = Vector2(3, 3)
 script = ExtResource("1_etrp5")
 
 [node name="Oneshootercover" type="Sprite2D" parent="."]

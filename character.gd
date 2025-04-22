@@ -216,9 +216,9 @@ func swipe_detection():
 			swipe_cur_pos = get_global_mouse_position()
 			if swipe_start_pos.distance_to(swipe_cur_pos) >= swipe_length:
 				if abs(swipe_start_pos.y - swipe_cur_pos.y) <= swipe_threshold:
-					print("horizontal swipe!")
+					#print("horizontal swipe!")
 					if swipe_start_pos.x < swipe_cur_pos.x:
-						print("right swipe!")
+						#print("right swipe!")
 						G.right_swipe_detected = true
 				swiping = false
 	else:
