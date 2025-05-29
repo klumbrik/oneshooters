@@ -94,7 +94,7 @@ tracks/4/keys = {
 
 [sub_resource type="Animation" id="Animation_2324q"]
 resource_name = "duck"
-length = 0.4
+length = 0.34
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -305,7 +305,7 @@ shape = SubResource("RectangleShape2D_qc853")
 wait_time = 0.8
 
 [node name="ReloadTimer" type="Timer" parent="."]
-wait_time = 0.6
+wait_time = 0.4
 
 [node name="Area2D" type="Area2D" parent="." groups=["character"]]
 

@@ -1,6 +1,8 @@
 extends Node
 
 #signals - mostly for the ux player
+
+signal enemy_tap(enemy)
 signal enemy_died
 signal out_of_ammo
 signal enemy_shoots
@@ -18,6 +20,9 @@ var right_swipe_detected = false
 var covers_to_spawn =  1 # how many covers we need to spawn (or don't)
 var area_res #?
 var character_position: Vector2
+var enemiesonscreen = [] #an array containing all the enemies in the screen
+var current_target_enemy
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	pass

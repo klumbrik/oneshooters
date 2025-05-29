@@ -2,15 +2,16 @@ extends CharacterBody2D
 var enemy = preload("res://enemy.tscn")
 var shooting_enemy = preload("res://shooting_enemy.tscn")
 var enabled = true #disable when tesitng
-
+@onready var target = $target
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	if enabled:
 		$Timer.start()
 		$WaveEnd.start()
-
+		
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta: float) -> void:
+	#print(G.enemiesonscreen)
 	$Timer.wait_time = randf_range(1, 1.5) #random time between spawns
 	
 	if !G.wave_going: #when wave stops we stop spawning
@@ -19,10 +20,10 @@ func _physics_process(delta: float) -> void:
 	if G.moving:
 		velocity.x = G.moving_speed
 		move_and_slide()
-	
+
 
 func _on_timer_timeout() -> void:
-	spawn()
+	spawn_and_register()
 
 
 func _on_wave_end_timeout() -> void: #once the timer is timed out the wave stops
@@ -34,17 +35,22 @@ func _on_break_window_timeout() -> void:
 	
 
 
-func spawn():
+func spawn_and_register():
 	var chance = randf()
 	var current_enemy
 	if chance <= 0.8:
 		current_enemy = enemy
 	else:
-		current_enemy = shooting_enemy
+		current_enemy = enemy #for testing change later (other types of enemies)
+		#current_enemy = shooting_enemy
 	var new_enemy = current_enemy.instantiate()
-	new_enemy.position = position #spawn position = spawner position
 	get_parent().add_child(new_enemy)
+	new_enemy.position = position #spawn position = spawner position
+	G.enemiesonscreen.append(new_enemy)
 	
+	
+
+		
 func wave_end():
 	$WaveEnd.wait_time = randf_range(15, 25) #we redefine time for a new wave
 	G.wave_going = false
@@ -55,3 +61,6 @@ func wave_end():
 func new_wave():
 	G.wave_going = true #once break timer is out we start a new wave 
 	$Timer.start() #start randomly spawning again
+	
+
+	

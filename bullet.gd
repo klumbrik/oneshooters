@@ -1,25 +1,38 @@
 extends RigidBody2D
 signal range
-#пока что character но потом будет rigid
+var hit = false
 #var speed = 1000#
 # Called when the node enters the scene tree for the first time.
+
+#НАГОВНОКОДИЛ! ИСПРАВЬ и инглиш
 func _ready() -> void:
 	#$BulletTexture/AnimationPlayer.play("thrown")
-	pass
+	$RayCast2D.enabled = true
+	$RayCast2D.force_raycast_update()
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta: float) -> void:
-	pass
-	
-
-
-func _on_area_2d_area_entered(area: Area2D) -> void:
-	if area.is_in_group('enemies'):
+	if not hit:
+		# Настраиваем луч в направлении движения
+		$RayCast2D.force_raycast_update()
+		
+		# Если луч пересекает врага
+		if $RayCast2D.is_colliding():
+			var collider = $RayCast2D.get_collider() # returns node link
+			if collider.is_in_group("enemies") and collider == G.current_target_enemy:
+				linear_velocity = Vector2.ZERO
+				constant_force = Vector2.ZERO
+				_on_hit()
+				
+	else:
+		$Area2D.set_deferred("monitorable", false)
+func _on_hit():
 		$BulletTexture/AnimationPlayer.play("collided")
 		$CollisionShape2D.set_deferred("disabled", true)
-		linear_velocity = Vector2.ZERO
-		constant_force = Vector2.ZERO
-		$Area2D.set_deferred("monitorable", false)
+		
+		hit = true
+		
+		
 		
 		
 

@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://67ic5nix6m4w"]
+[gd_scene load_steps=13 format=3 uid="uid://67ic5nix6m4w"]
 
 [ext_resource type="PackedScene" uid="uid://d4biv87sinkk1" path="res://character.tscn" id="1_27mtl"]
 [ext_resource type="Script" path="res://main.gd" id="1_puokp"]
@@ -7,9 +7,11 @@
 [ext_resource type="Script" path="res://rich_text_label.gd" id="5_y043g"]
 [ext_resource type="PackedScene" uid="uid://b280h02fo0dqi" path="res://cover.tscn" id="7_bkdw4"]
 [ext_resource type="Script" path="res://button.gd" id="7_fxtsn"]
-[ext_resource type="PackedScene" uid="uid://c3hvy83ddqlbe" path="res://hot_target_spawner.tscn" id="8_yythg"]
+[ext_resource type="Script" path="res://target.gd" id="7_h1ovm"]
 [ext_resource type="PackedScene" uid="uid://drnd0ri06v3jb" path="res://UX_PlayerAmmo.tscn" id="9_a1eaw"]
+[ext_resource type="PackedScene" uid="uid://c2w83k7j2ggod" path="res://target.tscn" id="10_5unnn"]
 [ext_resource type="Texture2D" uid="uid://hwucs5n2nf56" path="res://sprites/bg_oneshooters.png" id="10_527pu"]
+[ext_resource type="PackedScene" uid="uid://c3hvy83ddqlbe" path="res://hot_target_spawner.tscn" id="12_ytbq7"]
 
 [node name="main" type="Node2D"]
 script = ExtResource("1_puokp")
@@ -32,7 +34,11 @@ ignore_rotation = false
 script = ExtResource("4_yq4g2")
 
 [node name="enemyspawn" parent="." instance=ExtResource("3_xclp6")]
-position = Vector2(357, 300)
+position = Vector2(357, 298)
+
+[node name="target" parent="enemyspawn" instance=ExtResource("10_5unnn")]
+z_index = 4
+script = ExtResource("7_h1ovm")
 
 [node name="фигнядлятеста" type="ColorRect" parent="."]
 visible = false
@@ -68,25 +74,41 @@ offset_bottom = 505.0
 text = "Play again (Sorry your score isn't saved)"
 script = ExtResource("7_fxtsn")
 
-[node name="Hot_Target_Spawner" parent="." instance=ExtResource("8_yythg")]
-position = Vector2(1691.43, 971.429)
-
 [node name="UX_PlayerAmmo" parent="." instance=ExtResource("9_a1eaw")]
 position = Vector2(27, 264)
 
+[node name="ColorRect2" type="ColorRect" parent="."]
+visible = false
+top_level = true
+z_index = -7
+offset_left = -82.0
+offset_top = -65.0
+offset_right = 452.0
+offset_bottom = 736.0
+color = Color(0.9484, 0.85557, 0.960793, 1)
+
+[node name="ColorRect" type="ColorRect" parent="."]
+visible = false
+top_level = true
+z_index = -4
+offset_left = -82.0
+offset_top = -65.0
+offset_right = 452.0
+offset_bottom = 736.0
+color = Color(0.188235, 0.164706, 0.239216, 1)
+
 [node name="bg position" type="Node2D" parent="."]
+visible = false
 scale = Vector2(2, 2)
 
 [node name="BgOneshooters" type="Sprite2D" parent="bg position"]
+visible = false
 z_index = -4
 texture_filter = 1
 texture = ExtResource("10_527pu")
 centered = false
 
-[node name="ColorRect" type="ColorRect" parent="bg position/BgOneshooters"]
-offset_top = 318.0
-offset_right = 180.0
-offset_bottom = 424.0
-color = Color(0.188235, 0.164706, 0.239216, 1)
+[node name="Hot_Target_Spawner" parent="." instance=ExtResource("12_ytbq7")]
+position = Vector2(2, 1)
 
-[connection signal="button_down" from="CanvasLayer/Button" to="." method="_on_button_button_down"]
+[connection signal="button_down" from="CanvasLayer/Button" to="CanvasLayer/Button" method="_on_button_down"]
