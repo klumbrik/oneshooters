@@ -1,5 +1,5 @@
 extends CharacterBody2D
-
+#IF YOU CHANGE ANIMATION TIMINGS, CHANGE ALL THE LINES ABOUT THE ANIM POSITION
 #var is_shooting = true
 var ammo = 6
 var bullet = preload("res://bullet.tscn")
@@ -34,7 +34,7 @@ func _physics_process(_delta: float) -> void: #main function
 	#print(ducking)
 	#print(shoot_cooldown_passed)
 	#print($Timer.time_left, $Timer.paused)
-	#print($Sprite2D/AnimationPlayer.current_animation, $Sprite2D/AnimationPlayer.current_animation_position)
+	print($Sprite2D/AnimationPlayer.current_animation, $Sprite2D/AnimationPlayer.current_animation_position)
 	G.ammo = ammo
 	#if !is_shooting:
 		#$Timer.paused = true #not needeed anymore. Ruins being in the process.So paused parameter is changed in the states
@@ -136,8 +136,6 @@ func shooting_enter():
 	$Sprite2D/AnimationPlayer.play("RESET")
 	G.moving = false
 	$Timer.paused = false #starting Timer from the same time where it was paused
-	if $Timer.time_left == 0:
-		pass
 	if shoot_cooldown_passed and !G.moving:
 		print("shot?!") #if the character reaches the cooldown he shoots immediately (when stands up after frame threshhold)
 		$Timer.stop() #stopping timer so that bullets don't stack more than 1 at a time
@@ -162,7 +160,10 @@ func duckingdown_enter():
 	#print("error?")
 	#$Sprite2D/AnimationPlayer.play("duck")
 	#$Timer.paused = true #We pause the timer to stop shooting
-	anim_pos = $Sprite2D/AnimationPlayer.current_animation_position
+	anim_pos = 0.0
+	if $Sprite2D/AnimationPlayer.current_animation == "duck":
+		anim_pos = $Sprite2D/AnimationPlayer.current_animation_position
+	#print(anim_pos)
 	$Sprite2D/AnimationPlayer.play("duck")
 	$Sprite2D/AnimationPlayer.seek(anim_pos, true) # Continue from current pos
 	$Timer.paused = true #We pause the timer to stop shooting
@@ -172,7 +173,8 @@ func duckingdown_update(delta: float):
 		character_state_machine.dispatch(&"to upduck")
 	if $Sprite2D/AnimationPlayer.current_animation_position >= 0.26: #shooting cooldown
 		shoot_cooldown_passed = true
-	elif $Sprite2D/AnimationPlayer.current_animation_position >= 0.3:
+	if $Sprite2D/AnimationPlayer.current_animation_position >= 0.3:
+		print("relod")
 		character_state_machine.dispatch(&"to reload")
 		
 	if G.moving: #the same condition added on every state update
@@ -185,8 +187,8 @@ func duckingup_update(delta: float):
 	if ducking:
 		#$Sprite2D/AnimationPlayer.seek($Sprite2D/AnimationPlayer.current_animation_position)
 		character_state_machine.dispatch(&"to downduck")
-	elif $Sprite2D/AnimationPlayer.current_animation_position >= 0.0:
-		pass#character_state_machine.dispatch(&"to shoot")
+	elif $Sprite2D/AnimationPlayer.current_animation_position == 0.0 and $Sprite2D/AnimationPlayer.current_animation == "": #empty animation string is default stand pose
+		character_state_machine.dispatch(&"to shoot")
 	
 	
 	#elif $Sprite2D/AnimationPlayer.current_animation_position >= 0: #changing to the shooting state if we're currently on the 0 sec of the duck animation
