@@ -14,6 +14,7 @@ var ducking = false
 var shoot_cooldown_passed = false
 var anim_pos := 0.0
 
+
 var character_state_machine: LimboHSM
 #var right_swipe_detected = false I decided to make this global in G to change it in the cover scene
 
@@ -26,7 +27,7 @@ func _ready() -> void:
 	$Timer.start() #INITIAL SHOOT timer start
 
 func _input(event: InputEvent) -> void:
-	pass #moved shoot controls into states
+	pass 
 			
 			
 func _physics_process(_delta: float) -> void: #main function
@@ -34,7 +35,7 @@ func _physics_process(_delta: float) -> void: #main function
 	#print(ducking)
 	#print(shoot_cooldown_passed)
 	#print($Timer.time_left, $Timer.paused)
-	print($Sprite2D/AnimationPlayer.current_animation, $Sprite2D/AnimationPlayer.current_animation_position)
+	#print($Sprite2D/AnimationPlayer.current_animation, $Sprite2D/AnimationPlayer.current_animation_position)
 	G.ammo = ammo
 	#if !is_shooting:
 		#$Timer.paused = true #not needeed anymore. Ruins being in the process.So paused parameter is changed in the states
@@ -137,14 +138,14 @@ func shooting_enter():
 	G.moving = false
 	$Timer.paused = false #starting Timer from the same time where it was paused
 	if shoot_cooldown_passed and !G.moving:
-		print("shot?!") #if the character reaches the cooldown he shoots immediately (when stands up after frame threshhold)
+		#print("shot?!") #if the character reaches the cooldown he shoots immediately (when stands up after frame threshhold)
 		$Timer.stop() #stopping timer so that bullets don't stack more than 1 at a time
 		shot()
 		$Timer.start() #starting again to not stop shooting
 		shoot_cooldown_passed = false
 	
 func shooting_update(delta: float):
-	shoot_controls() #to detect input
+	shoot_controls() #to detect input #it's important to repeat here to not have tap bugs
 	if $Sprite2D/AnimationPlayer.current_animation == "shoot":
 		if $Sprite2D/AnimationPlayer.current_animation_position >= 0.2: #we need to let the shoot animation play a bit so it looks coherent
 			if ducking:
@@ -174,7 +175,7 @@ func duckingdown_update(delta: float):
 	if $Sprite2D/AnimationPlayer.current_animation_position >= 0.26: #shooting cooldown
 		shoot_cooldown_passed = true
 	if $Sprite2D/AnimationPlayer.current_animation_position >= 0.3:
-		print("relod")
+		#print("relod")
 		character_state_machine.dispatch(&"to reload")
 		
 	if G.moving: #the same condition added on every state update
@@ -210,7 +211,7 @@ func reloading_update(delta: float):
 			character_state_machine.dispatch(&"to run")
 
 func running_enter():
-	$Timer.stop()
+	$Timer.paused = true
 	shoot_cooldown_passed = false
 	$Sprite2D/AnimationPlayer.play("run")
 func running_update(delta: float):
@@ -243,6 +244,7 @@ func swipe_detection():
 					if swipe_start_pos.x < swipe_cur_pos.x:
 						#print("right swipe!")
 						G.right_swipe_detected = true
+						G.emit_signal("swipe_room") #to create a new room
 				swiping = false
 	else:
 		swiping = false

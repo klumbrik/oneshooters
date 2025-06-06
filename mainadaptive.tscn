@@ -1,0 +1,72 @@
+[gd_scene load_steps=4 format=3 uid="uid://xsvakw5amtad"]
+
+[ext_resource type="PackedScene" uid="uid://67ic5nix6m4w" path="res://main.tscn" id="1_gpac2"]
+[ext_resource type="Script" path="res://rich_text_label.gd" id="2_l1s8a"]
+[ext_resource type="Script" path="res://button.gd" id="3_1e27r"]
+
+[node name="Control" type="Control"]
+layout_direction = 1
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 2
+offset_left = -474.0
+offset_top = -4.0
+offset_right = 1446.0
+offset_bottom = 698.0
+color = Color(0, 0.265442, 0.471648, 1)
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -180.0
+offset_top = -320.0
+offset_right = 184.0
+offset_bottom = 331.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="SubViewport" type="SubViewport" parent="SubViewportContainer"]
+handle_input_locally = false
+size = Vector2i(360, 640)
+render_target_update_mode = 4
+
+[node name="main" parent="SubViewportContainer/SubViewport" instance=ExtResource("1_gpac2")]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer"]
+offset_left = 2.0
+offset_top = 32.0
+offset_right = 359.0
+offset_bottom = 272.0
+
+[node name="RichTextLabel" type="RichTextLabel" parent="CanvasLayer/MarginContainer"]
+layout_mode = 2
+theme_override_font_sizes/normal_font_size = 27
+bbcode_enabled = true
+text = "gsgdsfgdfsgdsfg
+
+                                "
+scroll_active = false
+script = ExtResource("2_l1s8a")
+
+[node name="Button" type="Button" parent="CanvasLayer"]
+process_mode = 3
+offset_left = 19.0
+offset_top = 392.0
+offset_right = 332.0
+offset_bottom = 505.0
+text = "Play again (Sorry your score isn't saved)"
+script = ExtResource("3_1e27r")
+
+[connection signal="button_down" from="CanvasLayer/Button" to="CanvasLayer/Button" method="_on_button_down"]

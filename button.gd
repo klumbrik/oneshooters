@@ -16,6 +16,8 @@ func _process(delta: float) -> void:
 
 func _on_button_down() -> void:
 	G.game_over = false
+	G.current_cover_number = 0
 	get_tree().paused = false
-	G.get_tree().change_scene_to_file("res://main.tscn") #reloading the smae scene
+	G.get_tree().change_scene_to_file("res://mainadaptive.tscn") #reloading the smae scene
 	G.enemiesonscreen.clear()
+	G.rooms.clear()

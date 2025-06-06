@@ -1,5 +1,6 @@
 extends Node2D
-var used = true #the cover should be used only 1 time
+var used = false #the cover should be used only 1 time
+
 #var cover = preload("res://cover.tscn")
 ## Called when the node enters the scene tree for the first time.
 #func _ready() -> void:
@@ -11,14 +12,15 @@ var used = true #the cover should be used only 1 time
 	#pass
 #
 #
-#func _on_cover_area_area_entered(area: Area2D) -> void:
-	#if area.is_in_group('character'):
-		#if !used:
-			#used = true #after the character reaches the cover it becomes used
-			#G.right_swipe_detected = false
-			#G.moving = false #character stops
-			#G.score += 50 
-#
+func _on_cover_area_area_entered(area: Area2D) -> void:
+	if area.is_in_group('character'):
+		G.current_cover_number += 1
+		#print(G.current_cover_number)
+		if !used:
+			used = true #after the character reaches the cover it becomes used
+			G.right_swipe_detected = false
+			G.moving = false #character stops
+			G.score += 50 
 #func _on_cover_area_area_exited(area: Area2D) -> void:
 	#if area.is_in_group('character'):
 		#G.covers_to_spawn = 1# we update new covers to spawn later

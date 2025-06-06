@@ -1,7 +1,7 @@
 extends CharacterBody2D
 var enemy = preload("res://enemy.tscn")
 var shooting_enemy = preload("res://shooting_enemy.tscn")
-var enabled = true #disable when tesitng
+var enabled = false #disable when tesitng
 @onready var target = $target
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
