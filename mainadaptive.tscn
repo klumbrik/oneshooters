@@ -1,8 +1,10 @@
-[gd_scene load_steps=4 format=3 uid="uid://xsvakw5amtad"]
+[gd_scene load_steps=6 format=3 uid="uid://xsvakw5amtad"]
 
 [ext_resource type="PackedScene" uid="uid://67ic5nix6m4w" path="res://main.tscn" id="1_gpac2"]
+[ext_resource type="Script" path="res://sub_viewport_container.gd" id="1_seau7"]
 [ext_resource type="Script" path="res://rich_text_label.gd" id="2_l1s8a"]
 [ext_resource type="Script" path="res://button.gd" id="3_1e27r"]
+[ext_resource type="AudioStream" uid="uid://cvem6kg526qhp" path="res://sounds/music/synthoneshootersdemo4.mp3" id="4_cvftn"]
 
 [node name="Control" type="Control"]
 layout_direction = 1
@@ -16,9 +18,9 @@ grow_vertical = 2
 [node name="ColorRect" type="ColorRect" parent="."]
 layout_mode = 2
 offset_left = -474.0
-offset_top = -4.0
+offset_top = -154.0
 offset_right = 1446.0
-offset_bottom = 698.0
+offset_bottom = 844.0
 color = Color(0, 0.265442, 0.471648, 1)
 
 [node name="SubViewportContainer" type="SubViewportContainer" parent="."]
@@ -34,6 +36,7 @@ offset_right = 184.0
 offset_bottom = 331.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_seau7")
 
 [node name="SubViewport" type="SubViewport" parent="SubViewportContainer"]
 handle_input_locally = false
@@ -68,5 +71,11 @@ offset_right = 332.0
 offset_bottom = 505.0
 text = "Play again (Sorry your score isn't saved)"
 script = ExtResource("3_1e27r")
+
+[node name="Synthoneshootersdemo4" type="AudioStreamPlayer2D" parent="."]
+position = Vector2(157, 400)
+stream = ExtResource("4_cvftn")
+volume_db = -14.0
+parameters/looping = true
 
 [connection signal="button_down" from="CanvasLayer/Button" to="CanvasLayer/Button" method="_on_button_down"]

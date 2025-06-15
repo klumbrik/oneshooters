@@ -4,7 +4,7 @@ extends CharacterBody2D
 var mouse_onself = false
 var target = preload("res://target.tscn")
 var SPEED = 60.0 * G.pacedif_modifier
-var hp
+var hp = 1
 var chance
 var disabled_damage = false
 var is_in_zone = false
@@ -12,14 +12,6 @@ var is_in_zone = false
 
 func _ready() -> void: #when spawns randomly defines hp
 	$Sprite2D/AnimationPlayer.play("run")
-	chance = randf() 
-	if chance < 0.9:
-		hp = 1
-		$ShieldMask.visible = false
-	else: 
-		hp = 2
-		$ShieldMask.visible = true
-	#hp = randi_range(1,2) 
 	
 	
 func _physics_process(delta: float) -> void:

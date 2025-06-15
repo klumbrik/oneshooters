@@ -21,11 +21,12 @@ func _create_room_on_swipe():
 	#adding the new room
 	G.rooms.append(next_room) 
 
+	#removing rooms
 	if G.rooms.size() > 2: #2 for safety but can be 1
 		var old_room = G.rooms[0]
 		if is_instance_valid(old_room):
 			old_room.queue_free()
 		G.rooms.remove_at(0)
 		
-	print(G.rooms)
+	#print(G.rooms)
 		

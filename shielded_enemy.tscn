@@ -1,0 +1,321 @@
+[gd_scene load_steps=38 format=3 uid="uid://cq4x7e5apyp7p"]
+
+[ext_resource type="Script" path="res://shielded_enemy.gd" id="1_38otj"]
+[ext_resource type="Texture2D" uid="uid://dqwcf3kmftyj4" path="res://sprites/enemyanims/run/enemyrun1.png" id="2_4c686"]
+[ext_resource type="Texture2D" uid="uid://bi7qfx3wnf2im" path="res://sprites/enemyanims/shieldmaskdestroyed/shieldmask1.png" id="3_kosie"]
+[ext_resource type="Texture2D" uid="uid://dwkvn3npktgvh" path="res://sprites/enemyanims/beaten/enemybeaten1.png" id="4_5gfor"]
+[ext_resource type="Texture2D" uid="uid://b3aip5lhmhhw7" path="res://sprites/enemyanims/beaten/enemybeaten2.png" id="5_papt4"]
+[ext_resource type="Texture2D" uid="uid://nh1ew6613ca5" path="res://sprites/enemyanims/beaten/enemybeaten3.png" id="6_mhcuj"]
+[ext_resource type="Texture2D" uid="uid://cyfmy1qtt5kym" path="res://sprites/enemyanims/beaten/enemybeaten4.png" id="7_i36n7"]
+[ext_resource type="Texture2D" uid="uid://d3g8p2y07fggv" path="res://sprites/enemyanims/beaten/enemybeaten5.png" id="8_lmn48"]
+[ext_resource type="Texture2D" uid="uid://by8bc0h0nt1ul" path="res://sprites/enemyanims/beaten/enemybeaten6.png" id="9_l3c1b"]
+[ext_resource type="Texture2D" uid="uid://bcrfsi48yx1c" path="res://sprites/enemyanims/beaten/enemybeaten7.png" id="10_jompj"]
+[ext_resource type="Texture2D" uid="uid://c3ms81gu6jifx" path="res://sprites/enemyanims/damage/enemydamage2.png" id="11_o8u7a"]
+[ext_resource type="Texture2D" uid="uid://by8rogyelnph5" path="res://sprites/enemyanims/damage/enemydamage3.png" id="12_r6w42"]
+[ext_resource type="Texture2D" uid="uid://dsytv7pgvtnxq" path="res://sprites/enemyanims/damage/enemydamage4.png" id="13_mv47d"]
+[ext_resource type="Texture2D" uid="uid://bx4wu5f7vt7a8" path="res://sprites/enemyanims/shieldmaskdestroyed/shieldmask2.png" id="14_8y7rg"]
+[ext_resource type="Texture2D" uid="uid://bar001dsa3vpo" path="res://sprites/enemyanims/shieldmaskdestroyed/shieldmask3.png" id="15_gkyy0"]
+[ext_resource type="Texture2D" uid="uid://c437rfpqxuwit" path="res://sprites/enemyanims/shieldmaskdestroyed/shieldmask4.png" id="16_3dl25"]
+[ext_resource type="Texture2D" uid="uid://dey631smyjrg7" path="res://sprites/enemyanims/run/enemyrun2.png" id="17_tqwy1"]
+[ext_resource type="Texture2D" uid="uid://dhw2en6iyvlyg" path="res://sprites/enemyanims/run/enemyrun3.png" id="18_8vmn0"]
+[ext_resource type="Texture2D" uid="uid://cpe01mhjjfwr0" path="res://sprites/enemyanims/run/enemyrun4.png" id="19_k1spu"]
+[ext_resource type="Texture2D" uid="uid://dy18uwjya6f3s" path="res://sprites/enemyanims/run/enemyrun5.png" id="20_hpapk"]
+[ext_resource type="Texture2D" uid="uid://bhjavoh0h8oem" path="res://sprites/enemyanims/run/enemyrun6.png" id="21_1c2r0"]
+[ext_resource type="Texture2D" uid="uid://da6mfeano6gdh" path="res://sprites/enemyanims/run/enemyrun7.png" id="22_a0jic"]
+[ext_resource type="Texture2D" uid="uid://hk0e3qh6c0t8" path="res://sprites/enemyanims/run/enemyrun8.png" id="23_bgc2l"]
+[ext_resource type="Texture2D" uid="uid://cmnhn2op8ou01" path="res://sprites/enemyanims/run/enemyrun9.png" id="24_kukn8"]
+[ext_resource type="Texture2D" uid="uid://qmb4uaileq0b" path="res://sprites/enemyanims/run/enemyrun10.png" id="25_0osr7"]
+[ext_resource type="Texture2D" uid="uid://cmpv0wlt4lfgk" path="res://sprites/enemyanims/run/enemyrun11.png" id="26_adpgk"]
+[ext_resource type="Texture2D" uid="uid://c0g1txrvwq57p" path="res://sprites/enemyanims/run/enemyrun12.png" id="27_xause"]
+[ext_resource type="Texture2D" uid="uid://dcjcmg0qc80s0" path="res://sprites/enemyanims/run/enemyrun13.png" id="28_gfi6a"]
+[ext_resource type="Texture2D" uid="uid://lx5buf1abyim" path="res://sprites/enemyanims/run/enemyrun14.png" id="29_2kgjl"]
+[ext_resource type="Texture2D" uid="uid://bbcie20e2hfke" path="res://sprites/enemyanims/run/enemyrun15.png" id="30_ab55r"]
+
+[sub_resource type="Animation" id="Animation_2q7xk"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("2_4c686")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("../ShieldMask:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(57, 36)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("../ShieldMask:texture")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("3_kosie")]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("../ShieldMask:rotation")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("../ShieldMask:visible")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="Animation" id="Animation_xjmqh"]
+resource_name = "beaten"
+length = 0.4667
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.0666667, 0.133333, 0.2, 0.266667, 0.333333, 0.4, 0.466667),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [ExtResource("4_5gfor"), ExtResource("5_papt4"), ExtResource("6_mhcuj"), ExtResource("7_i36n7"), ExtResource("8_lmn48"), ExtResource("9_l3c1b"), ExtResource("10_jompj"), null]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("../ShieldMask:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="Animation" id="Animation_ranpe"]
+resource_name = "damage_taken"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [ExtResource("2_4c686"), ExtResource("11_o8u7a"), ExtResource("12_r6w42"), ExtResource("13_mv47d")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("../ShieldMask:texture")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.0666667, 0.133333, 0.3, 0.366667, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [ExtResource("3_kosie"), ExtResource("14_8y7rg"), ExtResource("15_gkyy0"), ExtResource("16_3dl25"), ExtResource("16_3dl25"), null]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("../ShieldMask:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.0666667, 0.133333),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(18, 8), Vector2(18, 8), Vector2(21, 4)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("../ShieldMask:rotation")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.0666667, 0.1),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [0.0, 0.0, 0.649262]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("../ShieldMask:visible")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="Animation" id="Animation_166h2"]
+resource_name = "run"
+length = 1.4
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1, 1.1, 1.2, 1.3, 1.4),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [ExtResource("2_4c686"), ExtResource("17_tqwy1"), ExtResource("18_8vmn0"), ExtResource("19_k1spu"), ExtResource("20_hpapk"), ExtResource("21_1c2r0"), ExtResource("22_a0jic"), ExtResource("23_bgc2l"), ExtResource("24_kukn8"), ExtResource("25_0osr7"), ExtResource("26_adpgk"), ExtResource("27_xause"), ExtResource("28_gfi6a"), ExtResource("29_2kgjl"), ExtResource("30_ab55r")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("../ShieldMask:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.8, 0.9, 1, 1.1, 1.2, 1.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [Vector2(18, 8), Vector2(18, 8), Vector2(18, 9), Vector2(18, 10), Vector2(18, 9), Vector2(18, 8), Vector2(18, 8), Vector2(18, 8), Vector2(18, 9), Vector2(18, 10), Vector2(18, 9), Vector2(18, 8)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("../ShieldMask:texture")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("3_kosie")]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("../ShieldMask:rotation")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("../ShieldMask:visible")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_oresa"]
+_data = {
+"RESET": SubResource("Animation_2q7xk"),
+"beaten": SubResource("Animation_xjmqh"),
+"damage_taken": SubResource("Animation_ranpe"),
+"run": SubResource("Animation_166h2")
+}
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_7ujxw"]
+size = Vector2(30, 48)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_734gl"]
+size = Vector2(32, 47)
+
+[node name="enemy" type="CharacterBody2D" groups=["enemies"]]
+visibility_layer = 2
+script = ExtResource("1_38otj")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 1
+position = Vector2(-14, -23)
+texture = ExtResource("2_4c686")
+centered = false
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Sprite2D"]
+libraries = {
+"": SubResource("AnimationLibrary_oresa")
+}
+
+[node name="ColorRect" type="ColorRect" parent="."]
+visible = false
+offset_right = 109.0
+offset_bottom = 113.0
+color = Color(1, 0, 0.478431, 1)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
+position = Vector2(14, 12)
+shape = SubResource("RectangleShape2D_7ujxw")
+
+[node name="Area2D" type="Area2D" parent="." groups=["enemies"]]
+position = Vector2(-42, -29)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+visible = false
+position = Vector2(56, 41.5)
+shape = SubResource("RectangleShape2D_734gl")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="."]
+visible = false
+offset_left = 48.0
+offset_top = -56.0
+offset_right = 69.0
+offset_bottom = -13.0
+theme_override_font_sizes/normal_font_size = 30
+text = "1"
+
+[node name="ShieldMask" type="Sprite2D" parent="."]
+visible = false
+texture_filter = 1
+position = Vector2(57, 36)
+texture = ExtResource("3_kosie")
+
+[connection signal="animation_finished" from="Sprite2D/AnimationPlayer" to="." method="_on_animation_player_animation_finished"]
+[connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]
+[connection signal="area_exited" from="Area2D" to="." method="_on_area_2d_area_exited"]
+[connection signal="mouse_entered" from="Area2D" to="." method="_on_area_2d_mouse_entered"]
+[connection signal="mouse_exited" from="Area2D" to="." method="_on_area_2d_mouse_exited"]

@@ -31,6 +31,7 @@ func _input(event: InputEvent) -> void:
 			
 			
 func _physics_process(_delta: float) -> void: #main function
+	print("left swipe:", G.left_swipe_detected, " ", "right swipe:", G.right_swipe_detected)
 	#print(character_state_machine.get_active_state())
 	#print(ducking)
 	#print(shoot_cooldown_passed)
@@ -99,6 +100,7 @@ func shot():
 		new_bullet.global_position = Vector2(5, -5) #bullet position for jed in space of the character scene (25, -5)
 		add_child(new_bullet)
 		ammo -= 1
+		$BlasterMetallic01.play()
 
 
 func _on_swipe_timer_timeout() -> void:
@@ -115,11 +117,13 @@ func initiate_state_machine():
 	var running_state = LimboState.new().named("running").call_on_enter(running_enter).call_on_update(running_update)
 	var duckingdown_state = LimboState.new().named("duckingdown").call_on_enter(duckingdown_enter).call_on_update(duckingdown_update)
 	var duckingup_state = LimboState.new().named("duckingup").call_on_enter(duckingup_enter).call_on_update(duckingup_update)
+	var dodging_state = LimboState.new().named("dodging").call_on_enter(dodging_enter).call_on_update(dodging_update)
 	character_state_machine.add_child(shooting_state)
 	character_state_machine.add_child(reloading_state)
 	character_state_machine.add_child(running_state)
 	character_state_machine.add_child(duckingdown_state)
 	character_state_machine.add_child(duckingup_state)
+	character_state_machine.add_child(dodging_state)
 	
 	character_state_machine.initial_state = shooting_state
 	
@@ -134,6 +138,7 @@ func initiate_state_machine():
 	
 #state machine funcs on enter and update
 func shooting_enter():
+	$Sprite2D.flip_h = false
 	$Sprite2D/AnimationPlayer.play("RESET")
 	G.moving = false
 	$Timer.paused = false #starting Timer from the same time where it was paused
@@ -216,16 +221,26 @@ func running_enter():
 	$Sprite2D/AnimationPlayer.play("run")
 func running_update(delta: float):
 	shoot_controls() #to detect input
+	
 	if !G.moving:
 		 #change if you want the character to duck automatically after running
 		velocity.x = 0
 		character_state_machine.dispatch("to shoot")
 	else:
-		velocity.x = G.moving_speed
+		if G.right_swipe_detected:
+			velocity.x = G.moving_speed
+			$Sprite2D.flip_h = false
+		elif G.left_swipe_detected:
+			velocity.x = -G.moving_speed
+			$Sprite2D.flip_h = true
+			G.emit_signal("make_cover_unused")
 		move_and_slide()
 
+func dodging_enter():
+	pass
 
-	
+func dodging_update(delta: float):
+	pass
 	
 	
 	
@@ -244,7 +259,12 @@ func swipe_detection():
 					if swipe_start_pos.x < swipe_cur_pos.x:
 						#print("right swipe!")
 						G.right_swipe_detected = true
+						G.left_swipe_detected = false
 						G.emit_signal("swipe_room") #to create a new room
+					elif swipe_start_pos.x > swipe_cur_pos.x:
+						#print("left swipe!")
+						G.left_swipe_detected = true
+						G.right_swipe_detected = false
 				swiping = false
 	else:
 		swiping = false
@@ -258,3 +278,5 @@ func use_stash():
 		ammo += 3
 		G.stash -= 3
 		G.emit_signal("out_of_ammo")
+
+	

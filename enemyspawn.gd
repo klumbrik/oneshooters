@@ -1,7 +1,8 @@
 extends CharacterBody2D
 var enemy = preload("res://enemy.tscn")
 var shooting_enemy = preload("res://shooting_enemy.tscn")
-var enabled = false #disable when tesitng
+var shielded_enemy = preload("res://shielded_enemy.tscn")
+var enabled = true #disable when tesitng
 @onready var target = $target
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -41,7 +42,7 @@ func spawn_and_register():
 	if chance <= 0.8:
 		current_enemy = enemy
 	else:
-		current_enemy = enemy #for testing change later (other types of enemies)
+		current_enemy = shielded_enemy #for testing change later (other types of enemies)
 		#current_enemy = shooting_enemy
 	var new_enemy = current_enemy.instantiate()
 	get_parent().add_child(new_enemy)

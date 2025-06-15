@@ -3,8 +3,8 @@ var used = false #the cover should be used only 1 time
 
 #var cover = preload("res://cover.tscn")
 ## Called when the node enters the scene tree for the first time.
-#func _ready() -> void:
-	#pass
+func _ready() -> void:
+	G.connect("make_cover_unused", _make_cover_unused)
 #
 #
 ## Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -21,6 +21,11 @@ func _on_cover_area_area_entered(area: Area2D) -> void:
 			G.right_swipe_detected = false
 			G.moving = false #character stops
 			G.score += 50 
+			
+
+
+func _make_cover_unused():
+	used = false
 #func _on_cover_area_area_exited(area: Area2D) -> void:
 	#if area.is_in_group('character'):
 		#G.covers_to_spawn = 1# we update new covers to spawn later
