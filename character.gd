@@ -14,6 +14,7 @@ var ducking = false
 var shoot_cooldown_passed = false
 var anim_pos := 0.0
 
+var invincible = false #can't die and collide (for tests)
 
 var character_state_machine: LimboHSM
 #var right_swipe_detected = false I decided to make this global in G to change it in the cover scene
@@ -23,15 +24,21 @@ func _ready() -> void:
 	$Timer.wait_time = 0.8 / G.pacedif_modifier
 	$ReloadTimer.wait_time = 0.6 / G.pacedif_modifier
 	initiate_state_machine()
-	character_state_machine.dispatch(&"to shoot") #entering the shooting state
+	character_state_machine.dispatch(&"to shoot") #entering the Sshooting state
 	$Timer.start() #INITIAL SHOOT timer start
+	if invincible:
+		$Area2D/hit_box.disabled = true #guess who's finally getting his powers
+		$CollisionShape2D.disabled = true
+	else:
+		$Area2D/hit_box.disabled = false #are you sure?
+		$CollisionShape2D.disabled = false
 
 func _input(event: InputEvent) -> void:
 	pass 
 			
 			
 func _physics_process(_delta: float) -> void: #main function
-	print("left swipe:", G.left_swipe_detected, " ", "right swipe:", G.right_swipe_detected)
+	#print("left swipe:", G.left_swipe_detected, " ", "right swipe:", G.right_swipe_detected)
 	#print(character_state_machine.get_active_state())
 	#print(ducking)
 	#print(shoot_cooldown_passed)
@@ -100,7 +107,8 @@ func shot():
 		new_bullet.global_position = Vector2(5, -5) #bullet position for jed in space of the character scene (25, -5)
 		add_child(new_bullet)
 		ammo -= 1
-		$BlasterMetallic01.play()
+		if G.sound_on == true:
+			$BlasterMetallic01.play()
 
 
 func _on_swipe_timer_timeout() -> void:
@@ -280,3 +288,10 @@ func use_stash():
 		G.emit_signal("out_of_ammo")
 
 	
+
+
+func _on_cleaner_body_entered(body: Node2D) -> void: #a cleaner behind character back for optimization to delete enemies
+		if body is CharacterBody2D and body.is_in_group("enemies"): #
+			if body in G.enemiesonscreen:
+				G.enemiesonscreen.erase(body)
+				body.queue_free()

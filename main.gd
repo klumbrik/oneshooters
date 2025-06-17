@@ -8,8 +8,6 @@ func _ready() -> void:
 	G.rooms.append($room) #adding the first room to array
 	G.swipe_room.connect(self._create_room_on_swipe)
 
-func _on_child_entered_tree(node: Node) -> void: #when the first room enters the tree, we add it to the array
-	pass
 
 func _create_room_on_swipe():
 	var previous_room = G.rooms[-1]
@@ -29,4 +27,3 @@ func _create_room_on_swipe():
 		G.rooms.remove_at(0)
 		
 	#print(G.rooms)
-		

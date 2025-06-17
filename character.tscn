@@ -1,4 +1,4 @@
-[gd_scene load_steps=34 format=3 uid="uid://d4biv87sinkk1"]
+[gd_scene load_steps=35 format=3 uid="uid://d4biv87sinkk1"]
 
 [ext_resource type="Script" path="res://character.gd" id="1_tuy5w"]
 [ext_resource type="Texture2D" uid="uid://bum1mhblqjvd3" path="res://sprites/Jedanims/jedduck/jedduck1.png" id="3_bghx8"]
@@ -285,6 +285,9 @@ _data = {
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_c3lwm"]
 size = Vector2(186, 98.8333)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_tbbwe"]
+size = Vector2(34.5, 140.5)
+
 [node name="character" type="CharacterBody2D"]
 script = ExtResource("1_tuy5w")
 
@@ -333,11 +336,18 @@ one_shot = true
 [node name="BlasterMetallic01" type="AudioStreamPlayer2D" parent="."]
 position = Vector2(-24, -47)
 stream = ExtResource("26_i1ams")
-volume_db = -0.195
+volume_db = -30.0
 pitch_scale = 1.73
+
+[node name="cleaner" type="Area2D" parent="."]
+
+[node name="cleaner_shape" type="CollisionShape2D" parent="cleaner"]
+position = Vector2(-121.25, -43.75)
+shape = SubResource("RectangleShape2D_tbbwe")
 
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
 [connection signal="timeout" from="ReloadTimer" to="." method="_on_reload_timer_timeout"]
 [connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]
 [connection signal="body_exited" from="shootingrange" to="." method="_on_shootingrange_body_exited"]
 [connection signal="timeout" from="Swipe_Timer" to="." method="_on_swipe_timer_timeout"]
+[connection signal="body_entered" from="cleaner" to="." method="_on_cleaner_body_entered"]

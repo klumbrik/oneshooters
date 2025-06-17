@@ -287,7 +287,6 @@ offset_bottom = 113.0
 color = Color(1, 0, 0.478431, 1)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-visible = false
 position = Vector2(14, 12)
 shape = SubResource("RectangleShape2D_7ujxw")
 
@@ -295,7 +294,6 @@ shape = SubResource("RectangleShape2D_7ujxw")
 position = Vector2(-42, -29)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
-visible = false
 position = Vector2(56, 41.5)
 shape = SubResource("RectangleShape2D_734gl")
 
@@ -313,6 +311,10 @@ visible = false
 texture_filter = 1
 position = Vector2(57, 36)
 texture = ExtResource("3_kosie")
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+position = Vector2(14.5, 12)
+scale = Vector2(1.55, 2.4)
 
 [connection signal="animation_finished" from="Sprite2D/AnimationPlayer" to="." method="_on_animation_player_animation_finished"]
 [connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]

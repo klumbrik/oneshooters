@@ -14,7 +14,7 @@ func _ready() -> void:
 #
 func _on_cover_area_area_entered(area: Area2D) -> void:
 	if area.is_in_group('character'):
-		G.current_cover_number += 1
+		G.current_cover_number += -1
 		#print(G.current_cover_number)
 		if !used:
 			used = true #after the character reaches the cover it becomes used

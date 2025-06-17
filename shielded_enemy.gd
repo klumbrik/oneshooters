@@ -68,6 +68,7 @@ func add_target():
 			#var new_target = target.instantiate()
 			#add_child(new_target)
 			G.emit_signal("enemy_tap",self) #handing over self link as a parameter along with emitting a signal
+			
 func die():
 	$Sprite2D/AnimationPlayer.play("beaten")
 	if is_in_zone and G.stash < 6: #before disabling collision we track if it is in zone to add stash ammo. The limit can be tweaked.
@@ -132,3 +133,26 @@ func unregister():
 
 func _on_enemy_tap():
 	pass
+
+
+#func _unhandled_input(event: InputEvent) -> void: old solution
+	#if event is InputEventMouseButton and event.pressed:
+		#var topleft = get_corners_in_global()[0]
+		#var botright = get_corners_in_global()[3]
+		#var rect = Rect2(topleft, abs(botright - topleft)) #rect params are position (top left corner) and size
+		#if rect.has_point(event.global_position):
+			#G.emit_signal("enemy_tap",self) #handing over self link as a parameter along with emitting a signal
+#func get_corners_in_global():
+	#var shape = $Area2D/CollisionShape2D.shape
+	#var extents = shape.extents #distance from the center of the collision
+	#var local_corners = [
+		#Vector2(-extents.x, -extents.y), #top left
+		#Vector2(extents.x, -extents.y),#top right
+		#Vector2(-extents.x, extents.y),#bottom left
+		#Vector2(extents.x, extents.y)#bottom right
+	#]
+	#var global_corners = []
+	#for corner in local_corners:
+		#global_corners.append($Area2D/CollisionShape2D.get_global_transform() * corner) #apply global transform to every local point
+	#return global_corners
+	#
