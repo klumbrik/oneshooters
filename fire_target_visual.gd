@@ -7,17 +7,16 @@ func _ready() -> void:
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
-	#print(G.is_enemy_in_zone)
+	
 	pass
 
-func _on_area_2d_area_entered(area: Area2D) -> void:
-	if area.is_in_group("enemies"):
+
+
+func _on_area_2d_body_entered(body: Node2D) -> void:
+	if body.is_in_group("enemies"):
 		G.is_enemy_in_zone = true
-
-
-func _on_area_2d_area_exited(area: Area2D) -> void:
-	if area.is_in_group("enemies"):
+		#print(G.is_enemy_in_zone)
+func _on_area_2d_body_exited(body: Node2D) -> void:
+	if body.is_in_group("enemies"):
 		G.is_enemy_in_zone = false
-
-
-	
+		#print(G.is_enemy_in_zone)

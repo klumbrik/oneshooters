@@ -7,6 +7,7 @@ var current_target: Node2D = null  # Stores a reference to the spawned instance 
 
 func _ready() -> void:
 	G.enemy_died.connect(self._on_enemy_died)
+	spawn()
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	#print(area)
@@ -31,3 +32,4 @@ func _on_hot_target_timer_timeout() -> void:
 func _on_enemy_died():
 	#print("he is defeated")
 	remove()
+	

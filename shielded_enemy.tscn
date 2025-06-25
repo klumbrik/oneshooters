@@ -287,8 +287,10 @@ offset_bottom = 113.0
 color = Color(1, 0, 0.478431, 1)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
 position = Vector2(14, 12)
 shape = SubResource("RectangleShape2D_7ujxw")
+disabled = true
 
 [node name="Area2D" type="Area2D" parent="." groups=["enemies"]]
 position = Vector2(-42, -29)

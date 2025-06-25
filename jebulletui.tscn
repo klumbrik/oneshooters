@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=3 uid="uid://hm68mls7f6mg"]
+
+[ext_resource type="Texture2D" uid="uid://cf520b3x0m8x3" path="res://sprites/Jedanims/reload ui/jebulletui.png" id="1_woua2"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_pem7x"]
+radius = 2.0
+
+[node name="Jebulletui" type="CharacterBody2D"]
+texture_filter = 1
+rotation = -1.5708
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_woua2")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_pem7x")

@@ -14,24 +14,19 @@ var ducking = false
 var shoot_cooldown_passed = false
 var anim_pos := 0.0
 
-var invincible = false #can't die and collide (for tests)
+var invincible = true #can't die and collide (for tests)
 
 var character_state_machine: LimboHSM
 #var right_swipe_detected = false I decided to make this global in G to change it in the cover scene
 
 
 func _ready() -> void:
+	G.character_position = global_position
 	$Timer.wait_time = 0.8 / G.pacedif_modifier
 	$ReloadTimer.wait_time = 0.6 / G.pacedif_modifier
 	initiate_state_machine()
 	character_state_machine.dispatch(&"to shoot") #entering the Sshooting state
 	$Timer.start() #INITIAL SHOOT timer start
-	if invincible:
-		$Area2D/hit_box.disabled = true #guess who's finally getting his powers
-		$CollisionShape2D.disabled = true
-	else:
-		$Area2D/hit_box.disabled = false #are you sure?
-		$CollisionShape2D.disabled = false
 
 func _input(event: InputEvent) -> void:
 	pass 
@@ -65,13 +60,15 @@ func _on_timer_timeout() -> void: #when the shooting timer expires
 
 func _on_reload_timer_timeout() -> void:
 	if ammo < 6:
-		ammo += 1
+		$Sprite2D/AnimationPlayer.play("reload")
+		
 
 
 func _on_area_2d_area_entered(area: Area2D) -> void:
 	if area.is_in_group('enemies') or area.is_in_group('enemy_damage'):
-		get_tree().paused = true
-		G.game_over = true
+		if !invincible: #are you sure?
+			get_tree().paused = true
+			G.game_over = true
 
 func _on_shootingrange_body_exited(body: Node2D) -> void: #bullet range restriction
 	if body.is_in_group("damage"):
@@ -107,6 +104,7 @@ func shot():
 		new_bullet.global_position = Vector2(5, -5) #bullet position for jed in space of the character scene (25, -5)
 		add_child(new_bullet)
 		ammo -= 1
+		G.emit_signal("shot")
 		if G.sound_on == true:
 			$BlasterMetallic01.play()
 
@@ -213,7 +211,9 @@ func duckingup_update(delta: float):
 		character_state_machine.dispatch(&"to run")
 
 func reloading_enter(): 
-	$ReloadTimer.start()
+	if ammo < 6:
+		$Sprite2D/AnimationPlayer.play("reload")
+	
 func reloading_update(delta: float):
 	shoot_controls() #to detect input
 	if !ducking:
@@ -268,7 +268,9 @@ func swipe_detection():
 						#print("right swipe!")
 						G.right_swipe_detected = true
 						G.left_swipe_detected = false
-						G.emit_signal("swipe_room") #to create a new room
+						if !G.moving and G.current_cover_number > G.last_cover_number:
+							G.emit_signal("swipe_room") #to create a new room
+							G.last_cover_number = G.current_cover_number
 					elif swipe_start_pos.x > swipe_cur_pos.x:
 						#print("left swipe!")
 						G.left_swipe_detected = true
@@ -295,3 +297,13 @@ func _on_cleaner_body_entered(body: Node2D) -> void: #a cleaner behind character
 			if body in G.enemiesonscreen:
 				G.enemiesonscreen.erase(body)
 				body.queue_free()
+
+
+func _on_animation_player_animation_finished(anim_name: StringName) -> void:
+	if anim_name == "reload":
+		print("done")
+		if ammo < 6:
+			ammo += 1
+			$ReloadTimer.start()
+			$Sprite2D/AnimationPlayer.play("reload")
+			G.emit_signal("rotate_ui")

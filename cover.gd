@@ -1,6 +1,6 @@
 extends Node2D
 var used = false #the cover should be used only 1 time
-
+var number_of_uses = 0
 #var cover = preload("res://cover.tscn")
 ## Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -8,19 +8,26 @@ func _ready() -> void:
 #
 #
 ## Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta: float) -> void:
-	#pass
+func _process(delta: float) -> void:
+	#print(number_of_uses)
+	pass
 #
 #
 func _on_cover_area_area_entered(area: Area2D) -> void:
 	if area.is_in_group('character'):
-		G.current_cover_number += -1
+		number_of_uses += 1
 		#print(G.current_cover_number)
 		if !used:
 			used = true #after the character reaches the cover it becomes used
 			G.right_swipe_detected = false
+			G.left_swipe_detected = false
 			G.moving = false #character stops
-			G.score += 50 
+			if number_of_uses <= 1:
+				G.score += 50 
+				G.current_cover_number += 1
+			
+			
+			
 			
 
 

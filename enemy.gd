@@ -15,6 +15,7 @@ func _ready() -> void: #when spawns randomly defines hp
 	
 	
 func _physics_process(delta: float) -> void:
+	#print(is_in_zone)
 	#velocity.limit_length(SPEED)
 	$RichTextLabel.text = str(hp)
 	#print(velocity.length())
@@ -78,7 +79,7 @@ func die():
 	$Sprite2D/AnimationPlayer.play("beaten")
 	if is_in_zone and G.stash < 6: #before disabling collision we track if it is in zone to add stash ammo. The limit can be tweaked.
 		G.stash += 3
-		G.emit_signal("enemy_died")
+		G.emit_signal("enemy_died") #not just died. in zone. fix the name
 	disable_damage()
 func get_damage():
 	velocity.x = 0

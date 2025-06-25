@@ -11,6 +11,21 @@
 [ext_resource type="Texture2D" uid="uid://cneb7tfj4wryr" path="res://ui/target/target6.png" id="8_d3jfc"]
 [ext_resource type="Texture2D" uid="uid://dgs0nxrv7vj6n" path="res://ui/target/target7.png" id="9_e8l0p"]
 
+[sub_resource type="Animation" id="Animation_pja6v"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("target_anim:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("9_e8l0p")]
+}
+
 [sub_resource type="Animation" id="Animation_2tvru"]
 resource_name = "added"
 length = 0.3333
@@ -25,21 +40,6 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
 "update": 1,
 "values": [ExtResource("3_8eg47"), ExtResource("4_555jr"), ExtResource("5_1idux"), ExtResource("6_wtmiq"), ExtResource("7_i50ey"), ExtResource("8_d3jfc"), ExtResource("9_e8l0p")]
-}
-
-[sub_resource type="Animation" id="Animation_pja6v"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("target_anim:texture")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [ExtResource("9_e8l0p")]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_gkqqs"]

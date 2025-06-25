@@ -15,6 +15,7 @@ func _process(delta: float) -> void:
 
 
 func _on_button_down() -> void:
+	G.stash = 0
 	G.score = 0
 	G.game_over = false
 	G.current_cover_number = 0
