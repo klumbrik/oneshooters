@@ -13,9 +13,11 @@ var swipe_threshold = 30
 var ducking = false
 var shoot_cooldown_passed = false
 var anim_pos := 0.0
-
+var number_of_right_swipes = 0
 var invincible = true #can't die and collide (for tests)
+var dodge_speed = 200
 
+var dodge_old_pos_x = position.x
 var character_state_machine: LimboHSM
 #var right_swipe_detected = false I decided to make this global in G to change it in the cover scene
 
@@ -33,7 +35,7 @@ func _input(event: InputEvent) -> void:
 			
 			
 func _physics_process(_delta: float) -> void: #main function
-	#print("left swipe:", G.left_swipe_detected, " ", "right swipe:", G.right_swipe_detected)
+	#print("left swipe:", G.left_swipe_detected, " ", "right swipe:", G.right_swipe_detected, "number_of_rights: ", number_of_right_swipes)
 	#print(character_state_machine.get_active_state())
 	#print(ducking)
 	#print(shoot_cooldown_passed)
@@ -138,12 +140,14 @@ func initiate_state_machine():
 	character_state_machine.add_transition(duckingdown_state, reloading_state, &"to reload")
 	character_state_machine.add_transition(character_state_machine.ANYSTATE, shooting_state, &"to shoot")
 	character_state_machine.add_transition(character_state_machine.ANYSTATE, running_state, &"to run")
+	character_state_machine.add_transition(running_state, dodging_state, &"to dodge")
 	
 	character_state_machine.initialize(self)
 	character_state_machine.set_active(true)
 	
 #state machine funcs on enter and update
 func shooting_enter():
+	number_of_right_swipes = 0
 	$Sprite2D.flip_h = false
 	$Sprite2D/AnimationPlayer.play("RESET")
 	G.moving = false
@@ -238,6 +242,8 @@ func running_update(delta: float):
 		if G.right_swipe_detected:
 			velocity.x = G.moving_speed
 			$Sprite2D.flip_h = false
+			if number_of_right_swipes > 1:
+				character_state_machine.dispatch("to dodge")
 		elif G.left_swipe_detected:
 			velocity.x = -G.moving_speed
 			$Sprite2D.flip_h = true
@@ -245,10 +251,28 @@ func running_update(delta: float):
 		move_and_slide()
 
 func dodging_enter():
-	pass
+	$Sprite2D/AnimationPlayer.play("dodge")
+	dodge_old_pos_x = position.x
 
 func dodging_update(delta: float):
-	pass
+	shoot_controls() 
+
+	var target_distance = 80
+	if !G.moving:
+		 #change if you want the character to duck automatically after running
+		velocity.x = 0
+		character_state_machine.dispatch("to shoot")
+	else:
+		#print(position.x - dodge_old_pos_x)
+		velocity.x = dodge_speed
+		if position.x - dodge_old_pos_x >= target_distance:
+			#print('yes')
+			number_of_right_swipes = 0 #need to reset to avoid bugs
+			character_state_machine.dispatch("to run")
+		
+		
+	
+	move_and_slide()
 	
 	
 	
@@ -268,6 +292,7 @@ func swipe_detection():
 						#print("right swipe!")
 						G.right_swipe_detected = true
 						G.left_swipe_detected = false
+						number_of_right_swipes += 1
 						if !G.moving and G.current_cover_number > G.last_cover_number:
 							G.emit_signal("swipe_room") #to create a new room
 							G.last_cover_number = G.current_cover_number
@@ -292,16 +317,10 @@ func use_stash():
 	
 
 
-func _on_cleaner_body_entered(body: Node2D) -> void: #a cleaner behind character back for optimization to delete enemies
-		if body is CharacterBody2D and body.is_in_group("enemies"): #
-			if body in G.enemiesonscreen:
-				G.enemiesonscreen.erase(body)
-				body.queue_free()
-
 
 func _on_animation_player_animation_finished(anim_name: StringName) -> void:
 	if anim_name == "reload":
-		print("done")
+		#print("done")
 		if ammo < 6:
 			ammo += 1
 			$ReloadTimer.start()

@@ -7,7 +7,15 @@ func _ready() -> void:
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta: float) -> void:
+	
+	#test
+	#print("Current target = " + str(G.current_target_enemy))
+	#if G.enemiesonscreen.size() > 0:
+		#print("Target at 0 = " + str(G.enemiesonscreen[0]))
 		#setting the first target
+	#test
+	
+	
 	if G.enemiesonscreen.size() > 0:
 		visible = true
 		if G.current_target_enemy == null: 

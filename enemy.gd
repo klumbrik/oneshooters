@@ -8,13 +8,31 @@ var hp = 1
 var chance
 var disabled_damage = false
 var is_in_zone = false
+var killed = false
+var index = null
+var for_deletion
 #const JUMP_VELOCITY = -400.0
 
 func _ready() -> void: #when spawns randomly defines hp
 	$Sprite2D/AnimationPlayer.play("run")
+	G.connect("delete_enemies_out_of_screen", _delete_enemies_out_of_screen)
+	
 	
 	
 func _physics_process(delta: float) -> void:
+	
+	#test
+	var test_myindex = G.enemiesonscreen.find(self)
+	
+	if self == G.current_target_enemy:
+		$test.text = "I'm target [" + str(test_myindex) + "]"
+	else:
+		$test.text = "I'm normis [" + str(test_myindex) + "]"
+		
+	#test
+		
+		
+		
 	#print(is_in_zone)
 	#velocity.limit_length(SPEED)
 	$RichTextLabel.text = str(hp)
@@ -80,6 +98,7 @@ func die():
 	if is_in_zone and G.stash < 6: #before disabling collision we track if it is in zone to add stash ammo. The limit can be tweaked.
 		G.stash += 3
 		G.emit_signal("enemy_died") #not just died. in zone. fix the name
+		killed = true
 	disable_damage()
 func get_damage():
 	velocity.x = 0
@@ -164,3 +183,34 @@ func unregister():
 		#global_corners.append($Area2D/CollisionShape2D.get_global_transform() * corner) #apply global transform to every local point
 	#return global_corners
 	#
+
+
+func _on_visible_on_screen_notifier_2d_screen_entered() -> void: #add to the array when entered the sreen
+	for_deletion = false
+	if index != null:
+		G.enemiesonscreen.insert(index, self)
+		print("INSERTED")
+		G.current_target_enemy = null #to make space for a new [0] target
+	else:
+		G.enemiesonscreen.append(self)
+	
+	#if 
+	#insert at old_pos
+	
+
+func _on_visible_on_screen_notifier_2d_screen_exited() -> void:
+	#remember index in case the enemy is not killed and we stored its index and the player returns
+	if !killed: 
+		index = G.enemiesonscreen.find(self)
+		print("remembered index: ", index)
+	G.enemiesonscreen.erase(self)  #remove from the array when exited the sreen
+	for_deletion = true
+	
+	if self == G.current_target_enemy: #clear a variable if the enemy is the target enemy and leaves the screen or dies
+		G.current_target_enemy = null
+
+func _delete_enemies_out_of_screen(): #remove this instance from the game if it's marked for deletion
+	if for_deletion:
+		print("ENEMY DELETED")
+		queue_free()
+#remove enemies from the game (NOT from the array) when player reaches a new cover to keep memory clean

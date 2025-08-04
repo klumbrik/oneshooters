@@ -17,6 +17,9 @@ func _ready() -> void: #when spawns randomly defines hp
 	#chance = randf() 
 	hp = 1
 	#hp = randi_range(1,2) 
+	
+	G.enemiesonscreen.append(self)
+	
 func _physics_process(delta: float) -> void:
 	#velocity.limit_length(SPEED)
 	if enemy_moving:

@@ -10,9 +10,12 @@ signal swipe_room
 signal make_cover_unused
 signal rotate_ui
 signal shot
+signal delete_enemies_out_of_screen
+
+
 var pacedif_modifier = 1 #Set to 1 to revert to play with original values. modifier for speed in terms of difficulty (testing). 
 #Contains global vars
-var sound_on = true
+var sound_on = false
 var game_over = false
 var is_enemy_in_zone: bool
 var score = 0
@@ -38,4 +41,5 @@ func _ready() -> void:
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	#print(current_cover_number, last_cover_number)
+	#print(enemiesonscreen)
 	pass

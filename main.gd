@@ -7,6 +7,8 @@ func _ready() -> void:
 	G.rooms.clear()
 	G.rooms.append($room) #adding the first room to array
 	G.swipe_room.connect(self._create_room_on_swipe)
+	
+	
 
 
 func _create_room_on_swipe():
@@ -27,3 +29,5 @@ func _create_room_on_swipe():
 		G.rooms.remove_at(0)
 		
 	#print(G.rooms)
+	
+	

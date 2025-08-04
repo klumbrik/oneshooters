@@ -39,7 +39,7 @@ func _on_break_window_timeout() -> void:
 func spawn_and_register():
 	var chance = randf()
 	var current_enemy
-	if chance <= 0.8:
+	if chance <= 1: #0.8:
 		current_enemy = enemy
 	else:
 		current_enemy = shielded_enemy #for testing change later (other types of enemies)
@@ -47,7 +47,9 @@ func spawn_and_register():
 	var new_enemy = current_enemy.instantiate()
 	get_parent().add_child(new_enemy)
 	new_enemy.position = position #spawn position = spawner position
-	G.enemiesonscreen.append(new_enemy)
+	
+	
+	
 	
 	
 

@@ -1,4 +1,4 @@
-[gd_scene load_steps=45 format=3 uid="uid://d4biv87sinkk1"]
+[gd_scene load_steps=46 format=3 uid="uid://d4biv87sinkk1"]
 
 [ext_resource type="Script" path="res://character.gd" id="1_tuy5w"]
 [ext_resource type="Texture2D" uid="uid://bum1mhblqjvd3" path="res://sprites/Jedanims/jedduck/jedduck1.png" id="3_bghx8"]
@@ -33,7 +33,7 @@
 [ext_resource type="Texture2D" uid="uid://claf07svbxv02" path="res://sprites/Jedanims/jedreload/jedreload5.png" id="30_opoqv"]
 [ext_resource type="Texture2D" uid="uid://cjsog3hg6yr0a" path="res://sprites/Jedanims/jedreload/jedreload6.png" id="31_hbp3r"]
 [ext_resource type="Texture2D" uid="uid://2gjmri5v17b1" path="res://sprites/Jedanims/jedreload/jedreload7.png" id="32_ja7b2"]
-[ext_resource type="Texture2D" uid="uid://crihei8xree6" path="res://sprites/oneshooterduck.png" id="33_n63at"]
+[ext_resource type="Texture2D" uid="uid://xd4kvx15tjyr" path="res://icon.svg" id="33_vfyvp"]
 [ext_resource type="PackedScene" uid="uid://drnd0ri06v3jb" path="res://UX_PlayerAmmo.tscn" id="34_xui76"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_qc853"]
@@ -100,21 +100,6 @@ tracks/4/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 0,
 "values": [Vector2(4.66667, 9.66667)]
-}
-
-[sub_resource type="Animation" id="Animation_81q28"]
-resource_name = "dodge"
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:texture")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [ExtResource("33_n63at")]
 }
 
 [sub_resource type="Animation" id="Animation_2324q"]
@@ -314,6 +299,21 @@ tracks/3/keys = {
 "values": [Vector2(-3.33333, 5.66667), Vector2(-3.33333, 5.66667)]
 }
 
+[sub_resource type="Animation" id="Animation_81q28"]
+resource_name = "dodge"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("33_vfyvp")]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_w06a4"]
 _data = {
 "RESET": SubResource("Animation_mbwjt"),
@@ -326,6 +326,9 @@ _data = {
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_c3lwm"]
 size = Vector2(186, 98.8333)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_tbbwe"]
+size = Vector2(34.5, 140.5)
 
 [node name="character" type="CharacterBody2D"]
 script = ExtResource("1_tuy5w")
@@ -379,6 +382,12 @@ stream = ExtResource("26_i1ams")
 volume_db = -30.0
 pitch_scale = 1.73
 
+[node name="cleaner" type="Area2D" parent="."]
+
+[node name="cleaner_shape" type="CollisionShape2D" parent="cleaner"]
+position = Vector2(-121.25, -43.75)
+shape = SubResource("RectangleShape2D_tbbwe")
+
 [node name="UX_PlayerAmmo" parent="." instance=ExtResource("34_xui76")]
 position = Vector2(-29, -39)
 
@@ -388,3 +397,4 @@ position = Vector2(-29, -39)
 [connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]
 [connection signal="body_exited" from="shootingrange" to="." method="_on_shootingrange_body_exited"]
 [connection signal="timeout" from="Swipe_Timer" to="." method="_on_swipe_timer_timeout"]
+[connection signal="body_entered" from="cleaner" to="." method="_on_cleaner_body_entered"]

@@ -12,6 +12,8 @@ var is_in_zone = false
 
 func _ready() -> void: #when spawns randomly defines hp
 	$Sprite2D/AnimationPlayer.play("run")
+	
+	G.enemiesonscreen.append(self)
 	#chance = randf() 
 	#if chance < 0.9:
 		#hp = 1
