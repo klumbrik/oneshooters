@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://xsvakw5amtad"]
+[gd_scene load_steps=14 format=3 uid="uid://xsvakw5amtad"]
 
 [ext_resource type="Script" path="res://sub_viewport_input.gd" id="1_4clg3"]
 [ext_resource type="PackedScene" uid="uid://67ic5nix6m4w" path="res://main.tscn" id="1_gpac2"]
@@ -7,6 +7,11 @@
 [ext_resource type="AudioStream" uid="uid://cvem6kg526qhp" path="res://sounds/music/synthoneshootersdemo4.mp3" id="4_cvftn"]
 [ext_resource type="Texture2D" uid="uid://bno6ymqyvp7h1" path="res://sprites/Jedanims/reload ui/jedweaponui.png" id="6_5ggbx"]
 [ext_resource type="PackedScene" uid="uid://hm68mls7f6mg" path="res://jebulletui.tscn" id="6_lauqk"]
+[ext_resource type="FontFile" uid="uid://cjsn6sorvmyt6" path="res://demo/assets/fonts/8bitOperatorPlusSC-Bold.ttf" id="8_o3xom"]
+[ext_resource type="Script" path="res://score.gd" id="9_g5afe"]
+[ext_resource type="Texture2D" uid="uid://ckph7ppvn4ara" path="res://ui/pause.png" id="10_2skq0"]
+[ext_resource type="Texture2D" uid="uid://dfami5dlntak3" path="res://ui/back.png" id="11_5ft7x"]
+[ext_resource type="Script" path="res://texture_button.gd" id="12_mo1yl"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_58xkp"]
 radius = 13.0384
@@ -56,6 +61,7 @@ offset_bottom = 272.0
 mouse_filter = 2
 
 [node name="RichTextLabel" type="RichTextLabel" parent="SubViewportContainer/SubViewport/CanvasLayer/MarginContainer"]
+visible = false
 layout_mode = 2
 mouse_filter = 2
 theme_override_font_sizes/normal_font_size = 27
@@ -75,10 +81,10 @@ parameters/looping = true
 [node name="ColorRect" type="ColorRect" parent="."]
 show_behind_parent = true
 layout_mode = 0
-offset_left = -972.0
-offset_top = -470.0
-offset_right = 948.0
-offset_bottom = 528.0
+offset_left = -958.0
+offset_top = -503.0
+offset_right = 962.0
+offset_bottom = 495.0
 mouse_filter = 2
 color = Color(0, 0.265442, 0.471648, 1)
 
@@ -129,7 +135,6 @@ metadata/_edit_lock_ = true
 
 [node name="Button" type="Button" parent="."]
 process_mode = 3
-visible = false
 layout_mode = 0
 offset_left = -161.0
 offset_top = 72.0
@@ -138,6 +143,40 @@ offset_bottom = 185.0
 text = "Play again (Sorry your score isn't saved)"
 script = ExtResource("3_1e27r")
 
+[node name="score" type="RichTextLabel" parent="."]
+texture_filter = 1
+layout_mode = 0
+offset_left = -34.0
+offset_top = -263.0
+offset_right = 154.0
+offset_bottom = -106.0
+theme_override_colors/default_color = Color(0.658824, 1, 0.917647, 1)
+theme_override_colors/font_outline_color = Color(0, 0.676387, 0.577885, 1)
+theme_override_colors/font_shadow_color = Color(0.509804, 0.321569, 0.537255, 1)
+theme_override_constants/outline_size = 10
+theme_override_constants/shadow_offset_y = 0
+theme_override_constants/shadow_offset_x = 5
+theme_override_constants/shadow_outline_size = 10
+theme_override_fonts/normal_font = ExtResource("8_o3xom")
+theme_override_font_sizes/normal_font_size = 80
+text = "0"
+script = ExtResource("9_g5afe")
+
+[node name="PauseButton" type="TextureButton" parent="."]
+process_mode = 3
+texture_filter = 1
+layout_mode = 0
+offset_left = 81.0
+offset_top = -321.0
+offset_right = 180.0
+offset_bottom = -227.0
+toggle_mode = true
+texture_normal = ExtResource("10_2skq0")
+texture_pressed = ExtResource("11_5ft7x")
+stretch_mode = 4
+script = ExtResource("12_mo1yl")
+
 [connection signal="body_entered" from="CenterContainer/Area2D" to="." method="_on_area_2d_body_entered"]
 [connection signal="body_exited" from="CenterContainer/Area2D" to="." method="_on_area_2d_body_exited"]
 [connection signal="button_down" from="Button" to="Button" method="_on_button_down"]
+[connection signal="toggled" from="PauseButton" to="PauseButton" method="_on_toggled"]

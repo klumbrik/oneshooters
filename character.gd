@@ -14,7 +14,7 @@ var ducking = false
 var shoot_cooldown_passed = false
 var anim_pos := 0.0
 var number_of_right_swipes = 0
-var invincible = true #can't die and collide (for tests)
+var invincible = false #can't die and collide (for tests)
 var dodge_speed = 200
 
 var dodge_old_pos_x = position.x
@@ -251,6 +251,7 @@ func running_update(delta: float):
 		move_and_slide()
 
 func dodging_enter():
+	invincible = true
 	$Sprite2D/AnimationPlayer.play("dodge")
 	dodge_old_pos_x = position.x
 
@@ -261,6 +262,7 @@ func dodging_update(delta: float):
 	if !G.moving:
 		 #change if you want the character to duck automatically after running
 		velocity.x = 0
+		invincible = false
 		character_state_machine.dispatch("to shoot")
 	else:
 		#print(position.x - dodge_old_pos_x)
@@ -268,6 +270,7 @@ func dodging_update(delta: float):
 		if position.x - dodge_old_pos_x >= target_distance:
 			#print('yes')
 			number_of_right_swipes = 0 #need to reset to avoid bugs
+			invincible = false
 			character_state_machine.dispatch("to run")
 		
 		

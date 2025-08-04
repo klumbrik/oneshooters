@@ -40,6 +40,6 @@ func _ready() -> void:
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
-	#print(current_cover_number, last_cover_number)
+	print(current_cover_number, last_cover_number)
 	#print(enemiesonscreen)
 	pass

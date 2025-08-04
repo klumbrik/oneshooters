@@ -238,6 +238,13 @@ one_shot = true
 position = Vector2(18.5, 13.5)
 scale = Vector2(1.95, 2.35)
 
+[node name="test" type="RichTextLabel" parent="."]
+offset_left = -19.0
+offset_top = -39.0
+offset_right = 70.0
+offset_bottom = 7.0
+text = "I'm target"
+
 [connection signal="animation_finished" from="Sprite2D/AnimationPlayer" to="." method="_on_animation_player_animation_finished"]
 [connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]
 [connection signal="area_exited" from="Area2D" to="." method="_on_area_2d_area_exited"]

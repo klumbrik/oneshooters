@@ -39,7 +39,7 @@ func _on_break_window_timeout() -> void:
 func spawn_and_register():
 	var chance = randf()
 	var current_enemy
-	if chance <= 1: #0.8:
+	if chance <= 0.5: #0.8:
 		current_enemy = enemy
 	else:
 		current_enemy = shielded_enemy #for testing change later (other types of enemies)

@@ -318,6 +318,14 @@ texture = ExtResource("3_kosie")
 position = Vector2(14.5, 12)
 scale = Vector2(1.55, 2.4)
 
+[node name="test" type="RichTextLabel" parent="."]
+visible = false
+offset_left = -22.0
+offset_top = -36.0
+offset_right = 67.0
+offset_bottom = 10.0
+text = "I'm target"
+
 [connection signal="animation_finished" from="Sprite2D/AnimationPlayer" to="." method="_on_animation_player_animation_finished"]
 [connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]
 [connection signal="area_exited" from="Area2D" to="." method="_on_area_2d_area_exited"]

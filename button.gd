@@ -19,6 +19,7 @@ func _on_button_down() -> void:
 	G.score = 0
 	G.game_over = false
 	G.current_cover_number = 0
+	G.last_cover_number = -1
 	get_tree().paused = false
 	G.get_tree().change_scene_to_file("res://mainadaptive.tscn") #reloading the smae scene
 	G.enemiesonscreen.clear()

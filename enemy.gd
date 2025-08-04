@@ -2,7 +2,6 @@ extends CharacterBody2D
 
 
 var mouse_onself = false
-var target = preload("res://target.tscn")
 var SPEED = 60.0 * G.pacedif_modifier
 var hp = 1
 var chance
@@ -189,7 +188,7 @@ func _on_visible_on_screen_notifier_2d_screen_entered() -> void: #add to the arr
 	for_deletion = false
 	if index != null:
 		G.enemiesonscreen.insert(index, self)
-		print("INSERTED")
+		#print("INSERTED")
 		G.current_target_enemy = null #to make space for a new [0] target
 	else:
 		G.enemiesonscreen.append(self)
@@ -202,7 +201,7 @@ func _on_visible_on_screen_notifier_2d_screen_exited() -> void:
 	#remember index in case the enemy is not killed and we stored its index and the player returns
 	if !killed: 
 		index = G.enemiesonscreen.find(self)
-		print("remembered index: ", index)
+		#print("remembered index: ", index)
 	G.enemiesonscreen.erase(self)  #remove from the array when exited the sreen
 	for_deletion = true
 	
@@ -211,6 +210,6 @@ func _on_visible_on_screen_notifier_2d_screen_exited() -> void:
 
 func _delete_enemies_out_of_screen(): #remove this instance from the game if it's marked for deletion
 	if for_deletion:
-		print("ENEMY DELETED")
+		#print("ENEMY DELETED")
 		queue_free()
 #remove enemies from the game (NOT from the array) when player reaches a new cover to keep memory clean
