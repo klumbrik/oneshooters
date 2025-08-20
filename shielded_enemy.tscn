@@ -319,7 +319,6 @@ position = Vector2(14.5, 12)
 scale = Vector2(1.55, 2.4)
 
 [node name="test" type="RichTextLabel" parent="."]
-visible = false
 offset_left = -22.0
 offset_top = -36.0
 offset_right = 67.0

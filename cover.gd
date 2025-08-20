@@ -21,6 +21,7 @@ func _on_cover_area_area_entered(area: Area2D) -> void:
 			G.right_swipe_detected = false
 			G.left_swipe_detected = false
 			G.moving = false #character stops
+			G.number_of_dodges = 1 #only one dodge per run
 			if number_of_uses <= 1: #if we collide with the same cover only once
 				G.current_cover_number += 1
 				G.emit_signal("delete_enemies_out_of_screen")

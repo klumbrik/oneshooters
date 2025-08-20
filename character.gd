@@ -4,7 +4,8 @@ extends CharacterBody2D
 var ammo = 6
 var bullet = preload("res://bullet.tscn")
 
-
+var is_alive = true
+var time_to_die = false
 var swipe_length = 25  #Swipe variables. They should be declared here globally.
 var swiping = false
 var swipe_cur_pos: Vector2
@@ -19,6 +20,9 @@ var dodge_speed = 200
 
 var dodge_old_pos_x = position.x
 var character_state_machine: LimboHSM
+
+var dodge_finished = false
+var death_finished = false
 #var right_swipe_detected = false I decided to make this global in G to change it in the cover scene
 
 
@@ -41,17 +45,19 @@ func _physics_process(_delta: float) -> void: #main function
 	#print(shoot_cooldown_passed)
 	#print($Timer.time_left, $Timer.paused)
 	#print($Sprite2D/AnimationPlayer.current_animation, $Sprite2D/AnimationPlayer.current_animation_position)
+
 	G.ammo = ammo
 	#if !is_shooting:
 		#$Timer.paused = true #not needeed anymore. Ruins being in the process.So paused parameter is changed in the states
 	#else:
-		#$Timer.paused = false
+	#$Timer.paused = false
 	swipe_detection() #we need to detect swipes each frame
 	if G.right_swipe_detected:
 		G.moving = true
 		
 	use_stash()
 	
+	$debugger.text = str(number_of_right_swipes)
 			
 	
 	
@@ -69,8 +75,13 @@ func _on_reload_timer_timeout() -> void:
 func _on_area_2d_area_entered(area: Area2D) -> void:
 	if area.is_in_group('enemies') or area.is_in_group('enemy_damage'):
 		if !invincible: #are you sure?
-			get_tree().paused = true
-			G.game_over = true
+			$DeathTimer.start()
+			time_to_die = true #probably the character will die if not escapes
+
+func _on_area_2d_area_exited(area: Area2D) -> void: #bugs may arise when working with enemy bullets. Might be solved by adding a new group for it
+	if area.is_in_group('enemies') or area.is_in_group('enemy_damage'):
+		time_to_die = false
+		
 
 func _on_shootingrange_body_exited(body: Node2D) -> void: #bullet range restriction
 	if body.is_in_group("damage"):
@@ -126,12 +137,15 @@ func initiate_state_machine():
 	var duckingdown_state = LimboState.new().named("duckingdown").call_on_enter(duckingdown_enter).call_on_update(duckingdown_update)
 	var duckingup_state = LimboState.new().named("duckingup").call_on_enter(duckingup_enter).call_on_update(duckingup_update)
 	var dodging_state = LimboState.new().named("dodging").call_on_enter(dodging_enter).call_on_update(dodging_update)
+	var null_state = LimboState.new().named("null")
+	
 	character_state_machine.add_child(shooting_state)
 	character_state_machine.add_child(reloading_state)
 	character_state_machine.add_child(running_state)
 	character_state_machine.add_child(duckingdown_state)
 	character_state_machine.add_child(duckingup_state)
 	character_state_machine.add_child(dodging_state)
+	character_state_machine.add_child(null_state)
 	
 	character_state_machine.initial_state = shooting_state
 	
@@ -141,6 +155,7 @@ func initiate_state_machine():
 	character_state_machine.add_transition(character_state_machine.ANYSTATE, shooting_state, &"to shoot")
 	character_state_machine.add_transition(character_state_machine.ANYSTATE, running_state, &"to run")
 	character_state_machine.add_transition(running_state, dodging_state, &"to dodge")
+	character_state_machine.add_transition(character_state_machine.ANYSTATE, null_state, &"to null")
 	
 	character_state_machine.initialize(self)
 	character_state_machine.set_active(true)
@@ -228,6 +243,7 @@ func reloading_update(delta: float):
 			character_state_machine.dispatch(&"to run")
 
 func running_enter():
+	$Run.play()
 	$Timer.paused = true
 	shoot_cooldown_passed = false
 	$Sprite2D/AnimationPlayer.play("run")
@@ -237,23 +253,29 @@ func running_update(delta: float):
 	if !G.moving:
 		 #change if you want the character to duck automatically after running
 		velocity.x = 0
-		character_state_machine.dispatch("to shoot")
+		character_state_machine.dispatch(&"to shoot")
+		$Run.stop()
 	else:
 		if G.right_swipe_detected:
 			velocity.x = G.moving_speed
 			$Sprite2D.flip_h = false
-			if number_of_right_swipes > 1:
-				character_state_machine.dispatch("to dodge")
+			if number_of_right_swipes > 1 and G.number_of_dodges > 0:
+				G.number_of_dodges -= 1
+				character_state_machine.dispatch(&"to dodge")
+				$Run.stop()
 		elif G.left_swipe_detected:
 			velocity.x = -G.moving_speed
 			$Sprite2D.flip_h = true
+			number_of_right_swipes = 0 #to avoid superflous dodge bug
 			G.emit_signal("make_cover_unused")
 		move_and_slide()
 
 func dodging_enter():
+	$Roll.play()
 	invincible = true
 	$Sprite2D/AnimationPlayer.play("dodge")
-	dodge_old_pos_x = position.x
+	dodge_old_pos_x = position.x #remembering the old position to calculate dodge distance
+	time_to_die = false
 
 func dodging_update(delta: float):
 	shoot_controls() 
@@ -263,14 +285,16 @@ func dodging_update(delta: float):
 		 #change if you want the character to duck automatically after running
 		velocity.x = 0
 		invincible = false
-		character_state_machine.dispatch("to shoot")
+		if dodge_finished:
+			character_state_machine.dispatch("to shoot")
 	else:
 		#print(position.x - dodge_old_pos_x)
 		velocity.x = dodge_speed
-		if position.x - dodge_old_pos_x >= target_distance:
-			#print('yes')
+		if position.x - dodge_old_pos_x >= target_distance and dodge_finished: #more or equals because we can't calculate it precisely 
+			print('yes')
 			number_of_right_swipes = 0 #need to reset to avoid bugs
 			invincible = false
+			dodge_finished = false
 			character_state_machine.dispatch("to run")
 		
 		
@@ -284,10 +308,10 @@ func swipe_detection():
 		if !swiping:
 			$Swipe_Timer.start()
 			swiping = true
-			swipe_start_pos = get_global_mouse_position()
+			swipe_start_pos = get_viewport().get_mouse_position()
 	if Input.is_action_pressed("press"):
 		if swiping:
-			swipe_cur_pos = get_global_mouse_position()
+			swipe_cur_pos = get_viewport().get_mouse_position()
 			if swipe_start_pos.distance_to(swipe_cur_pos) >= swipe_length:
 				if abs(swipe_start_pos.y - swipe_cur_pos.y) <= swipe_threshold:
 					#print("horizontal swipe!")
@@ -328,4 +352,45 @@ func _on_animation_player_animation_finished(anim_name: StringName) -> void:
 			ammo += 1
 			$ReloadTimer.start()
 			$Sprite2D/AnimationPlayer.play("reload")
+			$Reload.play()
 			G.emit_signal("rotate_ui")
+		
+	if anim_name == "dodge":
+		dodge_finished = true
+	
+	if anim_name == "death":
+		death_finished = true
+		game_over()
+		
+
+func _on_death_timer_timeout() -> void:
+	if time_to_die:
+		print("this is the end")
+		
+		character_state_machine.dispatch(&"to null")
+		$Timer.stop() #need to stop timer to avoid state bugs
+		G.moving = false
+		if G.sound_on == true:
+			$RobloxOof.play()
+		$Sprite2D/AnimationPlayer.play("death")
+		
+
+		
+func game_over():
+	freeze_script()
+	print("oKKK")
+	set_process(false) #what?
+	G.game_over = true
+
+
+
+func freeze_script():
+	invincible = true
+	set_process(false)
+	set_physics_process(false)
+	set_process_input(false)
+	$Timer.stop()
+	$ReloadTimer.stop()
+	$DeathTimer.stop()
+	G.moving = false
+	$Run.stop()

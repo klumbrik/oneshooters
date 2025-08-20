@@ -1,14 +1,61 @@
 extends Node2D
 
 var room = preload("res://room.tscn")
+@onready var sprite = $CanvasLayer/CenterContainer/ui_weapon
+
+var sprite_angle = 0.0
+var body_in_area
+var current_bullet
+var bullet_ui = preload("res://jebulletui.tscn")
 
 func _ready() -> void:
 	await get_tree().process_frame #to not get null when adding the first room to array
 	G.rooms.clear()
 	G.rooms.append($room) #adding the first room to array
 	G.swipe_room.connect(self._create_room_on_swipe)
+	G.rotate_ui.connect(self._on_ui_rotate)
+	G.shot.connect(self._on_shot)
 	
 	
+func rotate_60_tween():
+	var new_rotation = sprite_angle + 60.0
+	sprite_angle = new_rotation
+	var tween = create_tween()
+	tween.tween_property(sprite, "rotation_degrees",new_rotation, 0.4)
+	#print(sprite.rotation_degrees)
+	var bullet = bullet_ui.instantiate()
+	$CanvasLayer/CenterContainer/ui_weapon.add_child(bullet)
+	bullet.global_position = $CanvasLayer/CenterContainer/Marker2D.global_position
+	
+func shot_back_rotate_60_tween():
+	var new_rotation = sprite_angle - 60.0
+	sprite_angle = new_rotation
+	var tween = create_tween()
+	tween.tween_property(sprite, "rotation_degrees",new_rotation, 0.1)
+	#print(sprite.rotation_degrees)
+	if body_in_area:
+		if is_instance_valid(current_bullet):
+			current_bullet.queue_free()
+	
+func _on_ui_rotate():
+	rotate_60_tween()
+
+func _on_shot():
+	shot_back_rotate_60_tween()
+
+
+
+func _on_area_2d_body_entered(body: Node2D) -> void:
+	#print(body)
+	body_in_area = true
+	current_bullet = body
+	#print(current_bullet)
+
+
+func _on_area_2d_body_exited(body: Node2D) -> void:
+	body_in_area = false
+
+
 
 
 func _create_room_on_swipe():
@@ -29,5 +76,4 @@ func _create_room_on_swipe():
 		G.rooms.remove_at(0)
 		
 	#print(G.rooms)
-	
 	
