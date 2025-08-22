@@ -385,7 +385,7 @@ libraries = {
 }
 autoplay = "idle"
 next/hurt = &"idle"
-blend_times = [&"idle", &"hurt", 0.05, &"hurt", &"idle", 0.3]
+blend_times = [&"hurt", &"idle", 0.3, &"idle", &"hurt", 0.05]
 
 [node name="Hurtbox" type="Area2D" parent="." node_paths=PackedStringArray("health")]
 collision_layer = 4

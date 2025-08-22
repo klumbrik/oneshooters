@@ -22,8 +22,8 @@ var sound_on = true
 var is_enemy_in_zone: bool
 var score = 0
 var ammo = 6
-var stash = 0
-var stash_pieces = 2
+var stash = 3
+var stash_pieces = 1
 var wave_going = true
 var moving = false #activated when we run to the next cover
 var moving_speed = 250
@@ -50,6 +50,7 @@ func _process(delta: float) -> void:
 	pass
 
 func reset():
+	G.stash_pieces = 0
 	G.stash = 0
 	G.score = 0
 	G.game_over = false

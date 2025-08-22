@@ -17,8 +17,8 @@ radius = 13.0384
 [node name="main" type="Node2D"]
 texture_filter = 1
 script = ExtResource("1_puokp")
-metadata/_edit_lock_ = true
 metadata/_edit_horizontal_guides_ = [-12.0]
+metadata/_edit_lock_ = true
 
 [node name="character" parent="." groups=["character"] instance=ExtResource("1_27mtl")]
 z_index = 1
@@ -105,14 +105,6 @@ position = Vector2(53, 130)
 scale = Vector2(0.0559082, 0.0559082)
 texture = ExtResource("8_ta3k7")
 
-[node name="Area2D" type="Area2D" parent="CanvasLayer/CenterContainer"]
-position = Vector2(-75, 46)
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="CanvasLayer/CenterContainer/Area2D"]
-position = Vector2(151, 46)
-shape = SubResource("CircleShape2D_haprv")
-metadata/_edit_lock_ = true
-
 [node name="ui_weapon" type="Sprite2D" parent="CanvasLayer/CenterContainer"]
 texture_filter = 1
 position = Vector2(151, 131)
@@ -138,9 +130,30 @@ position = Vector2(16.5088, 9.49822)
 [node name="Jebulletui6" parent="CanvasLayer/CenterContainer/ui_weapon" instance=ExtResource("9_fsngq")]
 position = Vector2(16.735, -9.27207)
 
-[node name="Marker2D" type="Marker2D" parent="CanvasLayer/CenterContainer"]
-position = Vector2(77, 177)
-scale = Vector2(4.42188, 4.42188)
+[node name="slot1" type="Marker2D" parent="CanvasLayer/CenterContainer/ui_weapon"]
+position = Vector2(0, -19.4487)
+
+[node name="slot2" type="Marker2D" parent="CanvasLayer/CenterContainer/ui_weapon"]
+position = Vector2(16.735, -9.27207)
+
+[node name="slot3" type="Marker2D" parent="CanvasLayer/CenterContainer/ui_weapon"]
+position = Vector2(16.5088, 9.49822)
+
+[node name="slot4" type="Marker2D" parent="CanvasLayer/CenterContainer/ui_weapon"]
+position = Vector2(-0.226147, 18.7703)
+
+[node name="slot5" type="Marker2D" parent="CanvasLayer/CenterContainer/ui_weapon"]
+position = Vector2(-16.735, 10.1767)
+
+[node name="slot6" type="Marker2D" parent="CanvasLayer/CenterContainer/ui_weapon"]
+position = Vector2(-17.1873, -9.27207)
+
+[node name="Area2D" type="Area2D" parent="CanvasLayer/CenterContainer"]
+position = Vector2(-75, 46)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CanvasLayer/CenterContainer/Area2D"]
+position = Vector2(226, 0)
+shape = SubResource("CircleShape2D_haprv")
 
 [connection signal="child_entered_tree" from="." to="." method="_on_child_entered_tree"]
 [connection signal="body_entered" from="CanvasLayer/CenterContainer/Area2D" to="." method="_on_area_2d_body_entered"]

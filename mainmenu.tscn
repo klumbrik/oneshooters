@@ -20,6 +20,7 @@ scale = Vector2(0.363, 1.288)
 texture = ExtResource("2_il6ra")
 
 [node name="logo" type="Sprite2D" parent="."]
+texture_filter = 1
 position = Vector2(179, 125)
 scale = Vector2(0.17, 0.17)
 texture = ExtResource("1_d02lp")

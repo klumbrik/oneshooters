@@ -8,4 +8,4 @@ func _ready() -> void:
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
-	text = "bullets: " + str(G.ammo) + "\n" + "score: " + str(G.score) + "\n" + "ammo stash: " + str(G.stash)
+	text = "bullets: " + str(G.ammo) + "\n" + "score: " + str(G.score) + "\n" + "ammo stash: " + str(G.stash) + "\n" + "stash pcs: " + str(G.stash_pieces)
