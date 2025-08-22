@@ -19,20 +19,8 @@ func _process(delta: float) -> void:
 
 
 func _on_button_down() -> void: #restore EVERYTHING HERE
-	if G.score >= G.best_score:
-		G.best_score = G.score #saving new best
-	
-	G.stash = 0
-	G.score = 0
-	G.game_over = false
-	G.current_cover_number = 0
-	G.last_cover_number = -1
-	G.number_of_dodges = 1
-	get_tree().paused = false
+	G.reset()
 	G.emit_signal("reload_game")
-	G.enemiesonscreen.clear()
-	G.rooms.clear()
-
 
 
 func _update_audio_effect() -> void: #change kostyl later

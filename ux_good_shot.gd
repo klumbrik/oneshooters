@@ -4,7 +4,7 @@ extends Node2D
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	visible = false
-	G.enemy_died.connect(self._on_enemy_died)
+	G.enemy_died_in_zone.connect(self._on_enemy_died)
 
 
 func _on_enemy_died():

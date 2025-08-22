@@ -1,8 +1,8 @@
 [gd_scene load_steps=11 format=3 uid="uid://xsvakw5amtad"]
 
 [ext_resource type="Script" path="res://sub_viewport_input.gd" id="1_4clg3"]
-[ext_resource type="PackedScene" uid="uid://67ic5nix6m4w" path="res://main.tscn" id="1_gpac2"]
 [ext_resource type="Script" path="res://rich_text_label.gd" id="2_l1s8a"]
+[ext_resource type="PackedScene" uid="uid://b0clrx6pdvkxi" path="res://mainmenu.tscn" id="2_owi17"]
 [ext_resource type="Script" path="res://button.gd" id="3_1e27r"]
 [ext_resource type="AudioStream" uid="uid://cvem6kg526qhp" path="res://sounds/music/synthoneshootersdemo4.mp3" id="4_cvftn"]
 [ext_resource type="FontFile" uid="uid://cjsn6sorvmyt6" path="res://demo/assets/fonts/8bitOperatorPlusSC-Bold.ttf" id="8_o3xom"]
@@ -21,7 +21,6 @@ anchor_bottom = 0.5
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_4clg3")
-sound = true
 
 [node name="SubViewportContainer" type="SubViewportContainer" parent="."]
 texture_filter = 1
@@ -45,7 +44,7 @@ physics_object_picking = true
 size = Vector2i(360, 640)
 render_target_update_mode = 4
 
-[node name="main" parent="SubViewportContainer/SubViewport" instance=ExtResource("1_gpac2")]
+[node name="MainMenu" parent="SubViewportContainer/SubViewport" instance=ExtResource("2_owi17")]
 
 [node name="CanvasLayer" type="CanvasLayer" parent="SubViewportContainer"]
 visible = false
@@ -87,10 +86,10 @@ color = Color(0, 0.265442, 0.471648, 1)
 [node name="score" type="RichTextLabel" parent="."]
 texture_filter = 1
 layout_mode = 0
-offset_left = -34.0
-offset_top = -263.0
-offset_right = 154.0
-offset_bottom = -106.0
+offset_left = -29.0
+offset_top = -249.0
+offset_right = 159.0
+offset_bottom = -92.0
 theme_override_colors/default_color = Color(0.658824, 1, 0.917647, 1)
 theme_override_colors/font_outline_color = Color(0, 0.676387, 0.577885, 1)
 theme_override_colors/font_shadow_color = Color(0.509804, 0.321569, 0.537255, 1)
@@ -107,11 +106,10 @@ script = ExtResource("9_g5afe")
 process_mode = 3
 texture_filter = 1
 layout_mode = 0
-offset_left = 81.0
-offset_top = -321.0
-offset_right = 180.0
-offset_bottom = -227.0
-toggle_mode = true
+offset_left = 86.0
+offset_top = -307.0
+offset_right = 185.0
+offset_bottom = -213.0
 texture_normal = ExtResource("10_2skq0")
 texture_pressed = ExtResource("11_5ft7x")
 stretch_mode = 4
@@ -120,13 +118,13 @@ script = ExtResource("12_mo1yl")
 [node name="Button" type="Button" parent="."]
 process_mode = 3
 layout_mode = 0
-offset_left = -161.0
-offset_top = 72.0
-offset_right = 152.0
-offset_bottom = 185.0
+offset_left = -156.0
+offset_top = 86.0
+offset_right = 157.0
+offset_bottom = 199.0
 text = "Play again (Sorry your score isn't saved)"
 script = ExtResource("3_1e27r")
-metadata/_edit_lock_ = true
 
+[connection signal="button_down" from="PauseButton" to="PauseButton" method="_on_button_down"]
 [connection signal="toggled" from="PauseButton" to="PauseButton" method="_on_toggled"]
 [connection signal="button_down" from="Button" to="Button" method="_on_button_down"]

@@ -267,6 +267,7 @@ size = Vector2(32, 47)
 
 [node name="shielded_enemy" type="CharacterBody2D" groups=["enemies"]]
 visibility_layer = 2
+collision_mask = 0
 script = ExtResource("1_38otj")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
@@ -287,10 +288,8 @@ offset_bottom = 113.0
 color = Color(1, 0, 0.478431, 1)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-visible = false
 position = Vector2(14, 12)
 shape = SubResource("RectangleShape2D_7ujxw")
-disabled = true
 
 [node name="Area2D" type="Area2D" parent="." groups=["enemies"]]
 position = Vector2(-42, -29)
@@ -319,6 +318,7 @@ position = Vector2(14.5, 12)
 scale = Vector2(1.55, 2.4)
 
 [node name="test" type="RichTextLabel" parent="."]
+visible = false
 offset_left = -22.0
 offset_top = -36.0
 offset_right = 67.0

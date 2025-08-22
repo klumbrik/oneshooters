@@ -14,7 +14,7 @@ scale = Vector2(0.3, 0.3)
 color = Color(1, 0, 0.478431, 1)
 
 [node name="WaveEnd" type="Timer" parent="."]
-wait_time = 15.0
+one_shot = true
 
 [node name="Break_Window" type="Timer" parent="."]
 wait_time = 3.0

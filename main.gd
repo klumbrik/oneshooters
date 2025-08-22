@@ -15,6 +15,8 @@ func _ready() -> void:
 	G.swipe_room.connect(self._create_room_on_swipe)
 	G.rotate_ui.connect(self._on_ui_rotate)
 	G.shot.connect(self._on_shot)
+	G.enemy_died_in_zone.connect(self._on_enemy_died_in_zone)
+	G.out_of_ammo.connect(self._used_stash)
 	
 	
 func rotate_60_tween():
@@ -35,7 +37,7 @@ func shot_back_rotate_60_tween():
 	#print(sprite.rotation_degrees)
 	if body_in_area:
 		if is_instance_valid(current_bullet):
-			current_bullet.queue_free()
+			current_bullet.unload()
 	
 func _on_ui_rotate():
 	rotate_60_tween()
@@ -77,3 +79,18 @@ func _create_room_on_swipe():
 		
 	#print(G.rooms)
 	
+func stash_visibility():
+	if G.stash_pieces == 1:
+		$CanvasLayer/CenterContainer/stash2.visible = true
+	if G.stash_pieces > 1:
+		$CanvasLayer/CenterContainer/stash1.visible = true
+		
+	
+func _on_enemy_died_in_zone():
+	stash_visibility()
+
+func _used_stash(): #&&&&&&&&??????????????
+	if G.stash_pieces == 1:
+		$CanvasLayer/CenterContainer/stash1.visible = false
+	if G.stash_pieces == 0:
+		$CanvasLayer/CenterContainer/stash2.visible = false

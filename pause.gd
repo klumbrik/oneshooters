@@ -11,10 +11,13 @@ func _process(delta: float) -> void:
 	pass
 
 
-func _on_play_button_down() -> void:
+func _on_continue_button_down() -> void:
+	print("hi")
+	get_tree().paused = false
 	queue_free()
-	G.emit_signal("menu_play")
 
 
-func _on_exit_button_down() -> void:
-	get_tree().quit()
+func _on_to_menu_button_down() -> void:
+	get_tree().paused = false
+	G.emit_signal("pause_menu")
+	queue_free()

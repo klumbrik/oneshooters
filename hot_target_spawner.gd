@@ -6,7 +6,7 @@ var Fire_Target_Visual = preload("res://Fire_Target_Visual.tscn")
 var current_target: Node2D = null  # Stores a reference to the spawned instance in order to be able to remove it later
 
 func _ready() -> void:
-	G.enemy_died.connect(self._on_enemy_died)
+	G.enemy_died_in_zone.connect(self._on_enemy_died_in_zone)
 	spawn()
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
@@ -29,7 +29,7 @@ func _on_hot_target_timer_timeout() -> void:
 	if G.character_position != Vector2.ZERO: #if the character pos is received early it may be zero which we don't want (though timer allows to avoid it)
 		spawn()
 
-func _on_enemy_died():
+func _on_enemy_died_in_zone():
 	#print("he is defeated")
 	remove()
 	

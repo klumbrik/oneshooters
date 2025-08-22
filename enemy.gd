@@ -2,7 +2,7 @@ extends CharacterBody2D
 
 
 var mouse_onself = false
-var SPEED = 60.0 * G.pacedif_modifier
+var SPEED = randf_range(30.0, 60.0) * G.pacedif_modifier
 var hp = 1
 var chance
 var disabled_damage = false
@@ -37,7 +37,7 @@ func _physics_process(delta: float) -> void:
 	$RichTextLabel.text = str(hp)
 	#print(velocity.length())
 	if hp <= 0 and self == G.current_target_enemy:
-			$CollisionShape2D.disabled = true
+	
 			$Area2D/CollisionShape2D.disabled = true
 			die()
 	if !G.wave_going: #we stop if the wave stops
@@ -96,7 +96,8 @@ func die():
 	$Sprite2D/AnimationPlayer.play("beaten")
 	if is_in_zone and G.stash < 6: #before disabling collision we track if it is in zone to add stash ammo. The limit can be tweaked.
 		G.stash += 3
-		G.emit_signal("enemy_died") #not just died. in zone. fix the name
+		G.stash_pieces += 1
+		G.emit_signal("enemy_died_in_zone") #not just died. in zone. fix the name
 		killed = true
 	disable_damage()
 func get_damage():
@@ -104,13 +105,13 @@ func get_damage():
 	$Sprite2D/AnimationPlayer.play("damage_taken")
 	
 func disable_damage():
-	$CollisionShape2D.disabled = true
+
 	$Area2D.monitorable = false
 	disabled_damage = true
 	
 	
 func enable_damage():
-	$CollisionShape2D.disabled = false
+
 	$Area2D.monitorable = true
 	disabled_damage = false
 	
@@ -186,7 +187,7 @@ func unregister():
 
 func _on_visible_on_screen_notifier_2d_screen_entered() -> void: #add to the array when entered the sreen
 	for_deletion = false
-	if index != null:
+	if index != null and index >= 0 and index <= G.enemiesonscreen.size():
 		G.enemiesonscreen.insert(index, self)
 		#print("INSERTED")
 		G.current_target_enemy = null #to make space for a new [0] target

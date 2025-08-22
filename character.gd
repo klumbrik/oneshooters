@@ -3,8 +3,6 @@ extends CharacterBody2D
 #var is_shooting = true
 var ammo = 6
 var bullet = preload("res://bullet.tscn")
-
-var is_alive = true
 var time_to_die = false
 var swipe_length = 25  #Swipe variables. They should be declared here globally.
 var swiping = false
@@ -243,7 +241,8 @@ func reloading_update(delta: float):
 			character_state_machine.dispatch(&"to run")
 
 func running_enter():
-	$Run.play()
+	if G.sound_on:
+		$Run.play()
 	$Timer.paused = true
 	shoot_cooldown_passed = false
 	$Sprite2D/AnimationPlayer.play("run")
@@ -271,7 +270,8 @@ func running_update(delta: float):
 		move_and_slide()
 
 func dodging_enter():
-	$Roll.play()
+	if G.sound_on:
+		$Roll.play()
 	invincible = true
 	$Sprite2D/AnimationPlayer.play("dodge")
 	dodge_old_pos_x = position.x #remembering the old position to calculate dodge distance
@@ -339,6 +339,7 @@ func use_stash():
 	if ammo == 0 and G.stash > 0:
 		ammo += 3
 		G.stash -= 3
+		G.stash_pieces -= 1
 		G.emit_signal("out_of_ammo")
 
 	
@@ -352,7 +353,8 @@ func _on_animation_player_animation_finished(anim_name: StringName) -> void:
 			ammo += 1
 			$ReloadTimer.start()
 			$Sprite2D/AnimationPlayer.play("reload")
-			$Reload.play()
+			if G.sound_on:
+				$Reload.play()
 			G.emit_signal("rotate_ui")
 		
 	if anim_name == "dodge":
@@ -381,6 +383,8 @@ func game_over():
 	print("oKKK")
 	set_process(false) #what?
 	G.game_over = true
+	if G.score >= G.best_score:
+		G.best_score = G.score #saving new best
 
 
 

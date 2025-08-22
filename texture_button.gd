@@ -11,8 +11,14 @@ func _process(delta: float) -> void:
 	pass
 
 
-func _on_toggled(toggled_on: bool) -> void:
-	if toggled_on:
-		get_tree().paused = true
-	else: 
-		get_tree().paused = false
+#func _on_toggled(toggled_on: bool) -> void:
+	#if toggled_on:
+		#code below was here before
+	#else: 
+		#get_tree().paused = false
+
+
+func _on_button_down() -> void:
+	get_tree().paused = true
+	var pause = preload("res://pause.tscn").instantiate()
+	get_parent().add_child(pause)
