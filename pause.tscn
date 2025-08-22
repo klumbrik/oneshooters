@@ -36,10 +36,12 @@ texture = ExtResource("1_jj3ri")
 layout_mode = 2
 text = "continue"
 
-[node name="options" type="Button" parent="VBoxContainer"]
+[node name="sound" type="Button" parent="VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 4
-text = "options"
+toggle_mode = true
+button_pressed = true
+text = "sound: ON"
 
 [node name="to menu" type="Button" parent="VBoxContainer"]
 layout_mode = 2
@@ -47,4 +49,5 @@ size_flags_vertical = 4
 text = "to main menu"
 
 [connection signal="button_down" from="VBoxContainer/continue" to="." method="_on_continue_button_down"]
+[connection signal="toggled" from="VBoxContainer/sound" to="." method="_on_sound_toggled"]
 [connection signal="button_down" from="VBoxContainer/to menu" to="." method="_on_to_menu_button_down"]

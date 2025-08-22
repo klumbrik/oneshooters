@@ -449,6 +449,7 @@ panning_strength = 1.22
 
 [node name="Reload" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("61_etfct")
+volume_db = -12.22
 pitch_scale = 1.22
 attenuation = 1.07177
 panning_strength = 1.22

@@ -3,7 +3,7 @@ extends Node
 #signals - mostly for the ux player
 
 signal enemy_tap(enemy)
-signal enemy_died_in_zone
+signal enemy_died_in_zone(enemy)
 signal out_of_ammo
 signal enemy_shoots
 signal swipe_room
@@ -18,12 +18,13 @@ signal pause_menu
 var pacedif_modifier = 1 #Set to 1 to revert to play with original values. modifier for speed in terms of difficulty (testing). 
 #Contains global vars
 var game_over = false
+var last_sound_state
 var sound_on = true
 var is_enemy_in_zone: bool
 var score = 0
 var ammo = 6
-var stash = 3
-var stash_pieces = 1
+var stash = 0
+var stash_pieces = 0
 var wave_going = true
 var moving = false #activated when we run to the next cover
 var moving_speed = 250
@@ -38,16 +39,24 @@ var current_cover_number = 0 #counts covers
 var last_cover_number = -1
 var number_of_dodges = 1
 var best_score = 0
+var pause_added = false
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	pass
+	process_mode = PROCESS_MODE_ALWAYS #always processes even if paused
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	#print(current_cover_number, last_cover_number)
 	#print(enemiesonscreen)
-	pass
+	if last_sound_state != sound_on:
+		last_sound_state = sound_on
+		if sound_on:
+			AudioServer.set_bus_mute(AudioServer.get_bus_index("Master"), false)
+			#print("ON")
+		else:
+			AudioServer.set_bus_mute(AudioServer.get_bus_index("Master"), true)
+			#print("OFF")
 
 func reset():
 	G.stash_pieces = 0
@@ -60,3 +69,4 @@ func reset():
 	get_tree().paused = false
 	G.enemiesonscreen.clear()
 	G.rooms.clear()
+	G.pause_added = false

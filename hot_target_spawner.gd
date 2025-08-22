@@ -29,7 +29,7 @@ func _on_hot_target_timer_timeout() -> void:
 	if G.character_position != Vector2.ZERO: #if the character pos is received early it may be zero which we don't want (though timer allows to avoid it)
 		spawn()
 
-func _on_enemy_died_in_zone():
+func _on_enemy_died_in_zone(enemy):
 	#print("he is defeated")
 	remove()
 	

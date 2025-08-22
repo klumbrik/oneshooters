@@ -43,7 +43,7 @@ func _physics_process(_delta: float) -> void: #main function
 	#print(shoot_cooldown_passed)
 	#print($Timer.time_left, $Timer.paused)
 	#print($Sprite2D/AnimationPlayer.current_animation, $Sprite2D/AnimationPlayer.current_animation_position)
-
+	print("dodge_finished: " + str(dodge_finished))
 	G.ammo = ammo
 	#if !is_shooting:
 		#$Timer.paused = true #not needeed anymore. Ruins being in the process.So paused parameter is changed in the states
@@ -160,6 +160,7 @@ func initiate_state_machine():
 	
 #state machine funcs on enter and update
 func shooting_enter():
+	dodge_finished = false
 	number_of_right_swipes = 0
 	$Sprite2D.flip_h = false
 	$Sprite2D/AnimationPlayer.play("RESET")

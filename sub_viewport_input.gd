@@ -13,14 +13,17 @@ func _ready() -> void:
 	G.reload_game.connect(self._on_game_reload)
 	G.menu_play.connect(self._on_play_pressed)
 	G.pause_menu.connect(self._on_pause_to_menu_pressed)
+	
 	if sound:
 		G.sound_on = true
+		AudioServer.set_bus_mute(AudioServer.get_bus_index("Master"), false)
 	else:
-		G.sound_on = false
+		G.sound_on = false 
+		AudioServer.set_bus_mute(AudioServer.get_bus_index("Master"), true)
 		
-	if G.sound_on:
-		$Synthoneshootersdemo4.bus = "Music"
-		$Synthoneshootersdemo4.play()
+
+	$Synthoneshootersdemo4.bus = "Music"
+	$Synthoneshootersdemo4.play()
 		
 	hide_ui()
 
@@ -28,17 +31,8 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	#print(current_bullet)
 	#print(mouse_on_screen)
-	pass
 	
-	
-func _unhandled_input(event: InputEvent) -> void:
 	pass
-	#if event is InputEventMouseButton and event.pressed:
-		##print(event, event.global_position)
-		#var new_event = event.duplicate() #creating a copy of event for safety
-		#$SubViewportContainer/SubViewport.push_input(new_event)
-
-
 
 
 func _on_game_reload():

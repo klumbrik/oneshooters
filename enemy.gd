@@ -97,7 +97,7 @@ func die():
 	if is_in_zone and G.stash < 6: #before disabling collision we track if it is in zone to add stash ammo. The limit can be tweaked.
 		G.stash += 3
 		G.stash_pieces += 1
-		G.emit_signal("enemy_died_in_zone") #not just died. in zone. fix the name
+		G.emit_signal("enemy_died_in_zone", self) #passing self as an arguement
 		killed = true
 	disable_damage()
 func get_damage():

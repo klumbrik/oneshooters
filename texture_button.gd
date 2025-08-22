@@ -2,6 +2,7 @@ extends TextureButton
 
 
 # Called when the node enters the scene tree for the first time.
+
 func _ready() -> void:
 	pass # Replace with function body.
 
@@ -19,6 +20,8 @@ func _process(delta: float) -> void:
 
 
 func _on_button_down() -> void:
-	get_tree().paused = true
-	var pause = preload("res://pause.tscn").instantiate()
-	get_parent().add_child(pause)
+	if not G.pause_added:
+		get_tree().paused = true
+		var pause = preload("res://pause.tscn").instantiate()
+		get_parent().add_child(pause)
+		G.pause_added = true

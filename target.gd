@@ -35,7 +35,9 @@ func _physics_process(delta: float) -> void:
 	else:
 		visible = false
 		last_target_enemy = null
-
+		
+	if G.current_target_enemy == null: #do I need this?
+		visible = false
 
 func _on_enemy_tap(enemy):
 	if enemy in G.enemiesonscreen:

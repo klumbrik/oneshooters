@@ -63,7 +63,7 @@ func _on_ui_rotate():
 func _on_shot():
 	shot_back_rotate_60_tween()
 	revolver_update_indicies()
-	print(revolver)
+	#print(revolver)
 
 
 
@@ -106,7 +106,7 @@ func stash_visibility():
 		$CanvasLayer/CenterContainer/stash1.visible = true
 		
 	
-func _on_enemy_died_in_zone():
+func _on_enemy_died_in_zone(enemy):
 	stash_visibility()
 
 func _used_stash(): #&&&&&&&&??????????????
