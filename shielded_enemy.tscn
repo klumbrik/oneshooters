@@ -1,4 +1,4 @@
-[gd_scene load_steps=38 format=3 uid="uid://cq4x7e5apyp7p"]
+[gd_scene load_steps=44 format=3 uid="uid://cq4x7e5apyp7p"]
 
 [ext_resource type="Script" path="res://shielded_enemy.gd" id="1_38otj"]
 [ext_resource type="Texture2D" uid="uid://dqwcf3kmftyj4" path="res://sprites/enemyanims/run/enemyrun1.png" id="2_4c686"]
@@ -30,6 +30,11 @@
 [ext_resource type="Texture2D" uid="uid://dcjcmg0qc80s0" path="res://sprites/enemyanims/run/enemyrun13.png" id="28_gfi6a"]
 [ext_resource type="Texture2D" uid="uid://lx5buf1abyim" path="res://sprites/enemyanims/run/enemyrun14.png" id="29_2kgjl"]
 [ext_resource type="Texture2D" uid="uid://bbcie20e2hfke" path="res://sprites/enemyanims/run/enemyrun15.png" id="30_ab55r"]
+[ext_resource type="Texture2D" uid="uid://b7hn1g3vprl2j" path="res://sprites/enemyanims/recharge/recharging11.png" id="31_x4unf"]
+[ext_resource type="Texture2D" uid="uid://ddpq1ks1y8ptn" path="res://sprites/enemyanims/recharge/recharging12.png" id="32_osn78"]
+[ext_resource type="Texture2D" uid="uid://bvecjr15mt383" path="res://sprites/enemyanims/recharge/recharging13.png" id="33_uuhty"]
+[ext_resource type="Texture2D" uid="uid://ct085s5prfubf" path="res://sprites/enemyanims/recharge/recharging14.png" id="34_2uyrp"]
+[ext_resource type="Texture2D" uid="uid://8seswp41x0fn" path="res://sprites/enemyanims/recharge/recharging15.png" id="35_eom4l"]
 
 [sub_resource type="Animation" id="Animation_2q7xk"]
 length = 0.001
@@ -251,11 +256,28 @@ tracks/4/keys = {
 "values": [true]
 }
 
+[sub_resource type="Animation" id="Animation_os3kb"]
+resource_name = "reset_recharge"
+length = 0.2667
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.0666667, 0.133333, 0.2, 0.266667),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 1,
+"values": [ExtResource("31_x4unf"), ExtResource("32_osn78"), ExtResource("33_uuhty"), ExtResource("34_2uyrp"), ExtResource("35_eom4l")]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_oresa"]
 _data = {
 "RESET": SubResource("Animation_2q7xk"),
 "beaten": SubResource("Animation_xjmqh"),
 "damage_taken": SubResource("Animation_ranpe"),
+"reset_recharge": SubResource("Animation_os3kb"),
 "run": SubResource("Animation_166h2")
 }
 

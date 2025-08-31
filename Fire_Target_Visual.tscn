@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://uhyemntn1ca5"]
+[gd_scene load_steps=19 format=3 uid="uid://uhyemntn1ca5"]
 
 [ext_resource type="Script" path="res://fire_target_visual.gd" id="1_ccdhk"]
 [ext_resource type="Texture2D" uid="uid://c5hoxlr00quql" path="res://effects/fire_burn/oneshooter_fire_target1.png" id="2_mi65o"]
@@ -29,6 +29,30 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 1,
 "values": [ExtResource("2_mi65o")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(3.33333, 3.33333)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Sprite2D:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(50, -10)]
 }
 
 [sub_resource type="Animation" id="Animation_jc3im"]
@@ -66,11 +90,40 @@ tracks/0/keys = {
 "values": [ExtResource("2_mi65o"), ExtResource("3_1t4cr"), ExtResource("4_hngdc")]
 }
 
+[sub_resource type="Animation" id="Animation_co324"]
+resource_name = "weaken"
+step = 0.0333
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.999),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(3.33333, 3.33333), Vector2(0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.999),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(50, -10), Vector2(48.648, 80)]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_hvbaj"]
 _data = {
 "RESET": SubResource("Animation_5ovhf"),
 "appear": SubResource("Animation_jc3im"),
-"burn": SubResource("Animation_bwvi3")
+"burn": SubResource("Animation_bwvi3"),
+"weaken": SubResource("Animation_co324")
 }
 
 [node name="Fire_Target" type="Node2D"]
@@ -91,7 +144,7 @@ position = Vector2(0, -24)
 input_pickable = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2d"]
-position = Vector2(48, 52)
+position = Vector2(48, -38)
 shape = SubResource("RectangleShape2D_h4sro")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
@@ -104,6 +157,7 @@ texture_filter = 1
 position = Vector2(50, -10)
 scale = Vector2(3.33333, 3.33333)
 texture = ExtResource("2_mi65o")
+offset = Vector2(0, -26.97)
 
 [connection signal="body_entered" from="Area2d" to="." method="_on_area_2d_body_entered"]
 [connection signal="body_exited" from="Area2d" to="." method="_on_area_2d_body_exited"]

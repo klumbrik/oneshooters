@@ -1,0 +1,26 @@
+[gd_scene load_steps=4 format=3 uid="uid://cx86trpdub3bn"]
+
+[ext_resource type="Texture2D" uid="uid://xd4kvx15tjyr" path="res://icon.svg" id="1_abeal"]
+[ext_resource type="Script" path="res://drone.gd" id="1_omdn1"]
+[ext_resource type="Script" path="res://draw.gd" id="3_0bmin"]
+
+[node name="Drone" type="CharacterBody2D"]
+script = ExtResource("1_omdn1")
+
+[node name="Icon" type="Sprite2D" parent="."]
+modulate = Color(1.54018e-06, 0.99515, 0.977168, 1)
+position = Vector2(16, 12)
+rotation = 0.191986
+scale = Vector2(0.25, 0.1875)
+texture = ExtResource("1_abeal")
+
+[node name="ShootTimer" type="Timer" parent="."]
+autostart = true
+
+[node name="draw" type="Node2D" parent="."]
+script = ExtResource("3_0bmin")
+
+[node name="Marker2D" type="Marker2D" parent="."]
+position = Vector2(32, 16)
+
+[connection signal="timeout" from="ShootTimer" to="." method="_on_shoot_timer_timeout"]

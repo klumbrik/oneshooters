@@ -54,12 +54,12 @@ func _on_pause_to_menu_pressed():
 	
 func hide_ui():
 	#$SubViewportContainer/CanvasLayer.visible = false
-	$score.visible = false
+	$ScoreLayer.visible = false
 	$PauseButton.visible = false
 	
 func show_ui():
 	#$SubViewportContainer/CanvasLayer.visible = true
-	$score.visible = true
+	$ScoreLayer.visible = true
 	$PauseButton.visible = true
 
 func change_scene_to(scene: PackedScene):

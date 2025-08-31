@@ -373,7 +373,7 @@ _data = {
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_c3lwm"]
 size = Vector2(186, 98.8333)
 
-[node name="character" type="CharacterBody2D"]
+[node name="character" type="CharacterBody2D" groups=["character"]]
 script = ExtResource("1_tuy5w")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
@@ -405,7 +405,7 @@ shape = SubResource("RectangleShape2D_qc853")
 
 [node name="shootingrange" type="Area2D" parent="."]
 collision_layer = 2
-collision_mask = 2
+collision_mask = 4096
 metadata/_edit_lock_ = true
 
 [node name="range" type="CollisionShape2D" parent="shootingrange"]

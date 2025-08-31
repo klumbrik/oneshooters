@@ -2,22 +2,32 @@ extends CharacterBody2D
 
 
 var mouse_onself = false
-var SPEED = randf_range(30.0, 60.0) * G.pacedif_modifier
-var hp = 1
+var SPEED: float 
+@onready var hp = 1
 var chance
 var disabled_damage = false
 var is_in_zone = false
 var killed = false
 var index = null
 var for_deletion
+var bonus_dropped
+var bonus_chance
+var enemy_state_machine: LimboHSM
+
 #const JUMP_VELOCITY = -400.0
 
 func _ready() -> void: #when spawns randomly defines hp
 	$Sprite2D/AnimationPlayer.play("run")
 	G.connect("delete_enemies_out_of_screen", _delete_enemies_out_of_screen)
+	SPEED = randf_range(30.0, 60.0) * G.pacedif_modifier
+	initiate_state_machine()
+	
+
+func initiate_state_machine():
+	pass
 	
 	
-	
+
 func _physics_process(delta: float) -> void:
 	
 	#test
@@ -40,12 +50,13 @@ func _physics_process(delta: float) -> void:
 	
 			$Area2D/CollisionShape2D.disabled = true
 			die()
-	if !G.wave_going: #we stop if the wave stops
+			
+	if !G.wave_going:
 		velocity.x = 0
 		disable_damage()
 	else:
 		enable_damage()
-		velocity.x = -SPEED
+		velocity.x = -SPEED if should_move() else 0
 	add_target()
 	## Add the gravity.
 	#if not is_on_floor():
@@ -94,6 +105,13 @@ func add_target():
 
 func die():
 	$Sprite2D/AnimationPlayer.play("beaten")
+	if !bonus_dropped:
+		bonus_chance = randf()
+		if bonus_chance <= 0.01: #chance of bonus
+			print(bonus_chance)
+			G.emit_signal("drop_bonus", global_position)
+			bonus_dropped = true
+	
 	if is_in_zone and G.stash < 6: #before disabling collision we track if it is in zone to add stash ammo. The limit can be tweaked.
 		G.stash += 3
 		G.stash_pieces += 1
@@ -123,6 +141,9 @@ func _on_animation_player_animation_finished(anim_name: StringName) -> void:
 		#print("before removal, is in zone: ", is_in_zone)
 		is_in_zone = false
 		
+		
+		
+		
 		var children = get_children()
 		remove_child(children[-1])
 		get_parent().add_child(children[-1])
@@ -132,7 +153,8 @@ func _on_animation_player_animation_finished(anim_name: StringName) -> void:
 		G.score += 10 #adding 10 points for each enemy defeated
 	if anim_name == "damage_taken":
 		$Sprite2D/AnimationPlayer.play("run")
-
+		
+	
 
 		
 
@@ -193,7 +215,7 @@ func _on_visible_on_screen_notifier_2d_screen_entered() -> void: #add to the arr
 		G.current_target_enemy = null #to make space for a new [0] target
 	else:
 		G.enemiesonscreen.append(self)
-	
+	print("entered")
 	#if 
 	#insert at old_pos
 	
@@ -214,3 +236,6 @@ func _delete_enemies_out_of_screen(): #remove this instance from the game if it'
 		#print("ENEMY DELETED")
 		queue_free()
 #remove enemies from the game (NOT from the array) when player reaches a new cover to keep memory clean
+
+func should_move() -> bool:
+	return true  # by default the base enemy always moves when the wave is going

@@ -27,7 +27,7 @@ func _on_cover_area_area_entered(area: Area2D) -> void:
 				G.emit_signal("delete_enemies_out_of_screen")
 				#print(G.current_cover_number)
 				if G.current_cover_number > 1:
-					G.score += 50 
+					G.score += 50
 			
 			
 			

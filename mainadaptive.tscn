@@ -1,14 +1,15 @@
-[gd_scene load_steps=11 format=3 uid="uid://xsvakw5amtad"]
+[gd_scene load_steps=12 format=3 uid="uid://xsvakw5amtad"]
 
 [ext_resource type="Script" path="res://sub_viewport_input.gd" id="1_4clg3"]
 [ext_resource type="Script" path="res://rich_text_label.gd" id="2_l1s8a"]
 [ext_resource type="PackedScene" uid="uid://b0clrx6pdvkxi" path="res://mainmenu.tscn" id="2_owi17"]
 [ext_resource type="Script" path="res://button.gd" id="3_1e27r"]
 [ext_resource type="AudioStream" uid="uid://cvem6kg526qhp" path="res://sounds/music/synthoneshootersdemo4.mp3" id="4_cvftn"]
+[ext_resource type="Texture2D" uid="uid://ceku7bkys0cr8" path="res://ui/pause/pause.png" id="7_v5td5"]
+[ext_resource type="Texture2D" uid="uid://c0hk12txuwnpr" path="res://ui/play/play.png" id="8_0fewg"]
 [ext_resource type="FontFile" uid="uid://cjsn6sorvmyt6" path="res://demo/assets/fonts/8bitOperatorPlusSC-Bold.ttf" id="8_o3xom"]
+[ext_resource type="Script" path="res://center_container.gd" id="9_0ubch"]
 [ext_resource type="Script" path="res://score.gd" id="9_g5afe"]
-[ext_resource type="Texture2D" uid="uid://ckph7ppvn4ara" path="res://ui/pause.png" id="10_2skq0"]
-[ext_resource type="Texture2D" uid="uid://dfami5dlntak3" path="res://ui/back.png" id="11_5ft7x"]
 [ext_resource type="Script" path="res://texture_button.gd" id="12_mo1yl"]
 
 [node name="Game" type="Control"]
@@ -21,7 +22,6 @@ anchor_bottom = 0.5
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_4clg3")
-sound = true
 
 [node name="SubViewportContainer" type="SubViewportContainer" parent="."]
 texture_filter = 1
@@ -84,35 +84,16 @@ offset_bottom = 541.0
 mouse_filter = 2
 color = Color(0, 0.265442, 0.471648, 1)
 
-[node name="score" type="RichTextLabel" parent="."]
-texture_filter = 1
-layout_mode = 0
-offset_left = -29.0
-offset_top = -249.0
-offset_right = 159.0
-offset_bottom = -92.0
-theme_override_colors/default_color = Color(0.658824, 1, 0.917647, 1)
-theme_override_colors/font_outline_color = Color(0, 0.676387, 0.577885, 1)
-theme_override_colors/font_shadow_color = Color(0.509804, 0.321569, 0.537255, 1)
-theme_override_constants/outline_size = 10
-theme_override_constants/shadow_offset_y = 0
-theme_override_constants/shadow_offset_x = 5
-theme_override_constants/shadow_outline_size = 10
-theme_override_fonts/normal_font = ExtResource("8_o3xom")
-theme_override_font_sizes/normal_font_size = 80
-text = "0"
-script = ExtResource("9_g5afe")
-
 [node name="PauseButton" type="TextureButton" parent="."]
 process_mode = 3
 texture_filter = 1
 layout_mode = 0
-offset_left = 86.0
-offset_top = -307.0
-offset_right = 185.0
-offset_bottom = -213.0
-texture_normal = ExtResource("10_2skq0")
-texture_pressed = ExtResource("11_5ft7x")
+offset_left = 115.0
+offset_top = -299.0
+offset_right = 162.0
+offset_bottom = -254.0
+texture_normal = ExtResource("7_v5td5")
+texture_pressed = ExtResource("8_0fewg")
 stretch_mode = 4
 script = ExtResource("12_mo1yl")
 
@@ -125,6 +106,49 @@ offset_right = 157.0
 offset_bottom = 199.0
 text = "Play again (Sorry your score isn't saved)"
 script = ExtResource("3_1e27r")
+
+[node name="ScoreLayer" type="CanvasLayer" parent="."]
+
+[node name="CenterContainer" type="CenterContainer" parent="ScoreLayer"]
+custom_minimum_size = Vector2(100, 100)
+layout_direction = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.208
+anchor_right = 0.5
+anchor_bottom = 0.208
+offset_left = -50.0
+offset_top = -56.12
+offset_right = 50.0
+offset_bottom = 55.88
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(50, 56)
+size_flags_horizontal = 6
+size_flags_vertical = 4
+script = ExtResource("9_0ubch")
+
+[node name="score" type="RichTextLabel" parent="ScoreLayer/CenterContainer"]
+texture_filter = 1
+clip_contents = false
+custom_minimum_size = Vector2(60, 100)
+layout_mode = 2
+theme_override_colors/default_color = Color(0.658824, 1, 0.917647, 1)
+theme_override_colors/font_outline_color = Color(0, 0.676387, 0.577885, 1)
+theme_override_colors/font_shadow_color = Color(0.509804, 0.321569, 0.537255, 1)
+theme_override_constants/outline_size = 10
+theme_override_constants/shadow_offset_y = 0
+theme_override_constants/shadow_offset_x = 5
+theme_override_constants/shadow_outline_size = 10
+theme_override_fonts/normal_font = ExtResource("8_o3xom")
+theme_override_font_sizes/normal_font_size = 80
+bbcode_enabled = true
+text = "0
+"
+fit_content = true
+scroll_active = false
+autowrap_mode = 0
+script = ExtResource("9_g5afe")
 
 [connection signal="button_down" from="PauseButton" to="PauseButton" method="_on_button_down"]
 [connection signal="toggled" from="PauseButton" to="PauseButton" method="_on_toggled"]

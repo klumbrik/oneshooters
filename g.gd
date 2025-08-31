@@ -5,7 +5,7 @@ extends Node
 signal enemy_tap(enemy)
 signal enemy_died_in_zone(enemy)
 signal out_of_ammo
-signal enemy_shoots
+signal enemy_shoots(enemy)
 signal swipe_room
 signal make_cover_unused
 signal rotate_ui
@@ -14,6 +14,10 @@ signal delete_enemies_out_of_screen
 signal reload_game
 signal menu_play
 signal pause_menu
+signal drop_bonus(position)
+
+signal bonus_stash
+
 
 var pacedif_modifier = 1 #Set to 1 to revert to play with original values. modifier for speed in terms of difficulty (testing). 
 #Contains global vars
@@ -40,6 +44,9 @@ var last_cover_number = -1
 var number_of_dodges = 1
 var best_score = 0
 var pause_added = false
+
+
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	process_mode = PROCESS_MODE_ALWAYS #always processes even if paused
@@ -58,7 +65,7 @@ func _process(delta: float) -> void:
 			AudioServer.set_bus_mute(AudioServer.get_bus_index("Master"), true)
 			#print("OFF")
 
-func reset():
+func reset(): #reset essential variables
 	G.stash_pieces = 0
 	G.stash = 0
 	G.score = 0

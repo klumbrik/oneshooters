@@ -7,6 +7,7 @@ var sprite_angle = 0.0
 var body_in_area
 var current_bullet
 var bullet_ui = preload("res://jebulletui.tscn")
+var bonuses = [preload("res://ammo_bonus1.tscn")]
 
 @onready var slot1 = $CanvasLayer/CenterContainer/ui_weapon/slot1
 @onready var slot2 = $CanvasLayer/CenterContainer/ui_weapon/slot2
@@ -34,6 +35,24 @@ func _ready() -> void:
 	G.shot.connect(self._on_shot)
 	G.enemy_died_in_zone.connect(self._on_enemy_died_in_zone)
 	G.out_of_ammo.connect(self._used_stash)
+	G.drop_bonus.connect(self._on_drop_bonus)
+	G.bonus_stash.connect(self._stash_bonus_collected)
+	
+	
+func _process(delta: float) -> void: #for testing only, comment later
+	$CanvasLayer/spawner_metrics.text = """new_enemy_in: %.2f\nwave ends in: %.2f\nbreak ends in: %.2f""" % [$enemyspawn/Timer.time_left, $enemyspawn/WaveEnd.time_left, $enemyspawn/Break_Window.time_left]
+	if $enemyspawn/Timer.time_left == 0 and not $CanvasLayer/spawner_metrics.get("modulate").r == 1.0:
+		$CanvasLayer/spawner_metrics.modulate = Color(1, 0, 0) # red
+		$CanvasLayer/spawner_metrics.call_deferred("reset_color")
+
+func reset_color(): #testing only!
+	await get_tree().create_timer(1.0).timeout
+	$CanvasLayer/spawner_metrics.modulate = Color(1, 1, 1) #white or default
+	
+	
+	
+	
+	
 	
 func rotate_60_tween():
 	var new_rotation = sprite_angle + 60.0
@@ -42,9 +61,10 @@ func rotate_60_tween():
 	tween.tween_property(sprite, "rotation_degrees",new_rotation, 0.4)
 	#print(sprite.rotation_degrees)
 	var bullet = bullet_ui.instantiate()
-	$CanvasLayer/CenterContainer/ui_weapon.add_child(bullet)
-	bullet.global_position = revolver[6].global_position
-	revolver_reverse_update_indicies()
+	if !$CanvasLayer/CenterContainer/ui_weapon.get_children().size() == 12: #6 slots + 6 bullets
+		$CanvasLayer/CenterContainer/ui_weapon.call_deferred("add_child", bullet)#$CanvasLayer/CenterContainer/ui_weapon.add_child(bullet)
+		bullet.call_deferred("set_global_position", revolver[6].global_position)
+		call_deferred("revolver_reverse_update_indicies")
 	
 	
 func shot_back_rotate_60_tween():
@@ -136,3 +156,11 @@ func revolver_reverse_update_indicies():
 		var prev_index = (i - 2 + 6) % 6 + 1
 		new_slots[i] = revolver[prev_index]
 	revolver = new_slots
+
+func _on_drop_bonus(position: Vector2):
+	var bonus = bonuses[0].instantiate()
+	bonus.global_position = position
+	add_child(bonus)
+	
+func _stash_bonus_collected():
+	stash_visibility()

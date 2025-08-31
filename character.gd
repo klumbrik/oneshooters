@@ -32,9 +32,21 @@ func _ready() -> void:
 	character_state_machine.dispatch(&"to shoot") #entering the Sshooting state
 	$Timer.start() #INITIAL SHOOT timer start
 
-func _input(event: InputEvent) -> void:
-	pass 
-			
+func _input(event: InputEvent) -> void: #for pc controls
+	if Input.is_action_just_pressed("right"):
+		G.right_swipe_detected = true
+		G.left_swipe_detected = false
+		number_of_right_swipes += 1
+		if !G.moving and G.current_cover_number > G.last_cover_number:
+			G.emit_signal("swipe_room") #to create a new room
+			G.last_cover_number = G.current_cover_number
+	elif Input.is_action_just_pressed("left"):
+		G.left_swipe_detected = true	
+		G.right_swipe_detected = false
+	elif Input.is_action_pressed("space"):
+		ducking = true
+	else:
+		ducking = false
 			
 func _physics_process(_delta: float) -> void: #main function
 	#print("left swipe:", G.left_swipe_detected, " ", "right swipe:", G.right_swipe_detected, "number_of_rights: ", number_of_right_swipes)
@@ -43,7 +55,7 @@ func _physics_process(_delta: float) -> void: #main function
 	#print(shoot_cooldown_passed)
 	#print($Timer.time_left, $Timer.paused)
 	#print($Sprite2D/AnimationPlayer.current_animation, $Sprite2D/AnimationPlayer.current_animation_position)
-	print("dodge_finished: " + str(dodge_finished))
+	#print("dodge_finished: " + str(dodge_finished))
 	G.ammo = ammo
 	#if !is_shooting:
 		#$Timer.paused = true #not needeed anymore. Ruins being in the process.So paused parameter is changed in the states

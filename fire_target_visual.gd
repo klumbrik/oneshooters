@@ -4,7 +4,6 @@ extends Node2D
 func _ready() -> void:
 	$AnimationPlayer.play("appear")
 
-
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	
@@ -25,3 +24,9 @@ func _on_area_2d_body_exited(body: Node2D) -> void:
 func _on_animation_player_animation_finished(anim_name: StringName) -> void:
 	if anim_name == "appear":
 		$AnimationPlayer.play("burn")
+		
+		var sprite := $Sprite2D
+		var tween = create_tween()
+		tween.tween_property(sprite, "scale", Vector2(0, 0), 2.5)\
+		.set_trans(Tween.TRANS_SINE)\
+		.set_ease(Tween.EASE_IN_OUT)

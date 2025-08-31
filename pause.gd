@@ -1,12 +1,12 @@
 extends Control
 
-
+@onready var text_loc = $VBoxContainer/sound/CenterContainer/soundLabel
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	if G.sound_on:
-		$VBoxContainer/sound.text = "sound: ON"
+		text_loc.text = "sound: on"
 	else:
-		$VBoxContainer/sound.text = "sound: OFF"
+		text_loc.text = "sound: off"
 		$VBoxContainer/sound.button_pressed = false
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -29,8 +29,8 @@ func _on_to_menu_button_down() -> void:
 
 func _on_sound_toggled(toggled_on: bool) -> void:
 	if toggled_on:
-		$VBoxContainer/sound.text = "sound: ON"
+		text_loc.text = "sound: on"
 		G.sound_on = true
 	else:
-		$VBoxContainer/sound.text = "sound: OFF"
+		text_loc.text = "sound: off"
 		G.sound_on = false

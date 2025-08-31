@@ -1,4 +1,4 @@
-[gd_scene load_steps=35 format=3 uid="uid://c7g4sld7qgrml"]
+[gd_scene load_steps=59 format=3 uid="uid://c7g4sld7qgrml"]
 
 [ext_resource type="Script" path="res://enemy.gd" id="1_5a16f"]
 [ext_resource type="Texture2D" uid="uid://dqwcf3kmftyj4" path="res://sprites/enemyanims/run/enemyrun1.png" id="2_y7m0n"]
@@ -26,7 +26,28 @@
 [ext_resource type="Texture2D" uid="uid://c3ms81gu6jifx" path="res://sprites/enemyanims/damage/enemydamage2.png" id="24_wsbbl"]
 [ext_resource type="Texture2D" uid="uid://by8rogyelnph5" path="res://sprites/enemyanims/damage/enemydamage3.png" id="25_cgbe3"]
 [ext_resource type="Texture2D" uid="uid://dsytv7pgvtnxq" path="res://sprites/enemyanims/damage/enemydamage4.png" id="26_o1oc3"]
+[ext_resource type="Texture2D" uid="uid://b7r6aoax4f1ml" path="res://sprites/enemyanims/recharge/recharging1.png" id="27_hxpdy"]
 [ext_resource type="PackedScene" uid="uid://dkisihmiekqwg" path="res://UX_GoodShot.tscn" id="27_nximj"]
+[ext_resource type="Texture2D" uid="uid://d1dctkqke5cjv" path="res://sprites/enemyanims/recharge/recharging2.png" id="28_l8jxp"]
+[ext_resource type="Texture2D" uid="uid://vqw8m1cfpwwj" path="res://sprites/enemyanims/recharge/recharging3.png" id="29_wg62a"]
+[ext_resource type="Texture2D" uid="uid://brk800i1vji0x" path="res://sprites/enemyanims/recharge/recharging4.png" id="30_pns3w"]
+[ext_resource type="Texture2D" uid="uid://dug4m7h2dqdum" path="res://sprites/enemyanims/recharge/recharging5.png" id="31_fdpai"]
+[ext_resource type="Texture2D" uid="uid://xr7tqqh2ycu" path="res://sprites/enemyanims/recharge/recharging6.png" id="32_ylnlt"]
+[ext_resource type="Texture2D" uid="uid://bgh2n2utku75c" path="res://sprites/enemyanims/recharge/recharging7.png" id="33_ujc34"]
+[ext_resource type="Texture2D" uid="uid://bqoq7ib0ylj1c" path="res://sprites/enemyanims/recharge/recharging8.png" id="34_058cs"]
+[ext_resource type="Texture2D" uid="uid://cjljm1fd6bnkq" path="res://sprites/enemyanims/recharge/recharging9.png" id="35_5tg6h"]
+[ext_resource type="Texture2D" uid="uid://c7yrflpduwjt8" path="res://sprites/enemyanims/recharge/recharging10.png" id="36_1rvac"]
+[ext_resource type="Texture2D" uid="uid://b7hn1g3vprl2j" path="res://sprites/enemyanims/recharge/recharging11.png" id="37_8eotk"]
+[ext_resource type="Texture2D" uid="uid://ddpq1ks1y8ptn" path="res://sprites/enemyanims/recharge/recharging12.png" id="38_fhkaq"]
+[ext_resource type="Texture2D" uid="uid://bvecjr15mt383" path="res://sprites/enemyanims/recharge/recharging13.png" id="39_g3oa8"]
+[ext_resource type="Texture2D" uid="uid://ct085s5prfubf" path="res://sprites/enemyanims/recharge/recharging14.png" id="40_23ui4"]
+[ext_resource type="Texture2D" uid="uid://8seswp41x0fn" path="res://sprites/enemyanims/recharge/recharging15.png" id="41_bfd4i"]
+[ext_resource type="Texture2D" uid="uid://3c4dnhx7hia1" path="res://sprites/enemyanims/recharge/recharging16.png" id="42_36e41"]
+[ext_resource type="Texture2D" uid="uid://dfksms57u2ffr" path="res://sprites/enemyanims/recharge/recharging17.png" id="43_1jinv"]
+[ext_resource type="Texture2D" uid="uid://bhjflcn8mvl2m" path="res://sprites/enemyanims/recharge/recharging18.png" id="44_ryh77"]
+[ext_resource type="Texture2D" uid="uid://bv1wy0tajvaui" path="res://sprites/enemyanims/recharge/recharging19.png" id="45_1lbc4"]
+[ext_resource type="Texture2D" uid="uid://ctguch52swtke" path="res://sprites/enemyanims/recharge/recharging20.png" id="46_dqcvt"]
+[ext_resource type="Texture2D" uid="uid://05shnno4j1i1" path="res://sprites/enemyanims/recharge/recharging21.png" id="47_extku"]
 
 [sub_resource type="Animation" id="Animation_2q7xk"]
 length = 0.001
@@ -92,11 +113,62 @@ tracks/0/keys = {
 "values": [ExtResource("2_y7m0n"), ExtResource("3_cis2v"), ExtResource("4_avo61"), ExtResource("5_bpxj4"), ExtResource("6_dunru"), ExtResource("7_joxi3"), ExtResource("8_n3vge"), ExtResource("9_53qao"), ExtResource("10_hh66x"), ExtResource("11_vqlrl"), ExtResource("12_v5ogv"), ExtResource("13_2fmd3"), ExtResource("14_mvd2n"), ExtResource("15_etob5"), ExtResource("16_sgbph")]
 }
 
+[sub_resource type="Animation" id="Animation_ofe6g"]
+resource_name = "reset_recharge_prep"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(-0.0333333, 0, 0.0666667, 0.133333, 0.166667, 0.2, 0.233333, 0.266667, 0.333333, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [ExtResource("27_hxpdy"), ExtResource("28_l8jxp"), ExtResource("29_wg62a"), ExtResource("30_pns3w"), ExtResource("31_fdpai"), ExtResource("32_ylnlt"), ExtResource("33_ujc34"), ExtResource("34_058cs"), ExtResource("35_5tg6h"), ExtResource("36_1rvac")]
+}
+
+[sub_resource type="Animation" id="Animation_8x17u"]
+resource_name = "reset_recharge"
+length = 0.2667
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.0666667, 0.133333, 0.2, 0.266667),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 1,
+"values": [ExtResource("37_8eotk"), ExtResource("38_fhkaq"), ExtResource("39_g3oa8"), ExtResource("40_23ui4"), ExtResource("41_bfd4i")]
+}
+
+[sub_resource type="Animation" id="Animation_p42v3"]
+resource_name = "reset_recharge_transition"
+length = 0.4
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.0666667, 0.133333, 0.2, 0.266667, 0.333333, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [ExtResource("41_bfd4i"), ExtResource("42_36e41"), ExtResource("43_1jinv"), ExtResource("44_ryh77"), ExtResource("45_1lbc4"), ExtResource("46_dqcvt"), ExtResource("47_extku")]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_oresa"]
 _data = {
 "RESET": SubResource("Animation_2q7xk"),
 "beaten": SubResource("Animation_xjmqh"),
 "damage_taken": SubResource("Animation_ranpe"),
+"reset_recharge": SubResource("Animation_8x17u"),
+"reset_recharge_prep": SubResource("Animation_ofe6g"),
+"reset_recharge_transition": SubResource("Animation_p42v3"),
 "run": SubResource("Animation_166h2")
 }
 

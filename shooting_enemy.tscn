@@ -1,4 +1,4 @@
-[gd_scene load_steps=59 format=3 uid="uid://cumhdmj4ac520"]
+[gd_scene load_steps=65 format=3 uid="uid://cumhdmj4ac520"]
 
 [ext_resource type="Texture2D" uid="uid://r0h08x1ylmve" path="res://sprites/enemyanims/shootmask/shoot_recharge/shootmaskshot1.png" id="2_guwu2"]
 [ext_resource type="Texture2D" uid="uid://dqwcf3kmftyj4" path="res://sprites/enemyanims/run/enemyrun1.png" id="2_muara"]
@@ -48,6 +48,11 @@
 [ext_resource type="Texture2D" uid="uid://rnklvpdwjld2" path="res://sprites/enemyanims/shootmask/shoot_recharge/shootmaskshot22.png" id="46_2nkxv"]
 [ext_resource type="Texture2D" uid="uid://vyjq4swnjqss" path="res://sprites/enemyanims/shootmask/shoot_recharge/shootmaskshot8.png" id="46_k0wjo"]
 [ext_resource type="Texture2D" uid="uid://brtk3rgaid8d7" path="res://sprites/enemyanims/shootmask/shoot_recharge/shootmaskshot9.png" id="47_nb3uq"]
+[ext_resource type="Texture2D" uid="uid://b7hn1g3vprl2j" path="res://sprites/enemyanims/recharge/recharging11.png" id="48_h85g0"]
+[ext_resource type="Texture2D" uid="uid://ddpq1ks1y8ptn" path="res://sprites/enemyanims/recharge/recharging12.png" id="49_yl5n6"]
+[ext_resource type="Texture2D" uid="uid://bvecjr15mt383" path="res://sprites/enemyanims/recharge/recharging13.png" id="50_x5gsq"]
+[ext_resource type="Texture2D" uid="uid://ct085s5prfubf" path="res://sprites/enemyanims/recharge/recharging14.png" id="51_bgxxf"]
+[ext_resource type="Texture2D" uid="uid://8seswp41x0fn" path="res://sprites/enemyanims/recharge/recharging15.png" id="52_575i5"]
 
 [sub_resource type="Animation" id="Animation_3fyf7"]
 length = 0.001
@@ -165,6 +170,23 @@ tracks/0/keys = {
 "values": [ExtResource("41_65r88"), ExtResource("42_17x8i"), ExtResource("43_ocrbb"), ExtResource("44_3essy"), ExtResource("45_257w3"), ExtResource("46_2nkxv")]
 }
 
+[sub_resource type="Animation" id="Animation_5fuvk"]
+resource_name = "reset_recharge"
+length = 0.2664
+step = 0.0333
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.0666667, 0.133333, 0.2, 0.266667),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 1,
+"values": [ExtResource("48_h85g0"), ExtResource("49_yl5n6"), ExtResource("50_x5gsq"), ExtResource("51_bgxxf"), ExtResource("52_575i5")]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_oresa"]
 _data = {
 "RESET": SubResource("Animation_3fyf7"),
@@ -172,6 +194,7 @@ _data = {
 "damage_taken": SubResource("Animation_ranpe"),
 "recharge": SubResource("Animation_visg5"),
 "recharge_transition": SubResource("Animation_lyay1"),
+"reset_recharge": SubResource("Animation_5fuvk"),
 "run": SubResource("Animation_166h2"),
 "shoot": SubResource("Animation_nht0r")
 }
@@ -184,6 +207,7 @@ size = Vector2(36, 47)
 
 [node name="shooting_enemy" type="CharacterBody2D" groups=["enemies"]]
 visibility_layer = 2
+collision_mask = 0
 script = ExtResource("2_rirpg")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
@@ -239,6 +263,7 @@ position = Vector2(18.5, 13.5)
 scale = Vector2(1.95, 2.35)
 
 [node name="test" type="RichTextLabel" parent="."]
+visible = false
 offset_left = -19.0
 offset_top = -39.0
 offset_right = 70.0
@@ -252,3 +277,5 @@ text = "I'm target"
 [connection signal="mouse_exited" from="Area2D" to="." method="_on_area_2d_mouse_exited"]
 [connection signal="timeout" from="Shoot_Timer" to="." method="_on_shoot_timer_timeout"]
 [connection signal="timeout" from="delay" to="." method="_on_delay_timeout"]
+[connection signal="screen_entered" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_entered"]
+[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]

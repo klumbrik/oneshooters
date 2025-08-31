@@ -8,9 +8,10 @@ func _ready() -> void:
 	G.enemy_shoots.connect(self._enemy_shoots)
 
 
-func _enemy_shoots(): #called in a parent scene
-	visible = true
-	$position_anim/AnimationPlayer.play("shoot_sign")
+func _enemy_shoots(enemy): #called in a parent scene
+	if get_parent() == enemy: #so that the animation works only for one
+		visible = true
+		$position_anim/AnimationPlayer.play("shoot_sign")
 
 
 func _on_animation_player_animation_finished(anim_name: StringName) -> void:
