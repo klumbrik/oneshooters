@@ -8,8 +8,8 @@ var bullet = preload("res://enemy_bullet.tscn")
 
 
 func _ready() -> void:
-	super._ready()
-	initiate_state_machine()
+	await super._ready()
+	extend_state_machine()
 	SPEED = randf_range(30.0, 35.0)
 
 func _physics_process(delta: float) -> void:
@@ -33,32 +33,27 @@ func shot():
 func _on_delay_timeout() -> void:
 	enemy_moving = true
 
-func initiate_state_machine():
-	enemy_state_machine = LimboHSM.new()
-	add_child(enemy_state_machine)
-
-	var moving_state = LimboState.new().named("moving").call_on_enter(moving_enter).call_on_update(moving_update)
+func extend_state_machine():
+	
 	var rtransition_state = LimboState.new().named("recharging-transition").call_on_enter(rtransition_enter).call_on_update(rtransition_update)
 	var recharging_state = LimboState.new().named("recharging").call_on_enter(recharging_enter).call_on_update(recharging_update)
 	var shooting_state = LimboState.new().named("shooting").call_on_enter(shooting_enter).call_on_update(shooting_update)
-	var beaten_state = LimboState.new().named("beaten").call_on_enter(beaten_enter)
+	
 
-	enemy_state_machine.add_child(moving_state)
+	
 	enemy_state_machine.add_child(rtransition_state)
 	enemy_state_machine.add_child(recharging_state)
 	enemy_state_machine.add_child(shooting_state)
-	enemy_state_machine.add_child(beaten_state)
+	
 
-	enemy_state_machine.initial_state = moving_state
 
-	enemy_state_machine.add_transition(moving_state, rtransition_state, &"to recharge transition")
+
+	
 	enemy_state_machine.add_transition(rtransition_state, recharging_state, &"to recharge")
 	enemy_state_machine.add_transition(recharging_state, shooting_state, &"to shoot")
-	enemy_state_machine.add_transition(enemy_state_machine.ANYSTATE, moving_state, &"to move")
-	enemy_state_machine.add_transition(enemy_state_machine.ANYSTATE, beaten_state, &"to beaten")
+	enemy_state_machine.add_transition(moving_state, rtransition_state, &"to recharge transition")
 
-	enemy_state_machine.initialize(self)
-	enemy_state_machine.set_active(true)
+	
 
 func moving_enter():
 	$Sprite2D/AnimationPlayer.play("run")
@@ -66,38 +61,46 @@ func moving_enter():
 	$Shoot_Timer.start()
 
 func moving_update(delta: float):
+	is_dead()
+	add_target()
 	if is_shooting:
 		enemy_state_machine.dispatch(&"to recharge transition")
-	is_dead()
+	is_reset_recharging()
 
 func rtransition_enter():
 	$Sprite2D/AnimationPlayer.play("recharge_transition")
 	G.emit_signal("enemy_shoots", self)
 func rtransition_update(delta: float):
+	is_dead()
+	add_target()
 	if $Sprite2D/AnimationPlayer.current_animation_position >= 0.5:
 		enemy_state_machine.dispatch(&"to recharge")
-	is_dead()
+	is_reset_recharging()
 
 func recharging_enter():
 	$Sprite2D/AnimationPlayer.play("recharge")
 
 func recharging_update(delta: float):
+	is_dead()
+	add_target()
 	if $UX_EnemyShot.go_bullet:
 		shot()
 		$UX_EnemyShot.go_bullet = false
 		$delay.start()
 		enemy_state_machine.dispatch(&"to shoot")
-	is_dead()
+	is_reset_recharging()
 
 func shooting_enter():
 	$Sprite2D/AnimationPlayer.play("shoot")
 
 func shooting_update(delta: float):
+	is_dead()
+	add_target()
 	if $Sprite2D/AnimationPlayer.current_animation_position >= 0.33:
 		is_shooting = false
 		enemy_state_machine.dispatch(&"to move")
-	is_dead()
-
+	is_reset_recharging()
+	
 func beaten_enter():
 	die()
 	
@@ -110,6 +113,9 @@ func is_dead():
 func should_move() -> bool:
 	var anim = $Sprite2D/AnimationPlayer
 	return anim.current_animation == "run" and anim.is_playing()
+	
+
+	
 #var is_shooting = false
 #var enemy_moving = true
 #var mouse_onself = false

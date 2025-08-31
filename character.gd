@@ -375,6 +375,8 @@ func _on_animation_player_animation_finished(anim_name: StringName) -> void:
 	
 	if anim_name == "death":
 		death_finished = true
+		if G.score >= G.best_score:
+			G.best_score = G.score #saving new best
 		game_over()
 		
 
@@ -396,8 +398,7 @@ func game_over():
 	print("oKKK")
 	set_process(false) #what?
 	G.game_over = true
-	if G.score >= G.best_score:
-		G.best_score = G.score #saving new best
+	
 
 
 

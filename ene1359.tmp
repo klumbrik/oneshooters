@@ -115,7 +115,6 @@ tracks/0/keys = {
 
 [sub_resource type="Animation" id="Animation_ofe6g"]
 resource_name = "reset_recharge_prep"
-length = 0.4333
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -123,7 +122,7 @@ tracks/0/path = NodePath(".:texture")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.0565912, 0.11968, 0.166667, 0.2, 0.233333, 0.266667, 0.314313, 0.366667, 0.433333),
+"times": PackedFloat32Array(-0.0333333, 0, 0.0666667, 0.133333, 0.166667, 0.2, 0.233333, 0.266667, 0.333333, 0.4),
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
 "update": 1,
 "values": [ExtResource("27_hxpdy"), ExtResource("28_l8jxp"), ExtResource("29_wg62a"), ExtResource("30_pns3w"), ExtResource("31_fdpai"), ExtResource("32_ylnlt"), ExtResource("33_ujc34"), ExtResource("34_058cs"), ExtResource("35_5tg6h"), ExtResource("36_1rvac")]
@@ -237,10 +236,6 @@ offset_bottom = 33.0
 mouse_filter = 1
 text = "I'm target"
 
-[node name="DeleteTimer" type="Timer" parent="."]
-wait_time = 30.0
-one_shot = true
-
 [connection signal="animation_finished" from="Sprite2D/AnimationPlayer" to="." method="_on_animation_player_animation_finished"]
 [connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]
 [connection signal="area_exited" from="Area2D" to="." method="_on_area_2d_area_exited"]
@@ -248,4 +243,3 @@ one_shot = true
 [connection signal="mouse_exited" from="Area2D" to="." method="_on_area_2d_mouse_exited"]
 [connection signal="screen_entered" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_entered"]
 [connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]
-[connection signal="timeout" from="DeleteTimer" to="." method="_on_delete_timer_timeout"]

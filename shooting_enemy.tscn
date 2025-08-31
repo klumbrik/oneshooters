@@ -1,4 +1,4 @@
-[gd_scene load_steps=65 format=3 uid="uid://cumhdmj4ac520"]
+[gd_scene load_steps=83 format=3 uid="uid://cumhdmj4ac520"]
 
 [ext_resource type="Texture2D" uid="uid://r0h08x1ylmve" path="res://sprites/enemyanims/shootmask/shoot_recharge/shootmaskshot1.png" id="2_guwu2"]
 [ext_resource type="Texture2D" uid="uid://dqwcf3kmftyj4" path="res://sprites/enemyanims/run/enemyrun1.png" id="2_muara"]
@@ -53,6 +53,22 @@
 [ext_resource type="Texture2D" uid="uid://bvecjr15mt383" path="res://sprites/enemyanims/recharge/recharging13.png" id="50_x5gsq"]
 [ext_resource type="Texture2D" uid="uid://ct085s5prfubf" path="res://sprites/enemyanims/recharge/recharging14.png" id="51_bgxxf"]
 [ext_resource type="Texture2D" uid="uid://8seswp41x0fn" path="res://sprites/enemyanims/recharge/recharging15.png" id="52_575i5"]
+[ext_resource type="Texture2D" uid="uid://b7r6aoax4f1ml" path="res://sprites/enemyanims/recharge/recharging1.png" id="53_h2ffi"]
+[ext_resource type="Texture2D" uid="uid://d1dctkqke5cjv" path="res://sprites/enemyanims/recharge/recharging2.png" id="54_3nyqi"]
+[ext_resource type="Texture2D" uid="uid://vqw8m1cfpwwj" path="res://sprites/enemyanims/recharge/recharging3.png" id="55_qamap"]
+[ext_resource type="Texture2D" uid="uid://brk800i1vji0x" path="res://sprites/enemyanims/recharge/recharging4.png" id="56_0vvwu"]
+[ext_resource type="Texture2D" uid="uid://dug4m7h2dqdum" path="res://sprites/enemyanims/recharge/recharging5.png" id="57_0vwqi"]
+[ext_resource type="Texture2D" uid="uid://xr7tqqh2ycu" path="res://sprites/enemyanims/recharge/recharging6.png" id="58_1221g"]
+[ext_resource type="Texture2D" uid="uid://bgh2n2utku75c" path="res://sprites/enemyanims/recharge/recharging7.png" id="59_poof5"]
+[ext_resource type="Texture2D" uid="uid://bqoq7ib0ylj1c" path="res://sprites/enemyanims/recharge/recharging8.png" id="60_fjlb6"]
+[ext_resource type="Texture2D" uid="uid://cjljm1fd6bnkq" path="res://sprites/enemyanims/recharge/recharging9.png" id="61_bnsvy"]
+[ext_resource type="Texture2D" uid="uid://c7yrflpduwjt8" path="res://sprites/enemyanims/recharge/recharging10.png" id="62_y1fig"]
+[ext_resource type="Texture2D" uid="uid://3c4dnhx7hia1" path="res://sprites/enemyanims/recharge/recharging16.png" id="63_03hqv"]
+[ext_resource type="Texture2D" uid="uid://dfksms57u2ffr" path="res://sprites/enemyanims/recharge/recharging17.png" id="64_dmjth"]
+[ext_resource type="Texture2D" uid="uid://bhjflcn8mvl2m" path="res://sprites/enemyanims/recharge/recharging18.png" id="65_tki8t"]
+[ext_resource type="Texture2D" uid="uid://bv1wy0tajvaui" path="res://sprites/enemyanims/recharge/recharging19.png" id="66_1lbet"]
+[ext_resource type="Texture2D" uid="uid://ctguch52swtke" path="res://sprites/enemyanims/recharge/recharging20.png" id="67_mchlh"]
+[ext_resource type="Texture2D" uid="uid://05shnno4j1i1" path="res://sprites/enemyanims/recharge/recharging21.png" id="68_331da"]
 
 [sub_resource type="Animation" id="Animation_3fyf7"]
 length = 0.001
@@ -173,6 +189,7 @@ tracks/0/keys = {
 [sub_resource type="Animation" id="Animation_5fuvk"]
 resource_name = "reset_recharge"
 length = 0.2664
+loop_mode = 1
 step = 0.0333
 tracks/0/type = "value"
 tracks/0/imported = false
@@ -187,6 +204,40 @@ tracks/0/keys = {
 "values": [ExtResource("48_h85g0"), ExtResource("49_yl5n6"), ExtResource("50_x5gsq"), ExtResource("51_bgxxf"), ExtResource("52_575i5")]
 }
 
+[sub_resource type="Animation" id="Animation_qiygl"]
+resource_name = "reset_recharge_prep"
+length = 0.4333
+step = 0.0333
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.0565912, 0.11968, 0.166667, 0.2, 0.233333, 0.266667, 0.314313, 0.366667, 0.433333),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [ExtResource("53_h2ffi"), ExtResource("54_3nyqi"), ExtResource("55_qamap"), ExtResource("56_0vvwu"), ExtResource("57_0vwqi"), ExtResource("58_1221g"), ExtResource("59_poof5"), ExtResource("60_fjlb6"), ExtResource("61_bnsvy"), ExtResource("62_y1fig")]
+}
+
+[sub_resource type="Animation" id="Animation_tqmgl"]
+resource_name = "reset_recharge_transition"
+length = 0.4
+step = 0.0333
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.0666667, 0.133333, 0.2, 0.266667, 0.333333, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [ExtResource("52_575i5"), ExtResource("63_03hqv"), ExtResource("64_dmjth"), ExtResource("65_tki8t"), ExtResource("66_1lbet"), ExtResource("67_mchlh"), ExtResource("68_331da")]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_oresa"]
 _data = {
 "RESET": SubResource("Animation_3fyf7"),
@@ -195,6 +246,8 @@ _data = {
 "recharge": SubResource("Animation_visg5"),
 "recharge_transition": SubResource("Animation_lyay1"),
 "reset_recharge": SubResource("Animation_5fuvk"),
+"reset_recharge_prep": SubResource("Animation_qiygl"),
+"reset_recharge_transition": SubResource("Animation_tqmgl"),
 "run": SubResource("Animation_166h2"),
 "shoot": SubResource("Animation_nht0r")
 }
@@ -269,6 +322,9 @@ offset_top = -39.0
 offset_right = 70.0
 offset_bottom = 7.0
 text = "I'm target"
+
+[node name="DeleteTimer" type="Timer" parent="."]
+wait_time = 30.0
 
 [connection signal="animation_finished" from="Sprite2D/AnimationPlayer" to="." method="_on_animation_player_animation_finished"]
 [connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]

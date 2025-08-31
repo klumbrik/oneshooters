@@ -8,7 +8,7 @@ var shielded_enemy = preload("res://shielded_enemy.tscn")
 func _ready() -> void:
 	$Timer.wait_time = randf_range(1, 1.5)
 	$Break_Window.wait_time = randf_range(3, 6)
-	$WaveEnd.wait_time = 3#randf_range(15,25)
+	$WaveEnd.wait_time = 5#randf_range(15,25)
 	
 	if enabled:
 		$Timer.start()

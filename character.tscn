@@ -399,7 +399,7 @@ wait_time = 0.4
 
 [node name="Area2D" type="Area2D" parent="." groups=["character"]]
 
-[node name="hit_box" type="CollisionShape2D" parent="Area2D"]
+[node name="hit_box" type="CollisionShape2D" parent="Area2D" groups=["character"]]
 position = Vector2(4.66667, 9.66667)
 shape = SubResource("RectangleShape2D_qc853")
 

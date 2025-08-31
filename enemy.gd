@@ -13,8 +13,14 @@ var for_deletion
 var bonus_dropped
 var bonus_chance
 var enemy_state_machine: LimboHSM
-
-#const JUMP_VELOCITY = -400.0
+var prep_finished = false
+var transition_finished = false
+#base states
+var moving_state: LimboState
+var beaten_state: LimboState
+var reset_recharging_state: LimboState
+var reset_recharging_prep_state: LimboState
+var reset_recharging_exit_transition_state: LimboState
 
 func _ready() -> void: #when spawns randomly defines hp
 	$Sprite2D/AnimationPlayer.play("run")
@@ -24,9 +30,87 @@ func _ready() -> void: #when spawns randomly defines hp
 	
 
 func initiate_state_machine():
-	pass
+	enemy_state_machine = LimboHSM.new()
+	add_child(enemy_state_machine)
 	
 	
+	moving_state = LimboState.new().named("moving").call_on_enter(moving_enter).call_on_update(moving_update)
+	beaten_state = LimboState.new().named("beaten").call_on_enter(beaten_enter)
+	reset_recharging_state = LimboState.new().named("reset_recharging").call_on_enter(reset_recharging_enter).call_on_update(reset_recharging_update)
+	reset_recharging_prep_state =LimboState.new().named("reset_recharging_prep").call_on_enter(reset_recharging_prep_enter).call_on_update(reset_recharging_prep_update)
+	reset_recharging_exit_transition_state = LimboState.new().named("reset_recharging_exit_transition").call_on_enter(reset_recharging_exit_transition_enter).call_on_update(reset_recharging_exit_transition_update)
+	
+	
+	enemy_state_machine.add_child(moving_state)
+	enemy_state_machine.add_child(beaten_state)
+	enemy_state_machine.add_child(reset_recharging_state)
+	enemy_state_machine.add_child(reset_recharging_prep_state)
+	enemy_state_machine.add_child(reset_recharging_exit_transition_state)
+	enemy_state_machine.initial_state = moving_state
+	
+	
+	
+	enemy_state_machine.add_transition(enemy_state_machine.ANYSTATE, moving_state, &"to move")
+	enemy_state_machine.add_transition(enemy_state_machine.ANYSTATE, beaten_state, &"to beaten")
+	enemy_state_machine.add_transition(reset_recharging_prep_state, reset_recharging_state, &"to reset_recharge")
+	enemy_state_machine.add_transition(enemy_state_machine.ANYSTATE, reset_recharging_prep_state, &"to reset_recharge_prep")
+	enemy_state_machine.add_transition(reset_recharging_state, reset_recharging_exit_transition_state, &"to reset_recharge_transition")
+	
+	enemy_state_machine.initialize(self)
+	enemy_state_machine.set_active(true)
+	
+func moving_enter():
+	$Sprite2D/AnimationPlayer.play("run")
+	enable_damage()
+	transition_finished = false
+	
+
+func moving_update(delta: float):
+	is_dead()
+	add_target()
+	velocity.x = -SPEED if should_move() else 0
+	is_reset_recharging()
+
+func beaten_enter():
+	die()
+	
+func reset_recharging_prep_enter():
+	disable_damage()
+	$Sprite2D/AnimationPlayer.play("reset_recharge_prep")
+
+func reset_recharging_prep_update(delta: float):
+	is_dead()
+	add_target()
+	velocity.x = 0
+	if prep_finished:
+		#print("PREP!")
+		enemy_state_machine.dispatch(&"to reset_recharge")
+
+func reset_recharging_enter():
+	#print("entered RECHAR")
+	prep_finished = false #reset the variable for next times
+	$Sprite2D/AnimationPlayer.play("reset_recharge")
+
+func reset_recharging_update(delta: float):
+	is_dead()
+	add_target()
+	velocity.x = 0
+	#print(G.wave_going)
+	if G.wave_going == true:
+		enemy_state_machine.dispatch(&"to reset_recharge_transition")
+		
+func reset_recharging_exit_transition_enter():
+	$Sprite2D/AnimationPlayer.play("reset_recharge_transition")
+	
+func reset_recharging_exit_transition_update(delta: float):
+	is_dead()
+	add_target()
+	velocity.x = 0
+	if transition_finished:
+		print("FINISHE")
+		enemy_state_machine.dispatch(&"to move")
+		
+
 
 func _physics_process(delta: float) -> void:
 	
@@ -39,24 +123,24 @@ func _physics_process(delta: float) -> void:
 		$test.text = "I'm normis [" + str(test_myindex) + "]"
 		
 	#test
-		
+	#print(G.wave_going)
 		
 		
 	#print(is_in_zone)
 	#velocity.limit_length(SPEED)
 	$RichTextLabel.text = str(hp)
 	#print(velocity.length())
-	if hp <= 0 and self == G.current_target_enemy:
-	
-			$Area2D/CollisionShape2D.disabled = true
-			die()
+	#if hp <= 0 and self == G.current_target_enemy:
+	#
+			#$Area2D/CollisionShape2D.disabled = true
+			#die()
 			
-	if !G.wave_going:
-		velocity.x = 0
-		disable_damage()
-	else:
-		enable_damage()
-		velocity.x = -SPEED if should_move() else 0
+	#if !G.wave_going:
+		#velocity.x = 0
+		#disable_damage()
+	#else:
+		#enable_damage()
+		#velocity.x = -SPEED if should_move() else 0
 	add_target()
 	## Add the gravity.
 	#if not is_on_floor():
@@ -85,7 +169,7 @@ func _on_area_2d_area_entered(area: Area2D) -> void:
 	if area.is_in_group('character'):
 		#if !disabled_damage:
 			#get_tree().paused = true
-			#G.game_over = true removed it because it worked in a stupid way
+			#G.game_over = true removed it because it worked badly
 		pass
 	if area.is_in_group('target_zone'):
 		is_in_zone = true
@@ -98,7 +182,8 @@ func _on_area_2d_area_entered(area: Area2D) -> void:
 
 func add_target():
 	if mouse_onself:
-		if Input.is_action_just_pressed("press"):
+		#print("MOUSEEEE")
+		if Input.is_action_just_released("press"):
 			#var new_target = target.instantiate()
 			#add_child(new_target)
 			G.emit_signal("enemy_tap",self) #handing over self link as a parameter along with emitting a signal
@@ -108,16 +193,23 @@ func die():
 	if !bonus_dropped:
 		bonus_chance = randf()
 		if bonus_chance <= 0.01: #chance of bonus
-			print(bonus_chance)
+			#print(bonus_chance)
 			G.emit_signal("drop_bonus", global_position)
 			bonus_dropped = true
 	
-	if is_in_zone and G.stash < 6: #before disabling collision we track if it is in zone to add stash ammo. The limit can be tweaked.
-		G.stash += 3
-		G.stash_pieces += 1
-		G.emit_signal("enemy_died_in_zone", self) #passing self as an arguement
-		killed = true
-	disable_damage()
+func is_dead():
+	if hp <= 0:
+		$CollisionShape2D.disabled = true
+		$Area2D/CollisionShape2D.disabled = true
+		enemy_state_machine.dispatch(&"to beaten")
+		
+	
+		if is_in_zone and G.stash < 6: #before disabling collision we track if it is in zone to add stash ammo. The limit can be tweaked.
+			G.stash += 3
+			G.stash_pieces += 1
+			G.emit_signal("enemy_died_in_zone", self) #passing self as an arguement
+			killed = true
+		disable_damage()
 func get_damage():
 	velocity.x = 0
 	$Sprite2D/AnimationPlayer.play("damage_taken")
@@ -126,17 +218,18 @@ func disable_damage():
 
 	$Area2D.monitorable = false
 	disabled_damage = true
-	
+	#print("ENEMY DAMAGE DISABLED")
 	
 func enable_damage():
 
 	$Area2D.monitorable = true
 	disabled_damage = false
-	
+	#print("ENEMY DAMAGE ENABLED")
 
 	
 
 func _on_animation_player_animation_finished(anim_name: StringName) -> void:
+	print("Animation finished:", anim_name)
 	if anim_name == "beaten":
 		#print("before removal, is in zone: ", is_in_zone)
 		is_in_zone = false
@@ -154,7 +247,11 @@ func _on_animation_player_animation_finished(anim_name: StringName) -> void:
 	if anim_name == "damage_taken":
 		$Sprite2D/AnimationPlayer.play("run")
 		
+	if anim_name == "reset_recharge_prep":
+		prep_finished = true
 	
+	if anim_name == "reset_recharge_transition":
+		transition_finished = true
 
 		
 
@@ -208,6 +305,7 @@ func unregister():
 
 
 func _on_visible_on_screen_notifier_2d_screen_entered() -> void: #add to the array when entered the sreen
+	$DeleteTimer.stop()
 	for_deletion = false
 	if index != null and index >= 0 and index <= G.enemiesonscreen.size():
 		G.enemiesonscreen.insert(index, self)
@@ -215,12 +313,13 @@ func _on_visible_on_screen_notifier_2d_screen_entered() -> void: #add to the arr
 		G.current_target_enemy = null #to make space for a new [0] target
 	else:
 		G.enemiesonscreen.append(self)
-	print("entered")
+	#print("entered")
 	#if 
 	#insert at old_pos
 	
 
 func _on_visible_on_screen_notifier_2d_screen_exited() -> void:
+	$DeleteTimer.start()
 	#remember index in case the enemy is not killed and we stored its index and the player returns
 	if !killed: 
 		index = G.enemiesonscreen.find(self)
@@ -231,11 +330,24 @@ func _on_visible_on_screen_notifier_2d_screen_exited() -> void:
 	if self == G.current_target_enemy: #clear a variable if the enemy is the target enemy and leaves the screen or dies
 		G.current_target_enemy = null
 
-func _delete_enemies_out_of_screen(): #remove this instance from the game if it's marked for deletion
+func _delete_enemies_out_of_screen():#remove this instance from the game if it's marked for deletion
+	print("Checking deletion for:", self.name)
+	print("for_deletion =", for_deletion) 
 	if for_deletion:
-		#print("ENEMY DELETED")
+		print("ENEMY DELETED")
 		queue_free()
 #remove enemies from the game (NOT from the array) when player reaches a new cover to keep memory clean
 
 func should_move() -> bool:
 	return true  # by default the base enemy always moves when the wave is going
+
+func is_reset_recharging():
+	if !G.wave_going:
+		enemy_state_machine.dispatch(&"to reset_recharge_prep")
+
+
+func _on_delete_timer_timeout() -> void: #delete after 30 seconds off screen
+	if for_deletion:
+		print("ENEMY DELETED")
+		queue_free()
+		

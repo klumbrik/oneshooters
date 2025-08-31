@@ -42,10 +42,9 @@ var rooms = [] #an array containing rooms
 var current_cover_number = 0 #counts covers
 var last_cover_number = -1
 var number_of_dodges = 1
-var best_score = 0
 var pause_added = false
 
-
+var best_score = 0
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:

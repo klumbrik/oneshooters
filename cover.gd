@@ -25,6 +25,7 @@ func _on_cover_area_area_entered(area: Area2D) -> void:
 			if number_of_uses <= 1: #if we collide with the same cover only once
 				G.current_cover_number += 1
 				G.emit_signal("delete_enemies_out_of_screen")
+				#print("signal emitted")
 				#print(G.current_cover_number)
 				if G.current_cover_number > 1:
 					G.score += 50

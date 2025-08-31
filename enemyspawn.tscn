@@ -19,6 +19,7 @@ one_shot = true
 
 [node name="Break_Window" type="Timer" parent="."]
 wait_time = 3.0
+one_shot = true
 
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
 [connection signal="timeout" from="WaveEnd" to="." method="_on_wave_end_timeout"]
