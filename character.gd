@@ -3,7 +3,7 @@ extends CharacterBody2D
 #var is_shooting = true
 @export var dontshoot: bool #testing
 
-var ammo = 6
+#var ammo = G.ammo
 var bullet = preload("res://bullet.tscn")
 var time_to_die = false
 var swipe_length = 25  #Swipe variables. They should be declared here globally.
@@ -23,13 +23,15 @@ var character_state_machine: LimboHSM
 
 var dodge_finished = false
 var death_finished = false
+
+var reload_anim_played = false
 #var right_swipe_detected = false I decided to make this global in G to change it in the cover scene
 
 
 func _ready() -> void:
 	G.character_position = global_position
 	$Timer.wait_time = 0.8 / G.pacedif_modifier
-	$ReloadTimer.wait_time = 0.6 / G.pacedif_modifier
+	#$ReloadTimer.wait_time = 0.6 / G.pacedif_modifier
 	initiate_state_machine()
 	character_state_machine.dispatch(&"to shoot") #entering the Sshooting state
 	$Timer.start() #INITIAL SHOOT timer start
@@ -51,6 +53,7 @@ func _input(event: InputEvent) -> void: #for pc controls
 		ducking = false
 			
 func _physics_process(_delta: float) -> void: #main function
+	#print($Sprite2D/AnimationPlayer.current_animation)
 	#print("left swipe:", G.left_swipe_detected, " ", "right swipe:", G.right_swipe_detected, "number_of_rights: ", number_of_right_swipes)
 	#print(character_state_machine.get_active_state().name)
 	#print(ducking)
@@ -58,7 +61,7 @@ func _physics_process(_delta: float) -> void: #main function
 	#print($Timer.time_left, $Timer.paused)
 	#print($Sprite2D/AnimationPlayer.current_animation, $Sprite2D/AnimationPlayer.current_animation_position)
 	#print("dodge_finished: " + str(dodge_finished))
-	G.ammo = ammo
+	#G.ammo = ammo
 	#if !is_shooting:
 		#$Timer.paused = true #not needeed anymore. Ruins being in the process.So paused parameter is changed in the states
 	#else:
@@ -86,9 +89,9 @@ func _on_timer_timeout() -> void: #when the shooting timer expires
 		shot()
 
 
-func _on_reload_timer_timeout() -> void:
-	if ammo < 6:
-		$Sprite2D/AnimationPlayer.play("reload")
+#func _on_reload_timer_timeout() -> void:
+	#if ammo < 6 and !G.reload_cooldown_active:
+		#$Sprite2D/AnimationPlayer.play("reload")
 		
 
 
@@ -130,13 +133,13 @@ func shoot_controls():
 				ducking = false
 		
 func shot():
-	if ammo > 0:
+	if G.ammo > 0:
 		$Sprite2D/AnimationPlayer.seek(0)
 		$Sprite2D/AnimationPlayer.play("shoot")
 		var new_bullet = bullet.instantiate()
 		new_bullet.global_position = Vector2(5, -5) #bullet position for jed in space of the character scene (25, -5)
 		add_child(new_bullet)
-		ammo -= 1
+		#ammo -= 1
 		G.emit_signal("shot")
 		if G.sound_on == true:
 			$BlasterMetallic01.play()
@@ -251,13 +254,13 @@ func duckingup_update(delta: float):
 		character_state_machine.dispatch(&"to run")
 
 func reloading_enter(): 
-	if ammo < 6:
-		$Sprite2D/AnimationPlayer.play("reload")
+	try_reload()
 	
 func reloading_update(delta: float):
+	try_reload()
 	shoot_controls() #to detect input
 	if !ducking:
-		$ReloadTimer.stop()
+		#$ReloadTimer.stop()
 		character_state_machine.dispatch(&"to upduck")
 
 	if G.moving: #the same condition added on every state update
@@ -362,26 +365,32 @@ func swipe_detection():
 
 
 func use_stash():
-	if ammo == 0 and G.stash > 0:
-		ammo += 3
+	if G.ammo == 0 and G.stash > 0:
+		G.ammo += 3
 		G.stash -= 3
 		G.stash_pieces -= 1
 		G.emit_signal("out_of_ammo")
 
 	
 
-
-
+func _on_animation_player_animation_started(anim_name: StringName) -> void:
+	if anim_name == "reload" and G.ammo < 6:
+		G.emit_signal("rotate_ui")
+	else:
+		G.emit_signal("cancel_reload_rotation")
 func _on_animation_player_animation_finished(anim_name: StringName) -> void:
 	if anim_name == "reload":
+		reload_anim_played = false
+		if G.sound_on:
+			$Reload.play()
 		#print("done")
-		if ammo < 6:
-			ammo += 1
-			$ReloadTimer.start()
-			$Sprite2D/AnimationPlayer.play("reload")
-			if G.sound_on:
-				$Reload.play()
-			G.emit_signal("rotate_ui")
+		#if ammo < 6 and !G.reload_cooldown_active:
+			#ammo += 1
+			#$ReloadTimer.start()
+			#$Sprite2D/AnimationPlayer.play("reload")
+			#if G.sound_on:
+				#$Reload.play()
+		
 		
 	if anim_name == "dodge":
 		dodge_finished = true
@@ -391,7 +400,12 @@ func _on_animation_player_animation_finished(anim_name: StringName) -> void:
 		if G.score >= G.best_score:
 			G.best_score = G.score #saving new best
 		game_over()
-		
+
+func try_reload():
+	if (!G.reload_cooldown_active and !reload_anim_played) or (character_state_machine.get_active_state().name == "reloading" and $Sprite2D/AnimationPlayer.current_animation == ""):
+		if G.ammo < 6:
+			$Sprite2D/AnimationPlayer.play("reload")
+			reload_anim_played = true		
 
 func _on_death_timer_timeout() -> void:
 	if time_to_die:
@@ -421,7 +435,7 @@ func freeze_script():
 	set_physics_process(false)
 	set_process_input(false)
 	$Timer.stop()
-	$ReloadTimer.stop()
+	#$ReloadTimer.stop()
 	$DeathTimer.stop()
 	G.moving = false
 	$Run.stop()

@@ -12,3 +12,9 @@ func unload():
 func _on_animation_player_animation_finished(anim_name: StringName) -> void:
 	if anim_name == "unload":
 		queue_free()
+
+func play_load_backwards():
+	$AnimationPlayer.play_backwards("load")
+
+func get_animation_player():
+	return $AnimationPlayer

@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://67ic5nix6m4w"]
+[gd_scene load_steps=15 format=3 uid="uid://67ic5nix6m4w"]
 
 [ext_resource type="PackedScene" uid="uid://d4biv87sinkk1" path="res://character.tscn" id="1_27mtl"]
 [ext_resource type="Script" path="res://main.gd" id="1_puokp"]
@@ -13,9 +13,6 @@
 [ext_resource type="Texture2D" uid="uid://djm5e7xioilic" path="res://ui/dodge_bar/dodge_bar_inactive.png" id="11_nu4lv"]
 [ext_resource type="Texture2D" uid="uid://bddq0yxkqgq15" path="res://sprite plugs/706ed7a3a5eb8f7e4bd227188cff51d1.png" id="11_wmiod"]
 [ext_resource type="Texture2D" uid="uid://ctc0ompolh7kw" path="res://ui/dodge_bar/dodge_bar.png" id="12_sm2la"]
-[ext_resource type="PackedScene" uid="uid://ceafcuo2kew1o" path="res://ammo_bonus1.tscn" id="14_h73cx"]
-[ext_resource type="PackedScene" uid="uid://bkflifhalv718" path="res://shield_bonus.tscn" id="15_1ognw"]
-[ext_resource type="PackedScene" uid="uid://cumhdmj4ac520" path="res://shooting_enemy.tscn" id="16_e6wpd"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_haprv"]
 radius = 13.0384
@@ -194,21 +191,6 @@ position = Vector2(178.5, 320)
 scale = Vector2(0.363, 1.288)
 texture = ExtResource("11_wmiod")
 metadata/_edit_lock_ = true
-
-[node name="RigidBody2D" parent="." instance=ExtResource("14_h73cx")]
-position = Vector2(164, 303)
-
-[node name="RigidBody2D2" parent="." instance=ExtResource("15_1ognw")]
-position = Vector2(60, 312)
-
-[node name="shooting_enemy" parent="." instance=ExtResource("16_e6wpd")]
-position = Vector2(253, 294)
-
-[node name="shooting_enemy2" parent="." instance=ExtResource("16_e6wpd")]
-position = Vector2(295, 294)
-
-[node name="shooting_enemy3" parent="." instance=ExtResource("16_e6wpd")]
-position = Vector2(336, 294)
 
 [connection signal="child_entered_tree" from="." to="." method="_on_child_entered_tree"]
 [connection signal="body_entered" from="CanvasLayer/CenterContainer/Area2D" to="." method="_on_area_2d_body_entered"]

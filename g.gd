@@ -9,6 +9,7 @@ signal enemy_shoots(enemy)
 signal swipe_room
 signal make_cover_unused
 signal rotate_ui
+signal cancel_reload_rotation
 signal shot
 signal delete_enemies_out_of_screen
 signal reload_game
@@ -35,6 +36,9 @@ var moving = false #activated when we run to the next cover
 var moving_speed = 250
 var right_swipe_detected = false
 var left_swipe_detected = false
+
+var reload_cooldown_active = false
+var reload_cooldown_duration = 0.1 #change carefully
 
 var area_res #?
 var shield_enabled = false
@@ -80,3 +84,4 @@ func reset(): #reset essential variables
 	G.enemiesonscreen.clear()
 	G.rooms.clear()
 	G.pause_added = false
+	G.ammo = 6

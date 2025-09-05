@@ -10,6 +10,19 @@ var bullet_ui = preload("res://jebulletui.tscn")
 var bonuses = [preload("res://ammo_bonus1.tscn"), preload("res://shield_bonus.tscn")]
 var ShieldScene =  preload("res://shield_visual.tscn")
 
+var reload_tween: Tween
+var reload_in_progress
+var reload_cycle_active = false
+var reload_start_time = 0.0
+var reload_duration = 0.4 #whole rotation sequence duration. don't mix up with rotation duration
+var reload_origin_angle = 0.0
+var bullet_node: Node = null
+var rotation_pending = false
+var rotation_completed = false
+
+var bullet_removal_in_progress = false
+
+
 @onready var slot1 = $CanvasLayer/CenterContainer/ui_weapon/slot1
 @onready var slot2 = $CanvasLayer/CenterContainer/ui_weapon/slot2
 @onready var slot3 = $CanvasLayer/CenterContainer/ui_weapon/slot3
@@ -32,8 +45,11 @@ func _ready() -> void:
 	G.rooms.clear()
 	G.rooms.append($room) #adding the first room to array
 	G.swipe_room.connect(self._create_room_on_swipe)
+	
 	G.rotate_ui.connect(self._on_ui_rotate)
+	G.cancel_reload_rotation.connect(self.cancel_reload_sequence)
 	G.shot.connect(self._on_shot)
+	
 	G.enemy_died_in_zone.connect(self._on_enemy_died_in_zone)
 	G.out_of_ammo.connect(self._used_stash)
 	G.drop_bonus.connect(self._on_drop_bonus)
@@ -61,20 +77,58 @@ func reset_color(): #testing only!
 	
 	
 	
-func rotate_60_tween():
-	var new_rotation = sprite_angle + 60.0
+func start_reload_sequence(): #reload tween
+	if reload_in_progress or reload_cycle_active or bullet_removal_in_progress:
+		return
+		
+	if reload_tween and reload_tween.is_running():
+		reload_tween.kill()
+		
+	reload_in_progress = true
+	reload_cycle_active = true
+	reload_start_time = Time.get_ticks_msec() / 1000.0 #tween start time
+	rotation_pending = true
+	rotation_completed = false
+	
+	
+	
+		
+	
+	
+	ui_add_bullet()
+	
+	
+	reload_origin_angle = sprite.rotation_degrees
+	var new_rotation = reload_origin_angle + 60.0
 	sprite_angle = new_rotation
-	var tween = create_tween()
-	tween.tween_property(sprite, "rotation_degrees",new_rotation, 0.4)
+	reload_tween = create_tween()
+	reload_tween.tween_property(sprite, "rotation_degrees", new_rotation, reload_duration)
+	
+	reload_tween.finished.connect(self._on_reload_rotation_finished)
 	#print(sprite.rotation_degrees)
-	var bullet = bullet_ui.instantiate()
-	if !$CanvasLayer/CenterContainer/ui_weapon.get_children().size() == 12: #6 slots + 6 bullets
-		$CanvasLayer/CenterContainer/ui_weapon.call_deferred("add_child", bullet)#$CanvasLayer/CenterContainer/ui_weapon.add_child(bullet)
-		bullet.call_deferred("set_global_position", revolver[6].global_position)
-		call_deferred("revolver_reverse_update_indicies")
 	
 	
-func shot_back_rotate_60_tween():
+func cancel_reload_sequence():
+	if not reload_in_progress:
+		return
+	if reload_tween and reload_tween.is_running():
+		reload_tween.kill()
+		
+	var now = Time.get_ticks_msec() / 1000.0
+	var elapsed = clamp(now - reload_start_time, 0.0, reload_duration)
+	
+	var current_angle = sprite.rotation_degrees
+	var duration = elapsed
+	
+	reload_tween = create_tween()
+	reload_tween.finished.connect(self._on_reload_cancelled)
+	var offset = fmod(current_angle, 60.0)
+	reload_tween.tween_property(sprite, "rotation_degrees", reload_origin_angle, duration)
+	sprite_angle = reload_origin_angle
+	
+	
+
+func shot_back_rotate_60_tween(): #shot tween
 	var new_rotation = sprite_angle - 60.0
 	sprite_angle = new_rotation
 	var tween = create_tween()
@@ -83,11 +137,14 @@ func shot_back_rotate_60_tween():
 	if body_in_area:
 		if is_instance_valid(current_bullet):
 			current_bullet.unload()
+			G.ammo -= 1
 	
 func _on_ui_rotate():
-	rotate_60_tween()
+	start_reload_sequence()
 
 func _on_shot():
+	if reload_in_progress or rotation_pending:
+		return  # can't shoot while rotating
 	shot_back_rotate_60_tween()
 	revolver_update_indicies()
 	#print(revolver)
@@ -164,6 +221,33 @@ func revolver_reverse_update_indicies():
 		new_slots[i] = revolver[prev_index]
 	revolver = new_slots
 
+func _on_reload_rotation_finished():
+	print("ROTATION FINISHED, ammo = ", G.ammo)
+	G.ammo += 1
+	rotation_pending = false
+	rotation_completed = true
+	reload_in_progress = false
+	reload_cycle_active = false
+	call_deferred("revolver_reverse_update_indicies")
+	G.reload_cooldown_active = true
+	await get_tree().create_timer(G.reload_cooldown_duration).timeout
+	G.reload_cooldown_active = false
+	
+	
+func _on_reload_cancelled():
+	if bullet_node and is_instance_valid(bullet_node):
+		bullet_removal_in_progress = true
+		bullet_node.play_load_backwards()  # method inside bullet_ui
+		
+		bullet_node.get_animation_player().animation_finished.connect(func(anim_name):
+			if is_instance_valid(bullet_node):
+				bullet_node.queue_free()
+				bullet_removal_in_progress = false
+				)
+	rotation_pending = false
+	reload_in_progress = false
+	reload_cycle_active = false
+	G.reload_cooldown_active = false
 func _on_drop_bonus(position: Vector2):
 	var bonus_chance = randi_range(0, 1)
 	var bonus = bonuses[bonus_chance].instantiate()
@@ -195,3 +279,12 @@ func shield_tracking():
 			var new_shield := ShieldScene.instantiate()
 			new_shield.name = "Shield_Visual"
 			add_child(new_shield)
+
+func ui_add_bullet():
+	bullet_node = bullet_ui.instantiate()
+	if $CanvasLayer/CenterContainer/ui_weapon.get_children().size() <= 12: #6 slots (markers) + 6 bullets
+		$CanvasLayer/CenterContainer/ui_weapon.call_deferred("add_child", bullet_node)#$CanvasLayer/CenterContainer/ui_weapon.add_child(bullet)
+		bullet_node.call_deferred("set_global_position", revolver[6].global_position)
+		#call_deferred("revolver_reverse_update_indicies")
+	else:
+		print("NOT ADDED")
