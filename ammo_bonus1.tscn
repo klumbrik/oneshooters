@@ -1,7 +1,7 @@
-[gd_scene load_steps=8 format=3 uid="uid://ceafcuo2kew1o"]
+[gd_scene load_steps=9 format=3 uid="uid://ceafcuo2kew1o"]
 
-[ext_resource type="Texture2D" uid="uid://xd4kvx15tjyr" path="res://icon.svg" id="1_5ywo3"]
 [ext_resource type="Script" path="res://ammo_bonus_1.gd" id="1_iqdor"]
+[ext_resource type="Texture2D" uid="uid://cfbsi3nvg1nsp" path="res://bonuses/ammo_pack.png" id="2_khoqc"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_lxfpc"]
 radius = 9.0
@@ -18,7 +18,19 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
-"values": [false]
+"values": [true]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Icon:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
 }
 
 [sub_resource type="Animation" id="Animation_pq7jw"]
@@ -37,25 +49,41 @@ tracks/0/keys = {
 "values": [true, false, true, true, false, true, true, false]
 }
 
+[sub_resource type="Animation" id="Animation_s36mm"]
+resource_name = "pick"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Icon:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.0666667, 0.2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(1.9, 1.9), Vector2(1e-05, 1e-05)]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_41812"]
 _data = {
 "RESET": SubResource("Animation_5r4ol"),
-"dissappear": SubResource("Animation_pq7jw")
+"dissappear": SubResource("Animation_pq7jw"),
+"pick": SubResource("Animation_s36mm")
 }
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_42sug"]
 size = Vector2(21, 21)
 
 [node name="RigidBody2D" type="RigidBody2D"]
-collision_layer = 2147483648
+texture_filter = 1
+collision_layer = 268435456
 collision_mask = 8388608
 script = ExtResource("1_iqdor")
 
 [node name="Icon" type="Sprite2D" parent="."]
-visible = false
-position = Vector2(10.5, 10.5)
-scale = Vector2(0.164062, 0.164062)
-texture = ExtResource("1_5ywo3")
+position = Vector2(10.435, -2)
+texture = ExtResource("2_khoqc")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(10.5, 10.5)
@@ -77,4 +105,5 @@ position = Vector2(10.5, 10.5)
 shape = SubResource("RectangleShape2D_42sug")
 
 [connection signal="timeout" from="Pick_Timer" to="." method="_on_pick_timer_timeout"]
+[connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]
 [connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]

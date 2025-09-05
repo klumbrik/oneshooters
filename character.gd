@@ -1,6 +1,8 @@
 extends CharacterBody2D
 #IF YOU CHANGE ANIMATION TIMINGS, CHANGE ALL THE LINES ABOUT THE ANIM POSITION
 #var is_shooting = true
+@export var dontshoot: bool #testing
+
 var ammo = 6
 var bullet = preload("res://bullet.tscn")
 var time_to_die = false
@@ -50,7 +52,7 @@ func _input(event: InputEvent) -> void: #for pc controls
 			
 func _physics_process(_delta: float) -> void: #main function
 	#print("left swipe:", G.left_swipe_detected, " ", "right swipe:", G.right_swipe_detected, "number_of_rights: ", number_of_right_swipes)
-	#print(character_state_machine.get_active_state())
+	#print(character_state_machine.get_active_state().name)
 	#print(ducking)
 	#print(shoot_cooldown_passed)
 	#print($Timer.time_left, $Timer.paused)
@@ -62,6 +64,13 @@ func _physics_process(_delta: float) -> void: #main function
 	#else:
 	#$Timer.paused = false
 	swipe_detection() #we need to detect swipes each frame
+	
+	if G.shield_enabled:
+		invincible = true
+	else:
+		if character_state_machine.get_active_state().name != "dodging":
+			invincible = false
+		
 	if G.right_swipe_detected:
 		G.moving = true
 		
@@ -73,7 +82,8 @@ func _physics_process(_delta: float) -> void: #main function
 	
 
 func _on_timer_timeout() -> void: #when the shooting timer expires
-	shot()
+	if !dontshoot:
+		shot()
 
 
 func _on_reload_timer_timeout() -> void:
@@ -283,12 +293,15 @@ func running_update(delta: float):
 		move_and_slide()
 
 func dodging_enter():
+	time_to_die = false
+	$DeathTimer.stop()
 	if G.sound_on:
 		$Roll.play()
 	invincible = true
 	$Sprite2D/AnimationPlayer.play("dodge")
 	dodge_old_pos_x = position.x #remembering the old position to calculate dodge distance
-	time_to_die = false
+	
+	
 
 func dodging_update(delta: float):
 	shoot_controls() 

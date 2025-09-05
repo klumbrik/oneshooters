@@ -46,6 +46,7 @@ enemies=""
 target_zone=""
 damage=""
 enemy_damage=""
+shield=""
 
 [input]
 
@@ -75,6 +76,14 @@ space={
 [input_devices]
 
 pointing/emulate_touch_from_mouse=true
+
+[layer_names]
+
+2d_physics/layer_1="character layer"
+2d_physics/layer_13="character_bullet"
+2d_physics/layer_24="bonusesfloor"
+2d_physics/layer_29="bonuses dimension"
+2d_physics/layer_31="enemy_layer"
 
 [rendering]
 

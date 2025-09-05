@@ -7,7 +7,8 @@ var sprite_angle = 0.0
 var body_in_area
 var current_bullet
 var bullet_ui = preload("res://jebulletui.tscn")
-var bonuses = [preload("res://ammo_bonus1.tscn")]
+var bonuses = [preload("res://ammo_bonus1.tscn"), preload("res://shield_bonus.tscn")]
+var ShieldScene =  preload("res://shield_visual.tscn")
 
 @onready var slot1 = $CanvasLayer/CenterContainer/ui_weapon/slot1
 @onready var slot2 = $CanvasLayer/CenterContainer/ui_weapon/slot2
@@ -44,7 +45,13 @@ func _process(delta: float) -> void: #for testing only, comment later
 	if $enemyspawn/Timer.time_left == 0 and not $CanvasLayer/spawner_metrics.get("modulate").r == 1.0:
 		$CanvasLayer/spawner_metrics.modulate = Color(1, 0, 0) # red
 		$CanvasLayer/spawner_metrics.call_deferred("reset_color")
-
+		
+		
+	#shield tracking
+	shield_tracking()
+			
+			
+			
 func reset_color(): #testing only!
 	await get_tree().create_timer(1.0).timeout
 	$CanvasLayer/spawner_metrics.modulate = Color(1, 1, 1) #white or default
@@ -158,9 +165,33 @@ func revolver_reverse_update_indicies():
 	revolver = new_slots
 
 func _on_drop_bonus(position: Vector2):
-	var bonus = bonuses[0].instantiate()
+	var bonus_chance = randi_range(0, 1)
+	var bonus = bonuses[bonus_chance].instantiate()
 	bonus.global_position = position
 	add_child(bonus)
 	
 func _stash_bonus_collected():
 	stash_visibility()
+
+func shield_tracking():
+		var shield_node := get_node_or_null("Shield_Visual")
+		if shield_node:
+			
+			shield_node.global_position = $character/ShieldMarker.global_position
+			
+			if $character/ShieldMarker.position == Vector2(6,5):
+				shield_node.ducked = true
+				print("ducked")
+			else:
+				shield_node.ducked = false
+				print("unducked")
+				
+			if $character/Sprite2D/AnimationPlayer.current_animation == "dodge":
+				shield_node.dodging = true
+			else:
+				shield_node.dodging = false
+			
+		elif G.shield_enabled:
+			var new_shield := ShieldScene.instantiate()
+			new_shield.name = "Shield_Visual"
+			add_child(new_shield)

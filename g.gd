@@ -18,7 +18,8 @@ signal drop_bonus(position)
 
 signal bonus_stash
 
-
+var coins = 0
+var break_bar_progress = 0.0
 var pacedif_modifier = 1 #Set to 1 to revert to play with original values. modifier for speed in terms of difficulty (testing). 
 #Contains global vars
 var game_over = false
@@ -34,8 +35,11 @@ var moving = false #activated when we run to the next cover
 var moving_speed = 250
 var right_swipe_detected = false
 var left_swipe_detected = false
+
 var area_res #?
-var character_position: Vector2
+var shield_enabled = false
+
+var character_position: Vector2 #INITIAL CHARACTER POSITION (NOT UPDATING)
 var enemiesonscreen = [] #an array containing all the enemies in the screen
 var current_target_enemy
 var rooms = [] #an array containing rooms

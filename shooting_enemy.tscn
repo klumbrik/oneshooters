@@ -1,7 +1,8 @@
-[gd_scene load_steps=83 format=3 uid="uid://cumhdmj4ac520"]
+[gd_scene load_steps=87 format=3 uid="uid://cumhdmj4ac520"]
 
 [ext_resource type="Texture2D" uid="uid://r0h08x1ylmve" path="res://sprites/enemyanims/shootmask/shoot_recharge/shootmaskshot1.png" id="2_guwu2"]
 [ext_resource type="Texture2D" uid="uid://dqwcf3kmftyj4" path="res://sprites/enemyanims/run/enemyrun1.png" id="2_muara"]
+[ext_resource type="Shader" path="res://hit_flash.gdshader" id="2_orhsm"]
 [ext_resource type="Script" path="res://shooting_enemy.gd" id="2_rirpg"]
 [ext_resource type="Texture2D" uid="uid://cj5h24f4t6i23" path="res://sprites/enemyanims/shootmask/beatenshootmask/beatenshootmask1.png" id="3_ollg1"]
 [ext_resource type="PackedScene" uid="uid://bbif6mo5fwxg3" path="res://UX_EnemyShot.tscn" id="3_wdfoc"]
@@ -69,6 +70,12 @@
 [ext_resource type="Texture2D" uid="uid://bv1wy0tajvaui" path="res://sprites/enemyanims/recharge/recharging19.png" id="66_1lbet"]
 [ext_resource type="Texture2D" uid="uid://ctguch52swtke" path="res://sprites/enemyanims/recharge/recharging20.png" id="67_mchlh"]
 [ext_resource type="Texture2D" uid="uid://05shnno4j1i1" path="res://sprites/enemyanims/recharge/recharging21.png" id="68_331da"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_d205h"]
+resource_local_to_scene = true
+shader = ExtResource("2_orhsm")
+shader_parameter/hit_flash_color = Color(1, 1, 1, 1)
+shader_parameter/hit_flash_on = false
 
 [sub_resource type="Animation" id="Animation_3fyf7"]
 length = 0.001
@@ -152,40 +159,6 @@ tracks/0/keys = {
 "values": [ExtResource("2_guwu2"), ExtResource("40_733ab"), ExtResource("41_mraqc"), ExtResource("42_emhyo"), ExtResource("43_qt8c5"), ExtResource("44_o3mh2"), ExtResource("45_xxrea"), ExtResource("46_k0wjo"), ExtResource("47_nb3uq")]
 }
 
-[sub_resource type="Animation" id="Animation_166h2"]
-resource_name = "run"
-length = 1.4
-loop_mode = 1
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:texture")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1, 1.1, 1.2, 1.3, 1.4),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
-"update": 1,
-"values": [ExtResource("27_hopws"), ExtResource("28_4swev"), ExtResource("29_wbqwf"), ExtResource("30_d5xkp"), ExtResource("31_ttglh"), ExtResource("32_noc7i"), ExtResource("33_egda4"), ExtResource("34_lnek5"), ExtResource("35_1kn5d"), ExtResource("36_6vvc5"), ExtResource("37_gd78a"), ExtResource("38_7581i"), ExtResource("39_2pplg"), ExtResource("40_dq7rs"), ExtResource("41_svcqn")]
-}
-
-[sub_resource type="Animation" id="Animation_nht0r"]
-resource_name = "shoot"
-length = 0.33
-step = 0.033
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:texture")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.0666667, 0.133333, 0.2, 0.266667, 0.333333),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
-"update": 1,
-"values": [ExtResource("41_65r88"), ExtResource("42_17x8i"), ExtResource("43_ocrbb"), ExtResource("44_3essy"), ExtResource("45_257w3"), ExtResource("46_2nkxv")]
-}
-
 [sub_resource type="Animation" id="Animation_5fuvk"]
 resource_name = "reset_recharge"
 length = 0.2664
@@ -238,6 +211,40 @@ tracks/0/keys = {
 "values": [ExtResource("52_575i5"), ExtResource("63_03hqv"), ExtResource("64_dmjth"), ExtResource("65_tki8t"), ExtResource("66_1lbet"), ExtResource("67_mchlh"), ExtResource("68_331da")]
 }
 
+[sub_resource type="Animation" id="Animation_166h2"]
+resource_name = "run"
+length = 1.4
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1, 1.1, 1.2, 1.3, 1.4),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [ExtResource("27_hopws"), ExtResource("28_4swev"), ExtResource("29_wbqwf"), ExtResource("30_d5xkp"), ExtResource("31_ttglh"), ExtResource("32_noc7i"), ExtResource("33_egda4"), ExtResource("34_lnek5"), ExtResource("35_1kn5d"), ExtResource("36_6vvc5"), ExtResource("37_gd78a"), ExtResource("38_7581i"), ExtResource("39_2pplg"), ExtResource("40_dq7rs"), ExtResource("41_svcqn")]
+}
+
+[sub_resource type="Animation" id="Animation_nht0r"]
+resource_name = "shoot"
+length = 0.33
+step = 0.033
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.0666667, 0.133333, 0.2, 0.266667, 0.333333),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [ExtResource("41_65r88"), ExtResource("42_17x8i"), ExtResource("43_ocrbb"), ExtResource("44_3essy"), ExtResource("45_257w3"), ExtResource("46_2nkxv")]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_oresa"]
 _data = {
 "RESET": SubResource("Animation_3fyf7"),
@@ -258,13 +265,36 @@ size = Vector2(37, 48)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_734gl"]
 size = Vector2(36, 47)
 
+[sub_resource type="Animation" id="Animation_p33r4"]
+resource_name = "hit_flash"
+length = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:material:shader_parameter/hit_flash_on")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.05, 0.1),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [false, true, false]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_qm2kh"]
+_data = {
+"hit_flash": SubResource("Animation_p33r4")
+}
+
 [node name="shooting_enemy" type="CharacterBody2D" groups=["enemies"]]
 visibility_layer = 2
-collision_mask = 0
+collision_layer = 1073741824
+input_pickable = true
 script = ExtResource("2_rirpg")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture_filter = 1
+material = SubResource("ShaderMaterial_d205h")
 position = Vector2(-14, -23)
 texture = ExtResource("2_guwu2")
 centered = false
@@ -325,6 +355,11 @@ text = "I'm target"
 
 [node name="DeleteTimer" type="Timer" parent="."]
 wait_time = 30.0
+
+[node name="hit_flash_anim" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_qm2kh")
+}
 
 [connection signal="animation_finished" from="Sprite2D/AnimationPlayer" to="." method="_on_animation_player_animation_finished"]
 [connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]

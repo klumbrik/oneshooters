@@ -1,15 +1,21 @@
-[gd_scene load_steps=12 format=3 uid="uid://67ic5nix6m4w"]
+[gd_scene load_steps=18 format=3 uid="uid://67ic5nix6m4w"]
 
 [ext_resource type="PackedScene" uid="uid://d4biv87sinkk1" path="res://character.tscn" id="1_27mtl"]
 [ext_resource type="Script" path="res://main.gd" id="1_puokp"]
 [ext_resource type="PackedScene" uid="uid://ceyrugadvxkjw" path="res://enemyspawn.tscn" id="3_xclp6"]
 [ext_resource type="Script" path="res://camera_2d.gd" id="4_yq4g2"]
+[ext_resource type="Texture2D" uid="uid://dy2dqswyle8it" path="res://sprites/bg_oneshooters2.png" id="6_edprf"]
 [ext_resource type="Texture2D" uid="uid://bno6ymqyvp7h1" path="res://sprites/Jedanims/reload ui/jedweaponui.png" id="8_g5wx0"]
-[ext_resource type="Texture2D" uid="uid://bcsw8amfsji65" path="res://sprite plugs/1805276.png" id="8_ta3k7"]
+[ext_resource type="Texture2D" uid="uid://cfbsi3nvg1nsp" path="res://bonuses/ammo_pack.png" id="8_r0e3b"]
 [ext_resource type="PackedScene" uid="uid://hm68mls7f6mg" path="res://jebulletui.tscn" id="9_fsngq"]
 [ext_resource type="PackedScene" uid="uid://c2w83k7j2ggod" path="res://target.tscn" id="10_5unnn"]
-[ext_resource type="Texture2D" uid="uid://hwucs5n2nf56" path="res://sprites/bg_oneshooters.png" id="10_527pu"]
 [ext_resource type="PackedScene" uid="uid://b66imsg6xttyv" path="res://room.tscn" id="11_35bvq"]
+[ext_resource type="Texture2D" uid="uid://djm5e7xioilic" path="res://ui/dodge_bar/dodge_bar_inactive.png" id="11_nu4lv"]
+[ext_resource type="Texture2D" uid="uid://bddq0yxkqgq15" path="res://sprite plugs/706ed7a3a5eb8f7e4bd227188cff51d1.png" id="11_wmiod"]
+[ext_resource type="Texture2D" uid="uid://ctc0ompolh7kw" path="res://ui/dodge_bar/dodge_bar.png" id="12_sm2la"]
+[ext_resource type="PackedScene" uid="uid://ceafcuo2kew1o" path="res://ammo_bonus1.tscn" id="14_h73cx"]
+[ext_resource type="PackedScene" uid="uid://bkflifhalv718" path="res://shield_bonus.tscn" id="15_1ognw"]
+[ext_resource type="PackedScene" uid="uid://cumhdmj4ac520" path="res://shooting_enemy.tscn" id="16_e6wpd"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_haprv"]
 radius = 13.0384
@@ -29,7 +35,6 @@ position = Vector2(-53, -306)
 anchor_mode = 0
 ignore_rotation = false
 script = ExtResource("4_yq4g2")
-wiggle_enabled = false
 wiggle_intensity = 12.0
 wiggle_speed = 3.0
 zoom_in = Vector2(1.3, 1.3)
@@ -74,7 +79,7 @@ scale = Vector2(2, 2)
 [node name="BgOneshooters" type="Sprite2D" parent="bg position"]
 z_index = -4
 texture_filter = 1
-texture = ExtResource("10_527pu")
+texture = ExtResource("6_edprf")
 centered = false
 
 [node name="room" parent="." instance=ExtResource("11_35bvq")]
@@ -95,16 +100,16 @@ metadata/_edit_lock_ = true
 [node name="stash1" type="Sprite2D" parent="CanvasLayer/CenterContainer"]
 visible = false
 texture_filter = 1
-position = Vector2(246, 131)
-scale = Vector2(0.0559082, 0.0559082)
-texture = ExtResource("8_ta3k7")
+position = Vector2(256.95, 114)
+scale = Vector2(2, 2)
+texture = ExtResource("8_r0e3b")
 
 [node name="stash2" type="Sprite2D" parent="CanvasLayer/CenterContainer"]
 visible = false
 texture_filter = 1
-position = Vector2(53, 130)
-scale = Vector2(0.0559082, 0.0559082)
-texture = ExtResource("8_ta3k7")
+position = Vector2(43, 114)
+scale = Vector2(2, 2)
+texture = ExtResource("8_r0e3b")
 
 [node name="ui_weapon" type="Sprite2D" parent="CanvasLayer/CenterContainer"]
 texture_filter = 1
@@ -162,6 +167,48 @@ offset_right = 360.0
 offset_bottom = 295.0
 theme_override_font_sizes/normal_font_size = 30
 text = "dfdfsfsdfsdfssfsdfsf"
+
+[node name="TextureProgressBar" type="TextureProgressBar" parent="CanvasLayer"]
+texture_filter = 1
+anchors_preset = -1
+anchor_left = 0.478
+anchor_top = 0.761
+anchor_right = 0.478
+anchor_bottom = 0.761
+offset_left = -15.08
+offset_top = -27.04
+offset_right = -5.08
+offset_bottom = -9.04001
+scale = Vector2(3, 3)
+value = 57.0
+fill_mode = 3
+texture_under = ExtResource("11_nu4lv")
+texture_progress = ExtResource("12_sm2la")
+
+[node name="space" type="CanvasLayer" parent="."]
+layer = -1
+
+[node name="706Ed7a3a5Eb8f7e4Bd227188Cff51d1" type="Sprite2D" parent="space"]
+texture_filter = 1
+position = Vector2(178.5, 320)
+scale = Vector2(0.363, 1.288)
+texture = ExtResource("11_wmiod")
+metadata/_edit_lock_ = true
+
+[node name="RigidBody2D" parent="." instance=ExtResource("14_h73cx")]
+position = Vector2(164, 303)
+
+[node name="RigidBody2D2" parent="." instance=ExtResource("15_1ognw")]
+position = Vector2(60, 312)
+
+[node name="shooting_enemy" parent="." instance=ExtResource("16_e6wpd")]
+position = Vector2(253, 294)
+
+[node name="shooting_enemy2" parent="." instance=ExtResource("16_e6wpd")]
+position = Vector2(295, 294)
+
+[node name="shooting_enemy3" parent="." instance=ExtResource("16_e6wpd")]
+position = Vector2(336, 294)
 
 [connection signal="child_entered_tree" from="." to="." method="_on_child_entered_tree"]
 [connection signal="body_entered" from="CanvasLayer/CenterContainer/Area2D" to="." method="_on_area_2d_body_entered"]

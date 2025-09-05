@@ -18,7 +18,7 @@ func _physics_process(delta: float) -> void:
 	velocity.x = -SPEED if $Sprite2D/AnimationPlayer.current_animation == "run" else 0
 	move_and_slide()
 	#print("Anim:", $Sprite2D/AnimationPlayer.current_animation, "Playing:", $Sprite2D/AnimationPlayer.is_playing())
-	print(SPEED)
+	#print(SPEED)
 func _on_shoot_timer_timeout() -> void:
 	enemy_moving = false
 	$Shoot_Timer.wait_time = 4

@@ -14,12 +14,14 @@ func _physics_process(delta: float) -> void:
 
 
 func _on_area_2d_area_entered(area: Area2D) -> void:
-	if area.is_in_group('character'):
+	if area.is_in_group('character') or area.is_in_group("shield"):
+		#print("COLLI DED")
+		set_deferred("freeze", true)
 		$BulletTexture/AnimationPlayer.play("collided")
 		$CollisionShape2D.set_deferred("disabled", true)
 		linear_velocity = Vector2.ZERO
 		constant_force = Vector2.ZERO
-		$Area2D.set_deferred("monitorable", false)
+		#$Area2D.set_deferred("monitorable", false)
 		
 		
 

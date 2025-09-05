@@ -4,6 +4,7 @@ var shooting_enemy = preload("res://shooting_enemy.tscn")
 var shielded_enemy = preload("res://shielded_enemy.tscn")
 @export var enabled: bool #disable when tesitng
 @onready var target = $target
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	$Timer.wait_time = randf_range(1, 1.5)
@@ -28,7 +29,16 @@ func _physics_process(delta: float) -> void:
 		else:
 			velocity.x = G.moving_speed
 		move_and_slide()
-
+		
+	if $Break_Window.is_stopped():
+		G.break_bar_progress = 0.0
+	else:
+		var time_left = $Break_Window.time_left
+		var total_time = $Break_Window.wait_time
+		G.break_bar_progress = 1 - clamp(1.0 - time_left / total_time, 0.0, 1.0) #percentage left
+		
+	#print("break percent: " + str(G.break_bar_progress))
+	
 
 func _on_timer_timeout() -> void:
 	spawn_and_register()
@@ -73,13 +83,13 @@ func wave_end():
 	$WaveEnd.wait_time = randf_range(15,25) #we redefine time for a new wave15, 25
 	G.wave_going = false
 	#print("wave has ended. wavetime changed")
-	$Break_Window.wait_time = randf_range(3, 6) #define new break time in range
-	$Break_Window.start() #then we start a new timer for break time
+	start_break()
 	
 func new_wave():
 	G.wave_going = true #once break timer is out we start a new wave 
 	$Timer.start() #start randomly spawning again
 	$WaveEnd.start()
 	
-
-	
+func start_break():
+	$Break_Window.wait_time = randf_range(3, 6) #define new break time in range
+	$Break_Window.start() #then we start a new timer for break time

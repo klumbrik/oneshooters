@@ -1,6 +1,7 @@
-[gd_scene load_steps=59 format=3 uid="uid://c7g4sld7qgrml"]
+[gd_scene load_steps=63 format=3 uid="uid://c7g4sld7qgrml"]
 
 [ext_resource type="Script" path="res://enemy.gd" id="1_5a16f"]
+[ext_resource type="Shader" path="res://hit_flash.gdshader" id="1_i8o5d"]
 [ext_resource type="Texture2D" uid="uid://dqwcf3kmftyj4" path="res://sprites/enemyanims/run/enemyrun1.png" id="2_y7m0n"]
 [ext_resource type="Texture2D" uid="uid://dey631smyjrg7" path="res://sprites/enemyanims/run/enemyrun2.png" id="3_cis2v"]
 [ext_resource type="Texture2D" uid="uid://dhw2en6iyvlyg" path="res://sprites/enemyanims/run/enemyrun3.png" id="4_avo61"]
@@ -49,6 +50,12 @@
 [ext_resource type="Texture2D" uid="uid://ctguch52swtke" path="res://sprites/enemyanims/recharge/recharging20.png" id="46_dqcvt"]
 [ext_resource type="Texture2D" uid="uid://05shnno4j1i1" path="res://sprites/enemyanims/recharge/recharging21.png" id="47_extku"]
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_eqn62"]
+resource_local_to_scene = true
+shader = ExtResource("1_i8o5d")
+shader_parameter/hit_flash_color = Color(1, 1, 1, 1)
+shader_parameter/hit_flash_on = false
+
 [sub_resource type="Animation" id="Animation_2q7xk"]
 length = 0.001
 tracks/0/type = "value"
@@ -96,9 +103,9 @@ tracks/0/keys = {
 "values": [ExtResource("2_y7m0n"), ExtResource("24_wsbbl"), ExtResource("25_cgbe3"), ExtResource("26_o1oc3")]
 }
 
-[sub_resource type="Animation" id="Animation_166h2"]
-resource_name = "run"
-length = 1.4
+[sub_resource type="Animation" id="Animation_8x17u"]
+resource_name = "reset_recharge"
+length = 0.2667
 loop_mode = 1
 tracks/0/type = "value"
 tracks/0/imported = false
@@ -107,10 +114,10 @@ tracks/0/path = NodePath(".:texture")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1, 1.1, 1.2, 1.3, 1.4),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"times": PackedFloat32Array(0, 0.0666667, 0.133333, 0.2, 0.266667),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
 "update": 1,
-"values": [ExtResource("2_y7m0n"), ExtResource("3_cis2v"), ExtResource("4_avo61"), ExtResource("5_bpxj4"), ExtResource("6_dunru"), ExtResource("7_joxi3"), ExtResource("8_n3vge"), ExtResource("9_53qao"), ExtResource("10_hh66x"), ExtResource("11_vqlrl"), ExtResource("12_v5ogv"), ExtResource("13_2fmd3"), ExtResource("14_mvd2n"), ExtResource("15_etob5"), ExtResource("16_sgbph")]
+"values": [ExtResource("37_8eotk"), ExtResource("38_fhkaq"), ExtResource("39_g3oa8"), ExtResource("40_23ui4"), ExtResource("41_bfd4i")]
 }
 
 [sub_resource type="Animation" id="Animation_ofe6g"]
@@ -129,23 +136,6 @@ tracks/0/keys = {
 "values": [ExtResource("27_hxpdy"), ExtResource("28_l8jxp"), ExtResource("29_wg62a"), ExtResource("30_pns3w"), ExtResource("31_fdpai"), ExtResource("32_ylnlt"), ExtResource("33_ujc34"), ExtResource("34_058cs"), ExtResource("35_5tg6h"), ExtResource("36_1rvac")]
 }
 
-[sub_resource type="Animation" id="Animation_8x17u"]
-resource_name = "reset_recharge"
-length = 0.2667
-loop_mode = 1
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:texture")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.0666667, 0.133333, 0.2, 0.266667),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
-"update": 1,
-"values": [ExtResource("37_8eotk"), ExtResource("38_fhkaq"), ExtResource("39_g3oa8"), ExtResource("40_23ui4"), ExtResource("41_bfd4i")]
-}
-
 [sub_resource type="Animation" id="Animation_p42v3"]
 resource_name = "reset_recharge_transition"
 length = 0.4
@@ -160,6 +150,23 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
 "update": 1,
 "values": [ExtResource("41_bfd4i"), ExtResource("42_36e41"), ExtResource("43_1jinv"), ExtResource("44_ryh77"), ExtResource("45_1lbc4"), ExtResource("46_dqcvt"), ExtResource("47_extku")]
+}
+
+[sub_resource type="Animation" id="Animation_166h2"]
+resource_name = "run"
+length = 1.4
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1, 1.1, 1.2, 1.3, 1.4),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [ExtResource("2_y7m0n"), ExtResource("3_cis2v"), ExtResource("4_avo61"), ExtResource("5_bpxj4"), ExtResource("6_dunru"), ExtResource("7_joxi3"), ExtResource("8_n3vge"), ExtResource("9_53qao"), ExtResource("10_hh66x"), ExtResource("11_vqlrl"), ExtResource("12_v5ogv"), ExtResource("13_2fmd3"), ExtResource("14_mvd2n"), ExtResource("15_etob5"), ExtResource("16_sgbph")]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_oresa"]
@@ -179,13 +186,35 @@ size = Vector2(30, 48)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_734gl"]
 size = Vector2(32, 47)
 
+[sub_resource type="Animation" id="Animation_p33r4"]
+resource_name = "hit_flash"
+length = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:material:shader_parameter/hit_flash_on")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.05, 0.1),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [false, true, false]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_qm2kh"]
+_data = {
+"hit_flash": SubResource("Animation_p33r4")
+}
+
 [node name="enemy" type="CharacterBody2D" groups=["enemies"]]
 visibility_layer = 2
-collision_mask = 0
+collision_layer = 1073741824
 script = ExtResource("1_5a16f")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture_filter = 1
+material = SubResource("ShaderMaterial_eqn62")
 position = Vector2(-14, -23)
 texture = ExtResource("2_y7m0n")
 centered = false
@@ -206,6 +235,7 @@ position = Vector2(14, 12)
 shape = SubResource("RectangleShape2D_7ujxw")
 
 [node name="Area2D" type="Area2D" parent="." groups=["enemies"]]
+visible = false
 position = Vector2(-42, -29)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
@@ -240,6 +270,11 @@ text = "I'm target"
 [node name="DeleteTimer" type="Timer" parent="."]
 wait_time = 30.0
 one_shot = true
+
+[node name="hit_flash_anim" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_qm2kh")
+}
 
 [connection signal="animation_finished" from="Sprite2D/AnimationPlayer" to="." method="_on_animation_player_animation_finished"]
 [connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]

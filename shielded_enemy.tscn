@@ -1,7 +1,8 @@
-[gd_scene load_steps=62 format=3 uid="uid://cq4x7e5apyp7p"]
+[gd_scene load_steps=66 format=3 uid="uid://cq4x7e5apyp7p"]
 
 [ext_resource type="Script" path="res://shielded_enemy.gd" id="1_38otj"]
 [ext_resource type="Texture2D" uid="uid://dqwcf3kmftyj4" path="res://sprites/enemyanims/run/enemyrun1.png" id="2_4c686"]
+[ext_resource type="Shader" path="res://hit_flash.gdshader" id="2_eu3iv"]
 [ext_resource type="Texture2D" uid="uid://bi7qfx3wnf2im" path="res://sprites/enemyanims/shieldmaskdestroyed/shieldmask1.png" id="3_kosie"]
 [ext_resource type="Texture2D" uid="uid://dwkvn3npktgvh" path="res://sprites/enemyanims/beaten/enemybeaten1.png" id="4_5gfor"]
 [ext_resource type="Texture2D" uid="uid://b3aip5lhmhhw7" path="res://sprites/enemyanims/beaten/enemybeaten2.png" id="5_papt4"]
@@ -51,6 +52,12 @@
 [ext_resource type="Texture2D" uid="uid://bv1wy0tajvaui" path="res://sprites/enemyanims/recharge/recharging19.png" id="49_bb4ri"]
 [ext_resource type="Texture2D" uid="uid://ctguch52swtke" path="res://sprites/enemyanims/recharge/recharging20.png" id="50_02ok8"]
 [ext_resource type="Texture2D" uid="uid://05shnno4j1i1" path="res://sprites/enemyanims/recharge/recharging21.png" id="51_5bmck"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_wddxl"]
+resource_local_to_scene = true
+shader = ExtResource("2_eu3iv")
+shader_parameter/hit_flash_color = Color(1, 1, 1, 1)
+shader_parameter/hit_flash_on = false
 
 [sub_resource type="Animation" id="Animation_2q7xk"]
 length = 0.001
@@ -207,6 +214,103 @@ tracks/4/keys = {
 "values": [true]
 }
 
+[sub_resource type="Animation" id="Animation_os3kb"]
+resource_name = "reset_recharge"
+length = 0.2667
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.0666667, 0.133333, 0.2, 0.266667),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 1,
+"values": [ExtResource("31_x4unf"), ExtResource("32_osn78"), ExtResource("33_uuhty"), ExtResource("34_2uyrp"), ExtResource("35_eom4l")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("../ShieldMask:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(16, 12)]
+}
+
+[sub_resource type="Animation" id="Animation_h4oq4"]
+resource_name = "reset_recharge_prep"
+length = 0.4333
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.0565912, 0.11968, 0.166667, 0.2, 0.233333, 0.266667, 0.314313, 0.366667, 0.433333),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [ExtResource("36_utf6j"), ExtResource("37_hk2yt"), ExtResource("38_pg2el"), ExtResource("39_tv11e"), ExtResource("40_8ogrj"), ExtResource("41_6iemj"), ExtResource("42_j7xgd"), ExtResource("43_5vail"), ExtResource("44_oor3v"), ExtResource("45_ci0fx")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("../ShieldMask:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.0572501, 0.123446, 0.168172),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [Vector2(18, 8), Vector2(17, 10), Vector2(17, 10), Vector2(16, 12)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("../ShieldMask:rotation")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+
+[sub_resource type="Animation" id="Animation_xsnxc"]
+resource_name = "reset_recharge_transition"
+length = 0.4
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.0666667, 0.133333, 0.2, 0.266667, 0.333333, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [ExtResource("35_eom4l"), ExtResource("46_18fg3"), ExtResource("47_ly5vj"), ExtResource("48_0cxpk"), ExtResource("49_bb4ri"), ExtResource("50_02ok8"), ExtResource("51_5bmck")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("../ShieldMask:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.26836, 0.334555, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [Vector2(16, 12), Vector2(17, 11), Vector2(18, 9), Vector2(18, 8)]
+}
+
 [sub_resource type="Animation" id="Animation_166h2"]
 resource_name = "run"
 length = 1.4
@@ -272,55 +376,6 @@ tracks/4/keys = {
 "values": [true]
 }
 
-[sub_resource type="Animation" id="Animation_os3kb"]
-resource_name = "reset_recharge"
-length = 0.2667
-loop_mode = 1
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:texture")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.0666667, 0.133333, 0.2, 0.266667),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
-"update": 1,
-"values": [ExtResource("31_x4unf"), ExtResource("32_osn78"), ExtResource("33_uuhty"), ExtResource("34_2uyrp"), ExtResource("35_eom4l")]
-}
-
-[sub_resource type="Animation" id="Animation_h4oq4"]
-resource_name = "reset_recharge_prep"
-length = 0.4333
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:texture")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.0565912, 0.11968, 0.166667, 0.2, 0.233333, 0.266667, 0.314313, 0.366667, 0.433333),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
-"update": 1,
-"values": [ExtResource("36_utf6j"), ExtResource("37_hk2yt"), ExtResource("38_pg2el"), ExtResource("39_tv11e"), ExtResource("40_8ogrj"), ExtResource("41_6iemj"), ExtResource("42_j7xgd"), ExtResource("43_5vail"), ExtResource("44_oor3v"), ExtResource("45_ci0fx")]
-}
-
-[sub_resource type="Animation" id="Animation_xsnxc"]
-resource_name = "reset_recharge_transition"
-length = 0.4
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:texture")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.0666667, 0.133333, 0.2, 0.266667, 0.333333, 0.4),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
-"update": 1,
-"values": [ExtResource("35_eom4l"), ExtResource("46_18fg3"), ExtResource("47_ly5vj"), ExtResource("48_0cxpk"), ExtResource("49_bb4ri"), ExtResource("50_02ok8"), ExtResource("51_5bmck")]
-}
-
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_oresa"]
 _data = {
 "RESET": SubResource("Animation_2q7xk"),
@@ -338,13 +393,36 @@ size = Vector2(30, 48)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_734gl"]
 size = Vector2(32, 47)
 
+[sub_resource type="Animation" id="Animation_p33r4"]
+resource_name = "hit_flash"
+length = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:material:shader_parameter/hit_flash_on")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.05, 0.1),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [false, true, false]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_qm2kh"]
+_data = {
+"hit_flash": SubResource("Animation_p33r4")
+}
+
 [node name="shielded_enemy" type="CharacterBody2D" groups=["enemies"]]
 visibility_layer = 2
-collision_mask = 0
+collision_layer = 1073741824
+input_pickable = true
 script = ExtResource("1_38otj")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture_filter = 1
+material = SubResource("ShaderMaterial_wddxl")
 position = Vector2(-14, -23)
 texture = ExtResource("2_4c686")
 centered = false
@@ -400,6 +478,11 @@ text = "I'm target"
 
 [node name="DeleteTimer" type="Timer" parent="."]
 wait_time = 30.0
+
+[node name="hit_flash_anim" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_qm2kh")
+}
 
 [connection signal="animation_finished" from="Sprite2D/AnimationPlayer" to="." method="_on_animation_player_animation_finished"]
 [connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]

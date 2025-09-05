@@ -20,8 +20,9 @@ func _physics_process(delta: float) -> void:
 		if $RayCast2D.is_colliding():
 			var collider = $RayCast2D.get_collider() # returns node link
 			if collider.is_in_group("enemies") and collider == G.current_target_enemy:
-				linear_velocity = Vector2.ZERO
-				constant_force = Vector2.ZERO
+				freeze = true
+				#linear_velocity = Vector2.ZERO
+				#constant_force = Vector2.ZERO
 				_on_hit()
 				
 	else:

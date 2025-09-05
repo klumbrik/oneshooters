@@ -27,7 +27,7 @@ func _ready() -> void: #when spawns randomly defines hp
 	G.connect("delete_enemies_out_of_screen", _delete_enemies_out_of_screen)
 	SPEED = randf_range(30.0, 60.0) * G.pacedif_modifier
 	initiate_state_machine()
-	
+	collision_mask = 1
 
 func initiate_state_machine():
 	enemy_state_machine = LimboHSM.new()
@@ -107,7 +107,7 @@ func reset_recharging_exit_transition_update(delta: float):
 	add_target()
 	velocity.x = 0
 	if transition_finished:
-		print("FINISHE")
+		#print("FINISHE")
 		enemy_state_machine.dispatch(&"to move")
 		
 
@@ -121,7 +121,8 @@ func _physics_process(delta: float) -> void:
 		$test.text = "I'm target [" + str(test_myindex) + "]"
 	else:
 		$test.text = "I'm normis [" + str(test_myindex) + "]"
-		
+	
+	#print(collision_mask)
 	#test
 	#print(G.wave_going)
 		
@@ -192,7 +193,7 @@ func die():
 	$Sprite2D/AnimationPlayer.play("beaten")
 	if !bonus_dropped:
 		bonus_chance = randf()
-		if bonus_chance <= 0.01: #chance of bonus
+		if bonus_chance <= 0.1: #chance of bonus - move the chance to main script
 			#print(bonus_chance)
 			G.emit_signal("drop_bonus", global_position)
 			bonus_dropped = true
@@ -212,19 +213,19 @@ func is_dead():
 		disable_damage()
 func get_damage():
 	velocity.x = 0
+	$hit_flash_anim.play("hit_flash") #shader effect
 	$Sprite2D/AnimationPlayer.play("damage_taken")
 	
 func disable_damage():
-
 	$Area2D.monitorable = false
 	disabled_damage = true
 	#print("ENEMY DAMAGE DISABLED")
-	
+	collision_mask = 0 # for shield to stop colliding
 func enable_damage():
-
 	$Area2D.monitorable = true
 	disabled_damage = false
 	#print("ENEMY DAMAGE ENABLED")
+	collision_mask = 1
 
 	
 
@@ -331,10 +332,10 @@ func _on_visible_on_screen_notifier_2d_screen_exited() -> void:
 		G.current_target_enemy = null
 
 func _delete_enemies_out_of_screen():#remove this instance from the game if it's marked for deletion
-	print("Checking deletion for:", self.name)
-	print("for_deletion =", for_deletion) 
+	#print("Checking deletion for:", self.name)
+	#print("for_deletion =", for_deletion) 
 	if for_deletion:
-		print("ENEMY DELETED")
+		#print("ENEMY DELETED")
 		queue_free()
 #remove enemies from the game (NOT from the array) when player reaches a new cover to keep memory clean
 

@@ -41,8 +41,13 @@ func _on_game_reload():
 	#reset happens in button script
 
 func _on_play_pressed():
+	$Transition_player/ColorRect.visible = true
 	var main = preload("res://main.tscn")
+	#$Transition_player.play("basic_fade")
+	#await $Transition_player.animation_finished
 	change_scene_to(main)
+	#$Transition_player.play_backwards("basic_fade")
+	$Transition_player/ColorRect.visible = false
 	show_ui()
 
 func _on_pause_to_menu_pressed():

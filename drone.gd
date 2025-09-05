@@ -56,7 +56,7 @@ func shot():
 		new_bullet.rotation = atan2(direction.y, direction.x)
 		new_bullet.linear_velocity = 700 * direction
 		new_bullet.constant_force = 3000 * direction
-		print(new_bullet.rotation_degrees)
+		#print(new_bullet.rotation_degrees)
 		get_parent().add_child(new_bullet)
 
 func _on_shoot_timer_timeout() -> void:

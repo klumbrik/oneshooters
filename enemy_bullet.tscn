@@ -69,7 +69,7 @@ _data = {
 "thrown": SubResource("Animation_6hnkg")
 }
 
-[node name="enemy_bullet" type="RigidBody2D"]
+[node name="enemy_bullet" type="RigidBody2D" groups=["enemy_damage"]]
 z_index = 2
 scale = Vector2(0.3, 0.3)
 collision_layer = 2

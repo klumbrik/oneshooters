@@ -10,6 +10,11 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	pass
 
+#func _input(event: InputEvent) -> void:
+	#if Input.is_action_just_released("press"):
+		#print("PLAY")
+		#queue_free()
+		#G.emit_signal("menu_play")
 
 func _on_play_button_down() -> void:
 	queue_free()

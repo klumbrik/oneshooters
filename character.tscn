@@ -129,6 +129,18 @@ tracks/4/keys = {
 "update": 0,
 "values": [Vector2(4.66667, 9.66667)]
 }
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("../ShieldMarker:position")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
 
 [sub_resource type="Animation" id="Animation_rciq8"]
 resource_name = "death"
@@ -145,6 +157,18 @@ tracks/0/keys = {
 "update": 1,
 "values": [ExtResource("52_o4yw4"), ExtResource("53_yp5xo"), ExtResource("54_gj2or"), ExtResource("55_y8thq"), ExtResource("56_r28w2")]
 }
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("../ShieldMarker:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
 
 [sub_resource type="Animation" id="Animation_81q28"]
 resource_name = "dodge"
@@ -160,6 +184,18 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
 "update": 1,
 "values": [ExtResource("3_v55gd"), ExtResource("4_qne4e"), ExtResource("5_ugfp8"), ExtResource("6_wwv2e"), ExtResource("7_xponb"), ExtResource("8_tb8ph"), ExtResource("9_qxo6k"), ExtResource("10_g0dod"), ExtResource("11_61j5f"), ExtResource("12_uywcj"), ExtResource("13_q17gf"), ExtResource("14_qba52"), ExtResource("15_hnk7f"), ExtResource("16_788sm"), ExtResource("17_wtlor"), ExtResource("18_hafmw"), ExtResource("19_nprtx"), ExtResource("20_g7nap"), ExtResource("21_4gb7k")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("../ShieldMarker:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
 }
 
 [sub_resource type="Animation" id="Animation_2324q"]
@@ -237,6 +273,18 @@ tracks/5/keys = {
 "update": 0,
 "values": [Vector2(26.05, 17.7667)]
 }
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("../ShieldMarker:position")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0, 0.0666667, 0.133333, 0.2, 0.266667, 0.333333),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [Vector2(0, 0), Vector2(0, 0), Vector2(3, 0), Vector2(5, 1), Vector2(6, 3), Vector2(6, 5)]
+}
 
 [sub_resource type="Animation" id="Animation_1eiti"]
 resource_name = "reload"
@@ -252,6 +300,18 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
 "update": 1,
 "values": [ExtResource("26_lgc1b"), ExtResource("27_q031k"), ExtResource("28_txido"), ExtResource("29_ffq3m"), ExtResource("30_opoqv"), ExtResource("31_hbp3r"), ExtResource("32_ja7b2")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("../ShieldMarker:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(6, 5)]
 }
 
 [sub_resource type="Animation" id="Animation_1bj2w"]
@@ -307,6 +367,18 @@ tracks/3/keys = {
 "update": 1,
 "values": [Vector2(-3.33333, 5.66667), Vector2(-3.33333, 5.66667)]
 }
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("../ShieldMarker:position")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
 
 [sub_resource type="Animation" id="Animation_avpbm"]
 resource_name = "shoot"
@@ -357,6 +429,18 @@ tracks/3/keys = {
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
 "values": [Vector2(-3.33333, 5.66667), Vector2(-3.33333, 5.66667)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("../ShieldMarker:position")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_w06a4"]
@@ -422,7 +506,7 @@ one_shot = true
 [node name="BlasterMetallic01" type="AudioStreamPlayer2D" parent="."]
 position = Vector2(-24, -47)
 stream = ExtResource("26_i1ams")
-volume_db = -25.571
+volume_db = -25.0
 pitch_scale = 1.41
 script = ExtResource("58_wipks")
 
@@ -443,6 +527,7 @@ text = "fdsfdsf"
 
 [node name="RobloxOof" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("57_8lh4s")
+volume_db = -15.0
 pitch_scale = 1.08
 attenuation = 1.07177
 panning_strength = 1.22
@@ -466,6 +551,8 @@ bus = &"Steps"
 stream = ExtResource("63_v3srm")
 pitch_scale = 1.62
 panning_strength = 1.22
+
+[node name="ShieldMarker" type="Marker2D" parent="."]
 
 [connection signal="animation_finished" from="Sprite2D/AnimationPlayer" to="." method="_on_animation_player_animation_finished"]
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
