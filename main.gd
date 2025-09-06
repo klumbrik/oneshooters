@@ -9,6 +9,7 @@ var current_bullet
 var bullet_ui = preload("res://jebulletui.tscn")
 var bonuses = [preload("res://ammo_bonus1.tscn"), preload("res://shield_bonus.tscn")]
 var ShieldScene =  preload("res://shield_visual.tscn")
+@onready var spawner_distance = $enemyspawn.global_position - $character.global_position
 
 var reload_tween: Tween
 var reload_in_progress
@@ -33,6 +34,8 @@ var bullet_removal_in_progress = false
 var revolver
 
 func _ready() -> void:
+	
+	
 	revolver = {
 	1:slot1,
 	2:slot2,
@@ -65,7 +68,8 @@ func _process(delta: float) -> void: #for testing only, comment later
 		
 	#shield tracking
 	shield_tracking()
-			
+	
+	spawn_tracking()		
 			
 			
 func reset_color(): #testing only!
@@ -280,6 +284,10 @@ func shield_tracking():
 			new_shield.name = "Shield_Visual"
 			add_child(new_shield)
 
+func spawn_tracking():
+	$enemyspawn.global_position = $character.global_position + spawner_distance
+	
+	
 func ui_add_bullet():
 	bullet_node = bullet_ui.instantiate()
 	if $CanvasLayer/CenterContainer/ui_weapon.get_children().size() <= 12: #6 slots (markers) + 6 bullets

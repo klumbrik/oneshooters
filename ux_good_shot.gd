@@ -11,4 +11,10 @@ func _on_enemy_died_in_zone(enemy):
 	var parent = get_parent()
 	if enemy == parent: #checking if the parent of this effect is the enemy instance passed, so that fx plays only on it
 		visible = true
-		$position_anim/AnimationPlayerShot.play("perfect")
+		if enemy.coin_given:
+			$position_anim/RichTextLabel.text = "+Монета"
+			$position_anim/AnimationPlayerShot.play("coin")
+		else:
+			$position_anim/RichTextLabel.text = "Идеально"
+			$position_anim/AnimationPlayerShot.play("perfect")
+		

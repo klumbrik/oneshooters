@@ -235,7 +235,6 @@ position = Vector2(14, 12)
 shape = SubResource("RectangleShape2D_7ujxw")
 
 [node name="Area2D" type="Area2D" parent="." groups=["enemies"]]
-visible = false
 position = Vector2(-42, -29)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]

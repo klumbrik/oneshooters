@@ -1,7 +1,8 @@
-[gd_scene load_steps=9 format=3 uid="uid://bkflifhalv718"]
+[gd_scene load_steps=11 format=3 uid="uid://bkflifhalv718"]
 
 [ext_resource type="Texture2D" uid="uid://ccbfn38ugf57n" path="res://bonuses/shield_bonus.png" id="2_tiw84"]
 [ext_resource type="Script" path="res://shield_bonus.gd" id="2_u4cak"]
+[ext_resource type="Texture2D" uid="uid://b1anqar4ockw" path="res://bonuses/coin.png" id="3_ofvvt"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_lxfpc"]
 radius = 9.0
@@ -31,6 +32,18 @@ tracks/1/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 0,
 "values": [Vector2(1, 1)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Icon:texture")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("2_tiw84")]
 }
 
 [sub_resource type="Animation" id="Animation_pq7jw"]
@@ -65,11 +78,40 @@ tracks/0/keys = {
 "values": [Vector2(1, 1), Vector2(1.9, 1.9), Vector2(1e-05, 1e-05)]
 }
 
+[sub_resource type="Animation" id="Animation_fqt8d"]
+resource_name = "to_coin"
+length = 0.15
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Icon:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.0666667),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [ExtResource("2_tiw84"), ExtResource("3_ofvvt")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Icon:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.0666667, 0.133333),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(1e-05, 1), Vector2(1, 1)]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_41812"]
 _data = {
 "RESET": SubResource("Animation_5r4ol"),
 "dissappear": SubResource("Animation_pq7jw"),
-"pick": SubResource("Animation_s36mm")
+"pick": SubResource("Animation_s36mm"),
+"to_coin": SubResource("Animation_fqt8d")
 }
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_42sug"]

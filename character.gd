@@ -14,7 +14,9 @@ var swipe_threshold = 30
 var ducking = false
 var shoot_cooldown_passed = false
 var anim_pos := 0.0
-var number_of_right_swipes = 0
+var left_swipe_blocked = true
+var left_swipe_block_duration = 0.1
+
 var invincible = false #can't die and collide (for tests)
 var dodge_speed = 200
 
@@ -29,6 +31,7 @@ var reload_anim_played = false
 
 
 func _ready() -> void:
+	G.character_ref = self
 	G.character_position = global_position
 	$Timer.wait_time = 0.8 / G.pacedif_modifier
 	#$ReloadTimer.wait_time = 0.6 / G.pacedif_modifier
@@ -40,13 +43,14 @@ func _input(event: InputEvent) -> void: #for pc controls
 	if Input.is_action_just_pressed("right"):
 		G.right_swipe_detected = true
 		G.left_swipe_detected = false
-		number_of_right_swipes += 1
+		G.number_of_right_swipes += 1
 		if !G.moving and G.current_cover_number > G.last_cover_number:
 			G.emit_signal("swipe_room") #to create a new room
 			G.last_cover_number = G.current_cover_number
 	elif Input.is_action_just_pressed("left"):
-		G.left_swipe_detected = true	
-		G.right_swipe_detected = false
+		if !left_swipe_blocked:
+			G.left_swipe_detected = true	
+			G.right_swipe_detected = false
 	elif Input.is_action_pressed("space"):
 		ducking = true
 	else:
@@ -79,8 +83,9 @@ func _physics_process(_delta: float) -> void: #main function
 		
 	use_stash()
 	
-	$debugger.text = str(number_of_right_swipes)
-			
+	$debugger.text = str(G.number_of_right_swipes)
+	
+	print("running update — swipes:", G.number_of_right_swipes, " dodges:", G.number_of_dodges)	
 	
 	
 
@@ -186,7 +191,7 @@ func initiate_state_machine():
 #state machine funcs on enter and update
 func shooting_enter():
 	dodge_finished = false
-	number_of_right_swipes = 0
+	#G.number_of_right_swipes = 0
 	$Sprite2D.flip_h = false
 	$Sprite2D/AnimationPlayer.play("RESET")
 	G.moving = false
@@ -272,6 +277,11 @@ func running_enter():
 	$Timer.paused = true
 	shoot_cooldown_passed = false
 	$Sprite2D/AnimationPlayer.play("run")
+	
+	left_swipe_blocked = true
+	await get_tree().create_timer(left_swipe_block_duration).timeout
+	left_swipe_blocked = false
+
 func running_update(delta: float):
 	shoot_controls() #to detect input
 	
@@ -284,18 +294,25 @@ func running_update(delta: float):
 		if G.right_swipe_detected:
 			velocity.x = G.moving_speed
 			$Sprite2D.flip_h = false
-			if number_of_right_swipes > 1 and G.number_of_dodges > 0:
+			if G.number_of_right_swipes > 1 and G.number_of_dodges > 0:
 				G.number_of_dodges -= 1
 				character_state_machine.dispatch(&"to dodge")
 				$Run.stop()
 		elif G.left_swipe_detected:
+			
+			if !G.last_cover_moved: #move if running back to last cover
+				G.emit_signal("move_last_cover")
+				G.last_cover_moved = true
+				#print("cover moved")
+				
 			velocity.x = -G.moving_speed
 			$Sprite2D.flip_h = true
-			number_of_right_swipes = 0 #to avoid superflous dodge bug
+			G.number_of_right_swipes = 0 #to avoid superflous dodge bug
 			G.emit_signal("make_cover_unused")
 		move_and_slide()
 
 func dodging_enter():
+	G.emit_signal("dodge_bar_empty")
 	time_to_die = false
 	$DeathTimer.stop()
 	if G.sound_on:
@@ -321,7 +338,7 @@ func dodging_update(delta: float):
 		velocity.x = dodge_speed
 		if position.x - dodge_old_pos_x >= target_distance and dodge_finished: #more or equals because we can't calculate it precisely 
 			print('yes')
-			number_of_right_swipes = 0 #need to reset to avoid bugs
+			#G.number_of_right_swipes = 0 #need to reset to avoid bugs
 			invincible = false
 			dodge_finished = false
 			character_state_machine.dispatch("to run")
@@ -348,14 +365,15 @@ func swipe_detection():
 						#print("right swipe!")
 						G.right_swipe_detected = true
 						G.left_swipe_detected = false
-						number_of_right_swipes += 1
+						G.number_of_right_swipes += 1
 						if !G.moving and G.current_cover_number > G.last_cover_number:
 							G.emit_signal("swipe_room") #to create a new room
 							G.last_cover_number = G.current_cover_number
 					elif swipe_start_pos.x > swipe_cur_pos.x:
 						#print("left swipe!")
-						G.left_swipe_detected = true
-						G.right_swipe_detected = false
+						if !left_swipe_blocked:
+							G.left_swipe_detected = true
+							G.right_swipe_detected = false
 				swiping = false
 	else:
 		swiping = false
@@ -425,7 +443,7 @@ func game_over():
 	print("oKKK")
 	set_process(false) #what?
 	G.game_over = true
-	
+	G.save_json_file()
 
 
 

@@ -23,13 +23,13 @@ func _physics_process(delta: float) -> void:
 	if !G.wave_going: #when wave stops we stop spawning
 		$Timer.stop()
 		
-	if G.moving:
-		if G.left_swipe_detected:
-			velocity.x = -G.moving_speed
-		else:
-			velocity.x = G.moving_speed
-		move_and_slide()
-		
+	#if G.moving:
+		#if G.left_swipe_detected:
+			#velocity.x = -G.moving_speed
+		#else:
+			#velocity.x = G.moving_speed
+		#move_and_slide()
+		#
 	if $Break_Window.is_stopped():
 		G.break_bar_progress = 0.0
 	else:

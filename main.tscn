@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://67ic5nix6m4w"]
+[gd_scene load_steps=16 format=3 uid="uid://67ic5nix6m4w"]
 
 [ext_resource type="PackedScene" uid="uid://d4biv87sinkk1" path="res://character.tscn" id="1_27mtl"]
 [ext_resource type="Script" path="res://main.gd" id="1_puokp"]
@@ -13,6 +13,7 @@
 [ext_resource type="Texture2D" uid="uid://djm5e7xioilic" path="res://ui/dodge_bar/dodge_bar_inactive.png" id="11_nu4lv"]
 [ext_resource type="Texture2D" uid="uid://bddq0yxkqgq15" path="res://sprite plugs/706ed7a3a5eb8f7e4bd227188cff51d1.png" id="11_wmiod"]
 [ext_resource type="Texture2D" uid="uid://ctc0ompolh7kw" path="res://ui/dodge_bar/dodge_bar.png" id="12_sm2la"]
+[ext_resource type="Script" path="res://dodge_bar.gd" id="13_v57sa"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_haprv"]
 radius = 13.0384
@@ -32,6 +33,7 @@ position = Vector2(-53, -306)
 anchor_mode = 0
 ignore_rotation = false
 script = ExtResource("4_yq4g2")
+wiggle_enabled = false
 wiggle_intensity = 12.0
 wiggle_speed = 3.0
 zoom_in = Vector2(1.3, 1.3)
@@ -165,7 +167,7 @@ offset_bottom = 295.0
 theme_override_font_sizes/normal_font_size = 30
 text = "dfdfsfsdfsdfssfsdfsf"
 
-[node name="TextureProgressBar" type="TextureProgressBar" parent="CanvasLayer"]
+[node name="DodgeBar" type="TextureProgressBar" parent="CanvasLayer"]
 texture_filter = 1
 anchors_preset = -1
 anchor_left = 0.478
@@ -177,10 +179,12 @@ offset_top = -27.04
 offset_right = -5.08
 offset_bottom = -9.04001
 scale = Vector2(3, 3)
-value = 57.0
+value = 100.0
 fill_mode = 3
 texture_under = ExtResource("11_nu4lv")
 texture_progress = ExtResource("12_sm2la")
+script = ExtResource("13_v57sa")
+metadata/_edit_lock_ = true
 
 [node name="space" type="CanvasLayer" parent="."]
 layer = -1

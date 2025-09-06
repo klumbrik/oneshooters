@@ -5,7 +5,7 @@ var number_of_uses = 0 #local variable - how many times we used this certain cov
 ## Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	G.connect("make_cover_unused", _make_cover_unused)
-#
+
 #
 ## Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
@@ -15,13 +15,17 @@ func _process(delta: float) -> void:
 #
 func _on_cover_area_area_entered(area: Area2D) -> void:
 	if area.is_in_group('character'):
+		G.last_cover_area_ref = $Cover_Area
 		number_of_uses += 1
+		
+		
 		if !used:
 			used = true #after the character reaches the cover, it becomes used
 			G.right_swipe_detected = false
 			G.left_swipe_detected = false
 			G.moving = false #character stops
-			G.number_of_dodges = 1 #only one dodge per run
+			dodge_reset()
+			
 			if number_of_uses <= 1: #if we collide with the same cover only once
 				G.current_cover_number += 1
 				G.emit_signal("delete_enemies_out_of_screen")
@@ -29,7 +33,9 @@ func _on_cover_area_area_entered(area: Area2D) -> void:
 				#print(G.current_cover_number)
 				if G.current_cover_number > 1:
 					G.score += 50
-			
+					
+				if G.last_cover_moved:
+					G.last_cover_moved = false
 			
 			
 			
@@ -48,7 +54,11 @@ func _make_cover_unused():
 				##spawn_new_cover()
 				##print("cover has been spawned")
 				##twice why^&?
-#
+
+func dodge_reset():
+	G.number_of_dodges = 1 #only one dodge per run
+	G.number_of_right_swipes = 0
+	G.emit_signal("dodge_bar_fill")
 ##func spawn_new_cover():
 	##G.covers_to_spawn -= 1
 	##var new_cover = cover.instantiate()

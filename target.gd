@@ -58,24 +58,41 @@ func move_target_to(target_enemy):
 	
 func auto_select_target():
 	G.enemiesonscreen = G.enemiesonscreen.filter(is_instance_valid) #for safe purposes need to delete all freed objects
+	var character = G.character_ref
 	
+	if character == null:
+		return
+	var character_x = character.global_position.x
 	
-	G.enemiesonscreen.sort_custom(_sort_by_x)
+	#choose the enemies who are on the right of character
+	var right_enemies := G.enemiesonscreen.filter(func(enemy):
+		return enemy.global_position.x > character_x
+		)
+		
+	right_enemies.sort_custom(func(a, b):
+		return a.global_position.x < b.global_position.x
+	)
 	
 	if manual_target:
 		return	
+		
+	if right_enemies.size() > 0:
+		G.current_target_enemy = right_enemies[0]
 	else:
-		if G.current_target_enemy == null: 
-			if G.enemiesonscreen.size() > 0:
-				G.current_target_enemy = G.enemiesonscreen[0]
-			else:
-				visible = false
-			#target.get_parent().remove_child(target)
-				
-		else: #if there is a target enemy
-			for enemy in G.enemiesonscreen:
-				if enemy.global_position.x < G.current_target_enemy.global_position.x:
-					G.current_target_enemy = enemy
+		G.current_target_enemy = null
+		visible = false
+	#else:
+		#if G.current_target_enemy == null: 
+			#if G.enemiesonscreen.size() > 0:
+				#G.current_target_enemy = G.enemiesonscreen[0]
+			#else:
+				#visible = false
+			##target.get_parent().remove_child(target)
+				#
+		#else: #if there is a target enemy
+			#for enemy in G.enemiesonscreen:
+				#if enemy.global_position.x < G.current_target_enemy.global_position.x:
+					#G.current_target_enemy = enemy
 	
 
 func _sort_by_x(a, b):

@@ -41,8 +41,10 @@ func _on_hit():
 func _on_animation_player_animation_finished(anim_name: StringName) -> void:
 	if anim_name == "collided":
 		queue_free()
-
+	if anim_name == "dissolve":
+		queue_free()
 
 func _on_range() -> void:
+	set_deferred("freeze", true)
 	if $BulletTexture/AnimationPlayer.current_animation != "collided":
-		queue_free()
+		$BulletTexture/AnimationPlayer.play("dissolve")

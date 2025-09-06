@@ -22,6 +22,8 @@ var reset_recharging_state: LimboState
 var reset_recharging_prep_state: LimboState
 var reset_recharging_exit_transition_state: LimboState
 
+var coin_given = false
+
 func _ready() -> void: #when spawns randomly defines hp
 	$Sprite2D/AnimationPlayer.play("run")
 	G.connect("delete_enemies_out_of_screen", _delete_enemies_out_of_screen)
@@ -205,11 +207,16 @@ func is_dead():
 		enemy_state_machine.dispatch(&"to beaten")
 		
 	
-		if is_in_zone and G.stash < 6: #before disabling collision we track if it is in zone to add stash ammo. The limit can be tweaked.
-			G.stash += 3
-			G.stash_pieces += 1
-			G.emit_signal("enemy_died_in_zone", self) #passing self as an arguement
+		if is_in_zone: #before disabling collision we track if it is in zone to add stash ammo. The limit can be tweaked.
+			if G.stash < 6:
+				G.stash += 3
+				G.stash_pieces += 1
+				G.emit_signal("enemy_died_in_zone", self) #passing self as an arguement
+			else:
+				G.coins += 1
+				coin_given = true
 			killed = true
+			coin_given = false
 		disable_damage()
 func get_damage():
 	velocity.x = 0

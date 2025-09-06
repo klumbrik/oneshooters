@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://xsvakw5amtad"]
+[gd_scene load_steps=22 format=3 uid="uid://xsvakw5amtad"]
 
 [ext_resource type="Script" path="res://sub_viewport_input.gd" id="1_4clg3"]
 [ext_resource type="Script" path="res://rich_text_label.gd" id="2_l1s8a"]
@@ -13,6 +13,14 @@
 [ext_resource type="Script" path="res://texture_button.gd" id="12_mo1yl"]
 [ext_resource type="Texture2D" uid="uid://dpqkn18cvqxnl" path="res://ui/bar.png" id="12_ovhjg"]
 [ext_resource type="Script" path="res://wave_bar.gd" id="13_fe0dc"]
+[ext_resource type="Shader" path="res://scroll_shader.gdshader" id="14_pjq25"]
+[ext_resource type="Texture2D" uid="uid://coxxu11e5l2sf" path="res://ui/scroll_bg.png" id="15_jut70"]
+[ext_resource type="Texture2D" uid="uid://b1anqar4ockw" path="res://bonuses/coin.png" id="16_ah2rw"]
+[ext_resource type="Script" path="res://label.gd" id="17_7sycf"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_uyiwt"]
+shader = ExtResource("14_pjq25")
+shader_parameter/speed = 0.05
 
 [sub_resource type="Animation" id="Animation_fhxiq"]
 length = 0.001
@@ -113,6 +121,7 @@ render_target_update_mode = 4
 [node name="MainMenu" parent="SubViewportContainer/SubViewport" instance=ExtResource("2_owi17")]
 
 [node name="CanvasLayer" type="CanvasLayer" parent="SubViewportContainer"]
+visible = false
 
 [node name="MarginContainer" type="MarginContainer" parent="SubViewportContainer/CanvasLayer"]
 offset_left = 2.0
@@ -147,6 +156,19 @@ offset_right = 1273.0
 offset_bottom = 2413.0
 mouse_filter = 2
 color = Color(0, 0.265442, 0.471648, 1)
+metadata/_edit_lock_ = true
+
+[node name="Bg_Pattern" type="TextureRect" parent="ColorRect"]
+texture_filter = 1
+texture_repeat = 2
+material = SubResource("ShaderMaterial_uyiwt")
+layout_mode = 0
+offset_right = 2600.0
+offset_bottom = 4704.0
+mouse_filter = 2
+texture = ExtResource("15_jut70")
+stretch_mode = 1
+metadata/_edit_lock_ = true
 
 [node name="PauseButton" type="TextureButton" parent="."]
 process_mode = 3
@@ -230,6 +252,49 @@ value = 100.0
 fill_mode = 6
 texture_progress = ExtResource("12_ovhjg")
 script = ExtResource("13_fe0dc")
+
+[node name="CenterContainer2" type="CenterContainer" parent="ScoreLayer"]
+custom_minimum_size = Vector2(10, 5)
+layout_direction = 1
+anchors_preset = -1
+anchor_left = 0.006
+anchor_right = 1.0
+anchor_bottom = 0.1
+offset_left = -2.16
+offset_right = -296.0
+pivot_offset = Vector2(50, 56)
+size_flags_horizontal = 6
+size_flags_vertical = 4
+mouse_filter = 2
+
+[node name="TextureRect" type="TextureRect" parent="ScoreLayer/CenterContainer2"]
+texture_filter = 1
+layout_direction = 1
+layout_mode = 2
+texture = ExtResource("16_ah2rw")
+stretch_mode = 2
+metadata/_edit_lock_ = true
+
+[node name="CenterContainer3" type="CenterContainer" parent="ScoreLayer"]
+custom_minimum_size = Vector2(10, 0)
+anchors_preset = -1
+anchor_top = 0.048
+anchor_right = 1.0
+anchor_bottom = 0.086
+offset_left = 48.0
+offset_top = 0.279999
+offset_right = -295.0
+offset_bottom = -0.0400009
+mouse_filter = 2
+
+[node name="Label" type="Label" parent="ScoreLayer/CenterContainer3"]
+texture_filter = 1
+custom_minimum_size = Vector2(10, 0)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("8_o3xom")
+text = "0"
+script = ExtResource("17_7sycf")
+metadata/_edit_lock_ = true
 
 [node name="Transition_player" type="AnimationPlayer" parent="."]
 libraries = {
