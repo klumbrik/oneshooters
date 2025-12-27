@@ -262,3 +262,10 @@ func crossfade_buses(from_bus: String, to_bus: String, duration: float = 2.0):
 		func(db): AudioServer.set_bus_volume_db(to_index, db),
 		to_volume, 0, duration
 	)
+
+func _notification(what):
+	# Проверяем, что приложение сворачивается (специфично для мобильных устройств)
+	if what == NOTIFICATION_APPLICATION_PAUSED:
+		# Условие: игра должна быть запущена, пауза еще не стоять, и игрок должен быть жив
+		if G.game_started and not G.pause_added and not G.game_over:
+			_on_pause_button_button_down()
