@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://b07o2jgiujqrr"
+path="res://.godot/imported/energy (mp3cut.net).mp3-9ecd35bb8e78159ca88df28e99a889e8.mp3str"
+
+[deps]
+
+source_file="res://sounds/sfx/energy (mp3cut.net).mp3"
+dest_files=["res://.godot/imported/energy (mp3cut.net).mp3-9ecd35bb8e78159ca88df28e99a889e8.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

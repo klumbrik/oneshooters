@@ -1,6 +1,8 @@
 #extends CharacterBody2D
 extends "res://enemy.gd"
 
+signal shot_start #for tutorial
+
 var is_shooting = false
 var enemy_moving = true
 var target = preload("res://target.tscn")
@@ -28,6 +30,9 @@ func shot():
 	var new_bullet = bullet.instantiate()
 	new_bullet.global_position = Vector2(3, 1)
 	add_child(new_bullet)
+	$BlasterMetallic01.play()
+	if G.tutorial_mode:
+		emit_signal("shot_start")
 	
 
 func _on_delay_timeout() -> void:
@@ -79,7 +84,6 @@ func rtransition_update(delta: float):
 
 func recharging_enter():
 	$Sprite2D/AnimationPlayer.play("recharge")
-
 func recharging_update(delta: float):
 	is_dead()
 	add_target()

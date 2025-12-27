@@ -1,6 +1,7 @@
 extends RigidBody2D
 signal range
 var hit = false
+var bullet_owner = "character"
 #var speed = 1000#
 # Called when the node enters the scene tree for the first time.
 
@@ -45,6 +46,7 @@ func _on_animation_player_animation_finished(anim_name: StringName) -> void:
 		queue_free()
 
 func _on_range() -> void:
-	set_deferred("freeze", true)
-	if $BulletTexture/AnimationPlayer.current_animation != "collided":
-		$BulletTexture/AnimationPlayer.play("dissolve")
+	if bullet_owner != "drone":
+		set_deferred("freeze", true)
+		if $BulletTexture/AnimationPlayer.current_animation != "collided":
+			$BulletTexture/AnimationPlayer.play("dissolve")

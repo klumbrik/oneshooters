@@ -3,12 +3,29 @@ extends Node2D
 var room = preload("res://room.tscn")
 @onready var sprite = $CanvasLayer/CenterContainer/ui_weapon
 
+
+@onready var camera := $character/Camera2D
+
 var sprite_angle = 0.0
 var body_in_area
 var current_bullet
 var bullet_ui = preload("res://jebulletui.tscn")
-var bonuses = [preload("res://ammo_bonus1.tscn"), preload("res://shield_bonus.tscn")]
+
+var bonus_weights := {
+	"ammo": 0.6,
+	"shield": 0.3,
+	"drone": 0.1
+}
+
+var bonus_scenes := {
+	"ammo": preload("res://ammo_bonus1.tscn"),
+	"shield": preload("res://shield_bonus.tscn"),
+	"drone": preload("res://drone_bonus.tscn")
+}
+
 var ShieldScene =  preload("res://shield_visual.tscn")
+var DroneScene = preload("res://drone.tscn")
+
 @onready var spawner_distance = $enemyspawn.global_position - $character.global_position
 
 var reload_tween: Tween
@@ -34,7 +51,20 @@ var bullet_removal_in_progress = false
 var revolver
 
 func _ready() -> void:
+	G.tutorial_mode = false
+	$room/Hot_Target_Spawner.disabled = false
+	$character.controls_blocked = true
+	$CanvasLayer/BestContainer.show()
 	
+	G.player_died.connect(self._on_player_died)
+	camera.zoom = Vector2(3, 3) # zoomed start
+	camera.position = Vector2(-60, -110)
+	#$CanvasLayer/TapToStartLabel.visible = true
+	$enemyspawn.enabled = false
+	$CanvasLayer/CenterContainer.visible = false
+	$CanvasLayer/DodgeBar.visible = false
+	
+	$CanvasLayer/BestContainer/BestLabel.text = "Your best: " + str(G.best_score)
 	
 	revolver = {
 	1:slot1,
@@ -44,6 +74,8 @@ func _ready() -> void:
 	5:slot5,
 	6:slot6
 } #slots indexes match their positions
+
+
 	await get_tree().process_frame #to not get null when adding the first room to array
 	G.rooms.clear()
 	G.rooms.append($room) #adding the first room to array
@@ -58,17 +90,28 @@ func _ready() -> void:
 	G.drop_bonus.connect(self._on_drop_bonus)
 	G.bonus_stash.connect(self._stash_bonus_collected)
 	
-	
+func _input(event):
+	if G.game_started:
+		return
+	#if $CanvasLayer/WardrobeButton.get_global_rect().has_point(get_viewport().get_mouse_position()):
+		#return
+	if event.is_action_pressed("space"):
+		start_game()
+		
 func _process(delta: float) -> void: #for testing only, comment later
+	
+	#print(G.game_started)
+	
+	
 	$CanvasLayer/spawner_metrics.text = """new_enemy_in: %.2f\nwave ends in: %.2f\nbreak ends in: %.2f""" % [$enemyspawn/Timer.time_left, $enemyspawn/WaveEnd.time_left, $enemyspawn/Break_Window.time_left]
 	if $enemyspawn/Timer.time_left == 0 and not $CanvasLayer/spawner_metrics.get("modulate").r == 1.0:
 		$CanvasLayer/spawner_metrics.modulate = Color(1, 0, 0) # red
 		$CanvasLayer/spawner_metrics.call_deferred("reset_color")
 		
-		
+	#print(G.drone_active)	
 	#shield tracking
 	shield_tracking()
-	
+	drone_tracking()
 	spawn_tracking()		
 			
 			
@@ -106,7 +149,7 @@ func start_reload_sequence(): #reload tween
 	var new_rotation = reload_origin_angle + 60.0
 	sprite_angle = new_rotation
 	reload_tween = create_tween()
-	reload_tween.tween_property(sprite, "rotation_degrees", new_rotation, reload_duration)
+	reload_tween.tween_property(sprite, "rotation_degrees", new_rotation, reload_duration).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
 	
 	reload_tween.finished.connect(self._on_reload_rotation_finished)
 	#print(sprite.rotation_degrees)
@@ -127,7 +170,7 @@ func cancel_reload_sequence():
 	reload_tween = create_tween()
 	reload_tween.finished.connect(self._on_reload_cancelled)
 	var offset = fmod(current_angle, 60.0)
-	reload_tween.tween_property(sprite, "rotation_degrees", reload_origin_angle, duration)
+	reload_tween.tween_property(sprite, "rotation_degrees", reload_origin_angle, duration).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
 	sprite_angle = reload_origin_angle
 	
 	
@@ -136,7 +179,7 @@ func shot_back_rotate_60_tween(): #shot tween
 	var new_rotation = sprite_angle - 60.0
 	sprite_angle = new_rotation
 	var tween = create_tween()
-	tween.tween_property(sprite, "rotation_degrees",new_rotation, 0.1)
+	tween.tween_property(sprite, "rotation_degrees",new_rotation, 0.1).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
 	#print(sprite.rotation_degrees)
 	if body_in_area:
 		if is_instance_valid(current_bullet):
@@ -209,6 +252,7 @@ func _used_stash(): #&&&&&&&&??????????????
 		var bullet = bullet_ui.instantiate()
 		$CanvasLayer/CenterContainer/ui_weapon.add_child(bullet)
 		bullet.global_position = marker.global_position
+	$'character/Reload'.play()
 		
 func revolver_update_indicies():
 	var new_slots = {}
@@ -253,8 +297,13 @@ func _on_reload_cancelled():
 	reload_cycle_active = false
 	G.reload_cooldown_active = false
 func _on_drop_bonus(position: Vector2):
-	var bonus_chance = randi_range(0, 1)
-	var bonus = bonuses[bonus_chance].instantiate()
+	print("DROP BONUS CALLED at", position)
+	var spawn_chance = clamp(0.3 + G.difficulty_level * 0.05, 0.3, 0.8)
+	if randf() > spawn_chance:
+		return # не спавним бонус
+		
+	var bonus_type := choose_bonus_type()
+	var bonus = bonus_scenes[bonus_type].instantiate()
 	bonus.global_position = position
 	add_child(bonus)
 	
@@ -284,6 +333,15 @@ func shield_tracking():
 			new_shield.name = "Shield_Visual"
 			add_child(new_shield)
 
+func drone_tracking():
+	var drone_node := get_node_or_null("Drone_Visual")
+	
+	if drone_node == null and G.drone_active:
+		
+		var new_drone := DroneScene.instantiate()
+		new_drone.name = "Drone_Visual"
+		add_child(new_drone)
+
 func spawn_tracking():
 	$enemyspawn.global_position = $character.global_position + spawner_distance
 	
@@ -296,3 +354,78 @@ func ui_add_bullet():
 		#call_deferred("revolver_reverse_update_indicies")
 	else:
 		print("NOT ADDED")
+
+
+func choose_bonus_type() -> String:
+	var total_weight := 0.0
+	for weight in bonus_weights.values():
+		total_weight += weight
+		
+	var roll := randf() * total_weight
+	var cumulative := 0.0
+	
+	for bonus_type in bonus_weights.keys():
+		cumulative += bonus_weights[bonus_type]
+		if roll <= cumulative:
+			return bonus_type
+		
+	return "ammo" # fallback
+
+
+func start_game():
+	
+	G.game_started = true
+	G.wave_going = true
+	# UI и камера
+	#$CanvasLayer/TapToStartLabel.visible = false
+	$CanvasLayer/CenterContainer.visible = true
+	$CanvasLayer/DodgeBar.visible = true
+	$CanvasLayer/BestContainer.hide()
+	
+	var tween := create_tween()
+	
+	tween.set_parallel()
+	
+	tween.tween_property(camera, "zoom", Vector2(1, 1), 0.5).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+	tween.tween_property(camera, "position", Vector2(-53, -306), 0.5).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+	#camera.base_position = camera.position
+
+	# Запуск спавна
+	$enemyspawn.enabled = true
+	$enemyspawn/Timer.start()
+	$enemyspawn/WaveEnd.start()
+	
+	$character.controls_blocked = false
+	$character.dontshoot = false
+	# Можно добавить звук, вспышку, анимацию
+	
+	$CanvasLayer/WardrobeButton.visible = false
+	
+	
+	
+	
+
+
+func _on_start_game_button_button_down() -> void:
+	var tween = create_tween()
+	var button = $CanvasLayer/StartGameButton
+	tween.tween_property(button, "scale", Vector2.ZERO, 0.3).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+	start_game()
+
+
+func _on_wardrobe_button_button_down() -> void:
+	G.emit_signal("to_wardrobe")
+
+
+func _on_player_died():
+	G.game_started = false
+	
+	var tween = create_tween()
+	tween.set_parallel()
+	tween.tween_property(camera, "zoom", Vector2(3, 3), 0.5).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+	tween.tween_property(camera, "position", Vector2(-60, -110), 0.5).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+
+	#$CanvasLayer/TapToStartLabel.visible = true
+	$enemyspawn.enabled = false
+	$CanvasLayer/CenterContainer.visible = false
+	$CanvasLayer/DodgeBar.visible = false

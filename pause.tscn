@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://cc0meviethdh8"]
+[gd_scene load_steps=6 format=3 uid="uid://cc0meviethdh8"]
 
 [ext_resource type="Script" path="res://pause.gd" id="1_8e3j3"]
 [ext_resource type="Texture2D" uid="uid://jsrea88hmguy" path="res://ui/desks/bigdeskui.png" id="2_dee34"]
 [ext_resource type="Texture2D" uid="uid://c0gwq8hmmp3wd" path="res://ui/desks/deskui.png" id="3_y74wd"]
 [ext_resource type="FontFile" uid="uid://cjsn6sorvmyt6" path="res://demo/assets/fonts/8bitOperatorPlusSC-Bold.ttf" id="4_vmq4p"]
+[ext_resource type="AudioStream" uid="uid://2ew1hvttxqv6" path="res://sounds/sfx/noshum1sec.mp3" id="5_8yvs5"]
 
 [node name="Pause" type="Control"]
 process_mode = 3
@@ -76,21 +77,24 @@ layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -64.0
+offset_left = -59.0
 offset_top = -1.0
-offset_right = 56.0
-offset_bottom = 99.0
+offset_right = 56.185
+offset_bottom = 25.0
 grow_horizontal = 2
 
 [node name="soundLabel" type="RichTextLabel" parent="VBoxContainer/sound/CenterContainer"]
 texture_filter = 1
-custom_minimum_size = Vector2(120, 100)
+custom_minimum_size = Vector2(6.965, 24.69)
 layout_mode = 2
 mouse_filter = 1
 theme_override_fonts/normal_font = ExtResource("4_vmq4p")
 theme_override_font_sizes/normal_font_size = 18
+bbcode_enabled = true
 text = "sound: on"
+fit_content = true
 scroll_active = false
+autowrap_mode = 0
 
 [node name="to menu" type="TextureButton" parent="VBoxContainer"]
 texture_filter = 1
@@ -111,6 +115,10 @@ theme_override_fonts/normal_font = ExtResource("4_vmq4p")
 theme_override_font_sizes/normal_font_size = 20
 text = "exit
 "
+
+[node name="impact" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("5_8yvs5")
+volume_db = 10.0
 
 [connection signal="button_down" from="VBoxContainer/continue" to="." method="_on_continue_button_down"]
 [connection signal="toggled" from="VBoxContainer/sound" to="." method="_on_sound_toggled"]

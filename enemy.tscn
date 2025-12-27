@@ -1,4 +1,4 @@
-[gd_scene load_steps=63 format=3 uid="uid://c7g4sld7qgrml"]
+[gd_scene load_steps=65 format=3 uid="uid://c7g4sld7qgrml"]
 
 [ext_resource type="Script" path="res://enemy.gd" id="1_5a16f"]
 [ext_resource type="Shader" path="res://hit_flash.gdshader" id="1_i8o5d"]
@@ -49,6 +49,8 @@
 [ext_resource type="Texture2D" uid="uid://bv1wy0tajvaui" path="res://sprites/enemyanims/recharge/recharging19.png" id="45_1lbc4"]
 [ext_resource type="Texture2D" uid="uid://ctguch52swtke" path="res://sprites/enemyanims/recharge/recharging20.png" id="46_dqcvt"]
 [ext_resource type="Texture2D" uid="uid://05shnno4j1i1" path="res://sprites/enemyanims/recharge/recharging21.png" id="47_extku"]
+[ext_resource type="AudioStream" uid="uid://bxwc36x6bx3hr" path="res://sounds/sfx/robot_hit-sound (mp3cut.net).mp3" id="50_vwdde"]
+[ext_resource type="AudioStream" uid="uid://uj46jetenv67" path="res://sounds/sfx/destroyed_demo.mp3" id="51_r0b81"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_eqn62"]
 resource_local_to_scene = true
@@ -274,6 +276,16 @@ one_shot = true
 libraries = {
 "": SubResource("AnimationLibrary_qm2kh")
 }
+
+[node name="hit_sound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("50_vwdde")
+volume_db = 24.0
+pitch_scale = 1.1
+attenuation = 2.0
+
+[node name="destroyed_demo" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("51_r0b81")
+pitch_scale = 1.17
 
 [connection signal="animation_finished" from="Sprite2D/AnimationPlayer" to="." method="_on_animation_player_animation_finished"]
 [connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]

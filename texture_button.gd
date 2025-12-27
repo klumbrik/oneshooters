@@ -17,11 +17,3 @@ func _process(delta: float) -> void:
 		#code below was here before
 	#else: 
 		#get_tree().paused = false
-
-
-func _on_button_down() -> void:
-	if not G.pause_added:
-		get_tree().paused = true
-		var pause = preload("res://pause.tscn").instantiate()
-		get_parent().add_child(pause)
-		G.pause_added = true

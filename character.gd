@@ -3,6 +3,17 @@ extends CharacterBody2D
 #var is_shooting = true
 @export var dontshoot: bool #testing
 
+#tutroial signals
+signal tut_ducked
+signal tut_run
+
+
+var dontduck: bool
+var dontrun: bool
+var dontdodge: bool
+var dontleft: bool
+
+var controls_blocked = false
 #var ammo = G.ammo
 var bullet = preload("res://bullet.tscn")
 var time_to_die = false
@@ -40,21 +51,24 @@ func _ready() -> void:
 	$Timer.start() #INITIAL SHOOT timer start
 
 func _input(event: InputEvent) -> void: #for pc controls
-	if Input.is_action_just_pressed("right"):
-		G.right_swipe_detected = true
-		G.left_swipe_detected = false
-		G.number_of_right_swipes += 1
-		if !G.moving and G.current_cover_number > G.last_cover_number:
-			G.emit_signal("swipe_room") #to create a new room
-			G.last_cover_number = G.current_cover_number
-	elif Input.is_action_just_pressed("left"):
-		if !left_swipe_blocked:
-			G.left_swipe_detected = true	
-			G.right_swipe_detected = false
-	elif Input.is_action_pressed("space"):
-		ducking = true
+	if controls_blocked:
+		return
 	else:
-		ducking = false
+		if Input.is_action_just_pressed("right"):
+			G.right_swipe_detected = true
+			G.left_swipe_detected = false
+			G.number_of_right_swipes += 1
+			if !G.moving and G.current_cover_number > G.last_cover_number:
+				G.emit_signal("swipe_room") #to create a new room
+				G.last_cover_number = G.current_cover_number
+		elif Input.is_action_just_pressed("left"):
+			if !left_swipe_blocked:
+				G.left_swipe_detected = true	
+				G.right_swipe_detected = false
+		elif Input.is_action_pressed("space"):
+			ducking = true
+		else:
+			ducking = false
 			
 func _physics_process(_delta: float) -> void: #main function
 	#print($Sprite2D/AnimationPlayer.current_animation)
@@ -72,6 +86,9 @@ func _physics_process(_delta: float) -> void: #main function
 	#$Timer.paused = false
 	swipe_detection() #we need to detect swipes each frame
 	
+	if controls_blocked: #see shoot controls and swipedetection
+		dontshoot = true
+	
 	if G.shield_enabled:
 		invincible = true
 	else:
@@ -85,7 +102,7 @@ func _physics_process(_delta: float) -> void: #main function
 	
 	$debugger.text = str(G.number_of_right_swipes)
 	
-	print("running update — swipes:", G.number_of_right_swipes, " dodges:", G.number_of_dodges)	
+	#print("running update — swipes:", G.number_of_right_swipes, " dodges:", G.number_of_dodges)	
 	
 	
 
@@ -105,6 +122,9 @@ func _on_area_2d_area_entered(area: Area2D) -> void:
 		if !invincible: #are you sure?
 			$DeathTimer.start()
 			time_to_die = true #probably the character will die if not escapes
+			
+	if area.is_in_group("bonuses"):
+		$pick.play()
 
 func _on_area_2d_area_exited(area: Area2D) -> void: #bugs may arise when working with enemy bullets. Might be solved by adding a new group for it
 	if area.is_in_group('enemies') or area.is_in_group('enemy_damage'):
@@ -130,6 +150,9 @@ func _on_shootingrange_body_exited(body: Node2D) -> void: #bullet range restrict
 
 
 func shoot_controls():
+	if controls_blocked:
+		return
+	else:
 		if swipe_start_pos.distance_to(swipe_cur_pos) == 0: #if finger is not moving
 			if Input.is_action_pressed("press"): 
 				if swipe_cur_pos == swipe_start_pos:
@@ -196,7 +219,7 @@ func shooting_enter():
 	$Sprite2D/AnimationPlayer.play("RESET")
 	G.moving = false
 	$Timer.paused = false #starting Timer from the same time where it was paused
-	if shoot_cooldown_passed and !G.moving:
+	if shoot_cooldown_passed and !G.moving and !dontshoot:
 		#print("shot?!") #if the character reaches the cooldown he shoots immediately (when stands up after frame threshhold)
 		$Timer.stop() #stopping timer so that bullets don't stack more than 1 at a time
 		shot()
@@ -207,13 +230,13 @@ func shooting_update(delta: float):
 	shoot_controls() #to detect input #it's important to repeat here to not have tap bugs
 	if $Sprite2D/AnimationPlayer.current_animation == "shoot":
 		if $Sprite2D/AnimationPlayer.current_animation_position >= 0.2: #we need to let the shoot animation play a bit so it looks coherent
-			if ducking:
+			if ducking and !dontduck:
 				character_state_machine.dispatch(&"to downduck")
 	elif $Sprite2D/AnimationPlayer.current_animation_position == 1 or $Sprite2D/AnimationPlayer.current_animation == "":	
-		if ducking:
+		if ducking and !dontduck:
 				character_state_machine.dispatch(&"to downduck")
 	
-	if G.moving: #the same condition added on every state update
+	if G.moving and !dontrun: #the same condition added on every state update
 		character_state_machine.dispatch(&"to run")
 
 func duckingdown_enter():
@@ -237,7 +260,8 @@ func duckingdown_update(delta: float):
 		#print("relod")
 		character_state_machine.dispatch(&"to reload")
 		
-	if G.moving: #the same condition added on every state update
+		
+	if G.moving and !dontrun: #the same condition added on every state update
 		character_state_machine.dispatch(&"to run")
 
 func duckingup_enter():
@@ -255,12 +279,13 @@ func duckingup_update(delta: float):
 		##print("mistake", $Sprite2D/AnimationPlayer.current_animation, $Sprite2D/AnimationPlayer.current_animation_position)
 		#character_state_machine.dispatch(&"to shoot")
 		
-	if G.moving: #the same condition added on every state update
+	if G.moving and !dontrun: #the same condition added on every state update
 		character_state_machine.dispatch(&"to run")
 
 func reloading_enter(): 
 	try_reload()
-	
+	if G.tutorial_mode:
+			emit_signal("tut_ducked")
 func reloading_update(delta: float):
 	try_reload()
 	shoot_controls() #to detect input
@@ -268,10 +293,13 @@ func reloading_update(delta: float):
 		#$ReloadTimer.stop()
 		character_state_machine.dispatch(&"to upduck")
 
-	if G.moving: #the same condition added on every state update
+	if G.moving and !dontrun: #the same condition added on every state update
 			character_state_machine.dispatch(&"to run")
 
 func running_enter():
+	if G.tutorial_mode:
+		emit_signal("tut_run")
+	
 	if G.sound_on:
 		$Run.play()
 	$Timer.paused = true
@@ -294,11 +322,12 @@ func running_update(delta: float):
 		if G.right_swipe_detected:
 			velocity.x = G.moving_speed
 			$Sprite2D.flip_h = false
-			if G.number_of_right_swipes > 1 and G.number_of_dodges > 0:
+			if G.number_of_right_swipes > 1 and G.number_of_dodges > 0 and !dontdodge:
 				G.number_of_dodges -= 1
 				character_state_machine.dispatch(&"to dodge")
 				$Run.stop()
-		elif G.left_swipe_detected:
+				
+		elif G.left_swipe_detected and !dontleft:
 			
 			if !G.last_cover_moved: #move if running back to last cover
 				G.emit_signal("move_last_cover")
@@ -350,33 +379,36 @@ func dodging_update(delta: float):
 	
 	
 func swipe_detection():
-	if Input.is_action_just_pressed("press"):
-		if !swiping:
-			$Swipe_Timer.start()
-			swiping = true
-			swipe_start_pos = get_viewport().get_mouse_position()
-	if Input.is_action_pressed("press"):
-		if swiping:
-			swipe_cur_pos = get_viewport().get_mouse_position()
-			if swipe_start_pos.distance_to(swipe_cur_pos) >= swipe_length:
-				if abs(swipe_start_pos.y - swipe_cur_pos.y) <= swipe_threshold:
-					#print("horizontal swipe!")
-					if swipe_start_pos.x < swipe_cur_pos.x:
-						#print("right swipe!")
-						G.right_swipe_detected = true
-						G.left_swipe_detected = false
-						G.number_of_right_swipes += 1
-						if !G.moving and G.current_cover_number > G.last_cover_number:
-							G.emit_signal("swipe_room") #to create a new room
-							G.last_cover_number = G.current_cover_number
-					elif swipe_start_pos.x > swipe_cur_pos.x:
-						#print("left swipe!")
-						if !left_swipe_blocked:
-							G.left_swipe_detected = true
-							G.right_swipe_detected = false
-				swiping = false
+	if controls_blocked:
+		return
 	else:
-		swiping = false
+		if Input.is_action_just_pressed("press"):
+			if !swiping:
+				$Swipe_Timer.start()
+				swiping = true
+				swipe_start_pos = get_viewport().get_mouse_position()
+		if Input.is_action_pressed("press"):
+			if swiping:
+				swipe_cur_pos = get_viewport().get_mouse_position()
+				if swipe_start_pos.distance_to(swipe_cur_pos) >= swipe_length:
+					if abs(swipe_start_pos.y - swipe_cur_pos.y) <= swipe_threshold:
+						#print("horizontal swipe!")
+						if swipe_start_pos.x < swipe_cur_pos.x:
+							#print("right swipe!")
+							G.right_swipe_detected = true
+							G.left_swipe_detected = false
+							G.number_of_right_swipes += 1
+							if !G.moving and G.current_cover_number > G.last_cover_number:
+								G.emit_signal("swipe_room") #to create a new room
+								G.last_cover_number = G.current_cover_number
+						elif swipe_start_pos.x > swipe_cur_pos.x:
+							#print("left swipe!")
+							if !left_swipe_blocked:
+								G.left_swipe_detected = true
+								G.right_swipe_detected = false
+					swiping = false
+		else:
+			swiping = false
 		
 	
 	#considering adding a timer to this detection so that the player doesn't swipe to long. added (done)
@@ -392,10 +424,13 @@ func use_stash():
 	
 
 func _on_animation_player_animation_started(anim_name: StringName) -> void:
+
 	if anim_name == "reload" and G.ammo < 6:
 		G.emit_signal("rotate_ui")
 	else:
 		G.emit_signal("cancel_reload_rotation")
+
+
 func _on_animation_player_animation_finished(anim_name: StringName) -> void:
 	if anim_name == "reload":
 		reload_anim_played = false
@@ -439,12 +474,13 @@ func _on_death_timer_timeout() -> void:
 
 		
 func game_over():
+	G.emit_signal("player_died")
 	freeze_script()
 	print("oKKK")
 	set_process(false) #what?
 	G.game_over = true
 	G.save_json_file()
-
+	G.game_started = false
 
 
 func freeze_script():

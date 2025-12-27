@@ -1,0 +1,210 @@
+[gd_scene load_steps=8 format=3 uid="uid://bobyak77883m1"]
+
+[ext_resource type="Texture2D" uid="uid://bddq0yxkqgq15" path="res://sprite plugs/706ed7a3a5eb8f7e4bd227188cff51d1.png" id="1_ggtju"]
+[ext_resource type="Script" path="res://wardrobe.gd" id="1_ts6hw"]
+[ext_resource type="FontFile" uid="uid://cjsn6sorvmyt6" path="res://demo/assets/fonts/8bitOperatorPlusSC-Bold.ttf" id="2_oxj4t"]
+[ext_resource type="Texture2D" uid="uid://0wlfs75fojwa" path="res://sprites/jedbigres.png" id="3_kwnem"]
+[ext_resource type="Texture2D" uid="uid://c0hk12txuwnpr" path="res://ui/play/play.png" id="4_6blli"]
+[ext_resource type="Texture2D" uid="uid://chw8gpb1htitq" path="res://sprites/shrug_smile-removebg-preview.png" id="5_0mavj"]
+[ext_resource type="Texture2D" uid="uid://b1anqar4ockw" path="res://bonuses/coin.png" id="6_3xibi"]
+
+[node name="Wardrobe" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_ts6hw")
+
+[node name="706Ed7a3a5Eb8f7e4Bd227188Cff51d1" type="Sprite2D" parent="."]
+texture_filter = 1
+position = Vector2(178.5, 320)
+scale = Vector2(0.363, 1.288)
+texture = ExtResource("1_ggtju")
+metadata/_edit_lock_ = true
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -239.0
+offset_right = 20.0
+offset_bottom = -199.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="CenterContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_oxj4t")
+theme_override_font_sizes/font_size = 40
+text = "Skins"
+
+[node name="CenterContainer2" type="CenterContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -52.0
+offset_top = -214.5
+offset_right = 52.0
+offset_bottom = -143.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="CenterContainer2"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.658824, 1, 0.917647, 1)
+theme_override_colors/font_shadow_color = Color(0.509804, 0.321569, 0.537255, 1)
+theme_override_colors/font_outline_color = Color(0, 0.67451, 0.576471, 1)
+theme_override_constants/shadow_offset_x = 3
+theme_override_constants/shadow_offset_y = 0
+theme_override_constants/outline_size = 8
+theme_override_constants/shadow_outline_size = 14
+theme_override_fonts/font = ExtResource("2_oxj4t")
+theme_override_font_sizes/font_size = 30
+text = "Jed"
+metadata/_edit_lock_ = true
+
+[node name="Skin1" type="Sprite2D" parent="."]
+position = Vector2(184, 340)
+scale = Vector2(0.460938, 0.460938)
+texture = ExtResource("3_kwnem")
+
+[node name="Label" type="Label" parent="Skin1"]
+offset_left = -209.153
+offset_top = 312.509
+offset_right = 58.8475
+offset_bottom = 441.509
+scale = Vector2(1.5, 1.5)
+theme_override_fonts/font = ExtResource("2_oxj4t")
+theme_override_font_sizes/font_size = 30
+text = "EQUIPPED"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
+
+[node name="Skin2" type="Sprite2D" parent="."]
+position = Vector2(500, 332)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("5_0mavj")
+
+[node name="Label" type="Label" parent="Skin2"]
+offset_left = -220.0
+offset_top = 178.0
+offset_right = 48.0
+offset_bottom = 307.0
+scale = Vector2(1.5, 1.5)
+theme_override_fonts/font = ExtResource("2_oxj4t")
+theme_override_font_sizes/font_size = 21
+text = "На скины в демо не хватило бюджета,
+но вы можете купить респект от разработчика"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
+
+[node name="CenterContainer2" type="CenterContainer" parent="Skin2"]
+custom_minimum_size = Vector2(10, 5)
+layout_direction = 1
+anchors_preset = -1
+anchor_top = 0.1
+anchor_right = 1.0
+anchor_bottom = 0.1
+offset_left = -68.0
+offset_top = -232.0
+offset_right = -504.0
+offset_bottom = -168.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(3, 3)
+pivot_offset = Vector2(50, 56)
+size_flags_horizontal = 6
+size_flags_vertical = 4
+mouse_filter = 2
+
+[node name="TextureRect" type="TextureRect" parent="Skin2/CenterContainer2"]
+texture_filter = 1
+layout_direction = 1
+layout_mode = 2
+texture = ExtResource("6_3xibi")
+stretch_mode = 2
+metadata/_edit_lock_ = true
+
+[node name="CenterContainer3" type="CenterContainer" parent="Skin2"]
+custom_minimum_size = Vector2(10, 0)
+anchors_preset = -1
+anchor_top = 0.086
+anchor_right = 1.0
+anchor_bottom = 0.086
+offset_left = -32.0
+offset_top = -245.0
+offset_right = -509.0
+offset_bottom = -221.0
+scale = Vector2(3, 3)
+mouse_filter = 2
+
+[node name="Label" type="Label" parent="Skin2/CenterContainer3"]
+texture_filter = 1
+custom_minimum_size = Vector2(10, 0)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_oxj4t")
+text = "80"
+metadata/_edit_lock_ = true
+
+[node name="ArrowButtonL" type="TextureButton" parent="."]
+texture_filter = 1
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 30.0
+offset_top = -16.0
+offset_right = 62.0
+offset_bottom = 16.0
+grow_vertical = 2
+scale = Vector2(2, 2)
+pivot_offset = Vector2(16, 16)
+texture_normal = ExtResource("4_6blli")
+flip_h = true
+
+[node name="ArrowButtonR" type="TextureButton" parent="."]
+texture_filter = 1
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -78.0
+offset_top = -16.0
+offset_right = -46.0
+offset_bottom = 16.0
+grow_horizontal = 0
+grow_vertical = 2
+scale = Vector2(2, 2)
+pivot_offset = Vector2(16, 16)
+texture_normal = ExtResource("4_6blli")
+
+[node name="ExitButton" type="TextureButton" parent="."]
+texture_filter = 1
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -73.0
+offset_top = 24.0
+offset_right = -41.0
+offset_bottom = 56.0
+grow_horizontal = 0
+scale = Vector2(1.5, 1.5)
+texture_normal = ExtResource("4_6blli")
+
+[connection signal="button_up" from="ArrowButtonL" to="." method="_on_arrow_button_l_button_up"]
+[connection signal="button_up" from="ArrowButtonR" to="." method="_on_arrow_button_r_button_up"]
+[connection signal="button_up" from="ExitButton" to="." method="_on_exit_button_button_up"]

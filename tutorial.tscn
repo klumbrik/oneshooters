@@ -1,0 +1,352 @@
+[gd_scene load_steps=23 format=3 uid="uid://bpx5p86bec1n3"]
+
+[ext_resource type="Script" path="res://tutorial.gd" id="1_lxkb4"]
+[ext_resource type="PackedScene" uid="uid://d4biv87sinkk1" path="res://character.tscn" id="2_rfyld"]
+[ext_resource type="Script" path="res://camera_2d.gd" id="3_6yumo"]
+[ext_resource type="PackedScene" uid="uid://ceyrugadvxkjw" path="res://enemyspawn.tscn" id="4_bw0fr"]
+[ext_resource type="PackedScene" uid="uid://c2w83k7j2ggod" path="res://target.tscn" id="5_pbsc4"]
+[ext_resource type="Texture2D" uid="uid://dy2dqswyle8it" path="res://sprites/bg_oneshooters2.png" id="6_hh1no"]
+[ext_resource type="PackedScene" uid="uid://b66imsg6xttyv" path="res://room.tscn" id="7_vlrpi"]
+[ext_resource type="Texture2D" uid="uid://cfbsi3nvg1nsp" path="res://bonuses/ammo_pack.png" id="8_4we7d"]
+[ext_resource type="Texture2D" uid="uid://bno6ymqyvp7h1" path="res://sprites/Jedanims/reload ui/jedweaponui.png" id="9_06txo"]
+[ext_resource type="PackedScene" uid="uid://hm68mls7f6mg" path="res://jebulletui.tscn" id="10_iiwwu"]
+[ext_resource type="Texture2D" uid="uid://djm5e7xioilic" path="res://ui/dodge_bar/dodge_bar_inactive.png" id="11_8hgam"]
+[ext_resource type="Texture2D" uid="uid://ctc0ompolh7kw" path="res://ui/dodge_bar/dodge_bar.png" id="12_ipime"]
+[ext_resource type="Script" path="res://dodge_bar.gd" id="13_1bec0"]
+[ext_resource type="Texture2D" uid="uid://0wlfs75fojwa" path="res://sprites/jedbigres.png" id="14_sh588"]
+[ext_resource type="FontFile" uid="uid://cjsn6sorvmyt6" path="res://demo/assets/fonts/8bitOperatorPlusSC-Bold.ttf" id="15_ev5jn"]
+[ext_resource type="Texture2D" uid="uid://bddq0yxkqgq15" path="res://sprite plugs/706ed7a3a5eb8f7e4bd227188cff51d1.png" id="17_13ocw"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_haprv"]
+radius = 13.0384
+
+[sub_resource type="Animation" id="Animation_b8sf1"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(-190, 694)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [-1.23569]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("../Label:modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_h1pfm"]
+resource_name = "popup"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.366667),
+"transitions": PackedFloat32Array(0.5, 21.1121),
+"update": 0,
+"values": [-1.23569, -0.15708]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.366667),
+"transitions": PackedFloat32Array(0.5, 21.1121),
+"update": 0,
+"values": [Vector2(-190, 694), Vector2(97, 453)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("../Label:modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0.266667, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_lho6i"]
+_data = {
+"RESET": SubResource("Animation_b8sf1"),
+"popup": SubResource("Animation_h1pfm")
+}
+
+[sub_resource type="Animation" id="Animation_xgnv1"]
+resource_name = "start_fade"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CanvasLayer/TranisitionPlayer/ColorRect:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.466667),
+"transitions": PackedFloat32Array(1, -2),
+"update": 0,
+"values": [Color(0, 0, 0, 0), Color(0, 0, 0, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_tu7af"]
+_data = {
+"start_fade": SubResource("Animation_xgnv1")
+}
+
+[node name="tutorial" type="Node2D"]
+process_mode = 3
+texture_filter = 1
+script = ExtResource("1_lxkb4")
+metadata/_edit_horizontal_guides_ = [-12.0]
+metadata/_edit_lock_ = true
+
+[node name="character" parent="." instance=ExtResource("2_rfyld")]
+process_mode = 1
+z_index = 1
+position = Vector2(53, 306)
+
+[node name="Camera2D" type="Camera2D" parent="character"]
+position = Vector2(-53, -306)
+anchor_mode = 0
+ignore_rotation = false
+script = ExtResource("3_6yumo")
+
+[node name="enemyspawn" parent="." instance=ExtResource("4_bw0fr")]
+process_mode = 1
+position = Vector2(363, 298)
+enabled = false
+
+[node name="target" parent="enemyspawn" instance=ExtResource("5_pbsc4")]
+process_mode = 3
+z_index = 4
+
+[node name="фигнядлятеста" type="ColorRect" parent="."]
+visible = false
+offset_left = -90.0
+offset_top = 873.0
+offset_right = 1030.0
+offset_bottom = 1164.0
+
+[node name="ColorRect2" type="ColorRect" parent="."]
+visible = false
+top_level = true
+z_index = -7
+offset_left = -82.0
+offset_top = -65.0
+offset_right = 452.0
+offset_bottom = 736.0
+color = Color(0.9484, 0.85557, 0.960793, 1)
+
+[node name="ColorRect" type="ColorRect" parent="."]
+visible = false
+top_level = true
+z_index = -4
+offset_left = -82.0
+offset_top = -65.0
+offset_right = 452.0
+offset_bottom = 736.0
+color = Color(0.188235, 0.164706, 0.239216, 1)
+
+[node name="bg position" type="Node2D" parent="."]
+position = Vector2(-360, 0)
+scale = Vector2(2, 2)
+
+[node name="BgOneshooters" type="Sprite2D" parent="bg position"]
+z_index = -4
+texture_filter = 1
+texture = ExtResource("6_hh1no")
+centered = false
+
+[node name="room" parent="." instance=ExtResource("7_vlrpi")]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="CenterContainer" type="CenterContainer" parent="CanvasLayer"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -153.0
+offset_top = 37.5
+offset_right = 153.0
+offset_bottom = 276.5
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_edit_lock_ = true
+
+[node name="stash1" type="Sprite2D" parent="CanvasLayer/CenterContainer"]
+visible = false
+texture_filter = 1
+position = Vector2(256.95, 114)
+scale = Vector2(2, 2)
+texture = ExtResource("8_4we7d")
+
+[node name="stash2" type="Sprite2D" parent="CanvasLayer/CenterContainer"]
+visible = false
+texture_filter = 1
+position = Vector2(43, 114)
+scale = Vector2(2, 2)
+texture = ExtResource("8_4we7d")
+
+[node name="ui_weapon" type="Sprite2D" parent="CanvasLayer/CenterContainer"]
+texture_filter = 1
+position = Vector2(151, 131)
+scale = Vector2(4.42188, 4.42188)
+texture = ExtResource("9_06txo")
+metadata/_edit_lock_ = true
+
+[node name="Jebulletui" parent="CanvasLayer/CenterContainer/ui_weapon" instance=ExtResource("10_iiwwu")]
+position = Vector2(0, -19.2226)
+
+[node name="Jebulletui2" parent="CanvasLayer/CenterContainer/ui_weapon" instance=ExtResource("10_iiwwu")]
+position = Vector2(-17.1873, -9.27208)
+
+[node name="Jebulletui3" parent="CanvasLayer/CenterContainer/ui_weapon" instance=ExtResource("10_iiwwu")]
+position = Vector2(-16.735, 10.1767)
+
+[node name="Jebulletui4" parent="CanvasLayer/CenterContainer/ui_weapon" instance=ExtResource("10_iiwwu")]
+position = Vector2(-0.226149, 18.7703)
+
+[node name="Jebulletui5" parent="CanvasLayer/CenterContainer/ui_weapon" instance=ExtResource("10_iiwwu")]
+position = Vector2(16.5088, 9.49822)
+
+[node name="Jebulletui6" parent="CanvasLayer/CenterContainer/ui_weapon" instance=ExtResource("10_iiwwu")]
+position = Vector2(16.735, -9.27207)
+
+[node name="slot1" type="Marker2D" parent="CanvasLayer/CenterContainer/ui_weapon"]
+position = Vector2(0, -19.4487)
+
+[node name="slot2" type="Marker2D" parent="CanvasLayer/CenterContainer/ui_weapon"]
+position = Vector2(16.735, -9.27207)
+
+[node name="slot3" type="Marker2D" parent="CanvasLayer/CenterContainer/ui_weapon"]
+position = Vector2(16.5088, 9.49822)
+
+[node name="slot4" type="Marker2D" parent="CanvasLayer/CenterContainer/ui_weapon"]
+position = Vector2(-0.226147, 18.7703)
+
+[node name="slot5" type="Marker2D" parent="CanvasLayer/CenterContainer/ui_weapon"]
+position = Vector2(-16.735, 10.1767)
+
+[node name="slot6" type="Marker2D" parent="CanvasLayer/CenterContainer/ui_weapon"]
+position = Vector2(-17.1873, -9.27207)
+
+[node name="Area2D" type="Area2D" parent="CanvasLayer/CenterContainer"]
+position = Vector2(-75, 46)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CanvasLayer/CenterContainer/Area2D"]
+position = Vector2(226, 0)
+shape = SubResource("CircleShape2D_haprv")
+
+[node name="spawner_metrics" type="RichTextLabel" parent="CanvasLayer"]
+visible = false
+offset_right = 360.0
+offset_bottom = 295.0
+mouse_filter = 2
+theme_override_font_sizes/normal_font_size = 30
+text = "dfdfsfsdfsdfssfsdfsf"
+
+[node name="DodgeBar" type="TextureProgressBar" parent="CanvasLayer"]
+texture_filter = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -17.0
+offset_top = 140.0
+offset_right = -7.0
+offset_bottom = 158.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(3, 3)
+value = 100.0
+fill_mode = 3
+texture_under = ExtResource("11_8hgam")
+texture_progress = ExtResource("12_ipime")
+script = ExtResource("13_1bec0")
+metadata/_edit_lock_ = true
+
+[node name="Label" type="Label" parent="CanvasLayer"]
+z_index = 1
+offset_left = 160.0
+offset_top = 220.0
+offset_right = 350.0
+offset_bottom = 402.0
+theme_override_fonts/font = ExtResource("15_ev5jn")
+text = "r"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
+
+[node name="Jedbigres" type="Sprite2D" parent="CanvasLayer"]
+position = Vector2(-190, 694)
+rotation = -1.23569
+scale = Vector2(0.560938, 0.560938)
+texture = ExtResource("14_sh588")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="CanvasLayer/Jedbigres"]
+process_mode = 3
+libraries = {
+"": SubResource("AnimationLibrary_lho6i")
+}
+
+[node name="TranisitionPlayer" type="AnimationPlayer" parent="CanvasLayer"]
+root_node = NodePath("../..")
+libraries = {
+"": SubResource("AnimationLibrary_tu7af")
+}
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer/TranisitionPlayer"]
+offset_right = 361.0
+offset_bottom = 642.0
+mouse_filter = 2
+color = Color(0, 0, 0, 0)
+
+[node name="space" type="CanvasLayer" parent="."]
+layer = -1
+
+[node name="706Ed7a3a5Eb8f7e4Bd227188Cff51d1" type="Sprite2D" parent="space"]
+texture_filter = 1
+position = Vector2(178.5, 320)
+scale = Vector2(0.363, 1.288)
+texture = ExtResource("17_13ocw")
+metadata/_edit_lock_ = true
+
+[connection signal="child_entered_tree" from="." to="." method="_on_child_entered_tree"]
+[connection signal="body_entered" from="CanvasLayer/CenterContainer/Area2D" to="." method="_on_area_2d_body_entered"]
+[connection signal="body_exited" from="CanvasLayer/CenterContainer/Area2D" to="." method="_on_area_2d_body_exited"]

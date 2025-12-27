@@ -1,4 +1,4 @@
-[gd_scene load_steps=87 format=3 uid="uid://cumhdmj4ac520"]
+[gd_scene load_steps=92 format=3 uid="uid://cumhdmj4ac520"]
 
 [ext_resource type="Texture2D" uid="uid://r0h08x1ylmve" path="res://sprites/enemyanims/shootmask/shoot_recharge/shootmaskshot1.png" id="2_guwu2"]
 [ext_resource type="Texture2D" uid="uid://dqwcf3kmftyj4" path="res://sprites/enemyanims/run/enemyrun1.png" id="2_muara"]
@@ -70,6 +70,11 @@
 [ext_resource type="Texture2D" uid="uid://bv1wy0tajvaui" path="res://sprites/enemyanims/recharge/recharging19.png" id="66_1lbet"]
 [ext_resource type="Texture2D" uid="uid://ctguch52swtke" path="res://sprites/enemyanims/recharge/recharging20.png" id="67_mchlh"]
 [ext_resource type="Texture2D" uid="uid://05shnno4j1i1" path="res://sprites/enemyanims/recharge/recharging21.png" id="68_331da"]
+[ext_resource type="Texture2D" uid="uid://d238718a27st5" path="res://sprites/enemyanims/shootmask/shootmask.png" id="71_x0pf5"]
+[ext_resource type="AudioStream" uid="uid://bxwc36x6bx3hr" path="res://sounds/sfx/robot_hit-sound (mp3cut.net).mp3" id="72_kr7g0"]
+[ext_resource type="AudioStream" uid="uid://uj46jetenv67" path="res://sounds/sfx/destroyed_demo.mp3" id="73_2kryp"]
+[ext_resource type="AudioStream" uid="uid://bnytqsacv4cqy" path="res://sounds/sfx/blaster_metallic_01.mp3" id="74_j1wgf"]
+[ext_resource type="Script" path="res://sound_pad.gd" id="75_beray"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_d205h"]
 resource_local_to_scene = true
@@ -91,6 +96,30 @@ tracks/0/keys = {
 "update": 1,
 "values": [ExtResource("2_guwu2")]
 }
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("../Shootmask:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(18, 10)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("../Shootmask:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
 
 [sub_resource type="Animation" id="Animation_xjmqh"]
 resource_name = "beaten"
@@ -106,6 +135,18 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
 "update": 1,
 "values": [ExtResource("3_ollg1"), ExtResource("4_6opjs"), ExtResource("5_bjgdm"), ExtResource("6_cm26f"), ExtResource("7_7mjd1"), ExtResource("8_at2vo"), ExtResource("9_4tst2"), null]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("../Shootmask:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
 }
 
 [sub_resource type="Animation" id="Animation_ranpe"]
@@ -141,6 +182,18 @@ tracks/0/keys = {
 "update": 1,
 "values": [ExtResource("33_1871d"), ExtResource("34_lftah"), ExtResource("35_8yldh"), ExtResource("36_pfbaj"), ExtResource("37_dnsaf")]
 }
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("../Shootmask:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
 
 [sub_resource type="Animation" id="Animation_lyay1"]
 resource_name = "recharge_transition"
@@ -157,6 +210,18 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1),
 "update": 1,
 "values": [ExtResource("2_guwu2"), ExtResource("40_733ab"), ExtResource("41_mraqc"), ExtResource("42_emhyo"), ExtResource("43_qt8c5"), ExtResource("44_o3mh2"), ExtResource("45_xxrea"), ExtResource("46_k0wjo"), ExtResource("47_nb3uq")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("../Shootmask:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
 }
 
 [sub_resource type="Animation" id="Animation_5fuvk"]
@@ -176,6 +241,30 @@ tracks/0/keys = {
 "update": 1,
 "values": [ExtResource("48_h85g0"), ExtResource("49_yl5n6"), ExtResource("50_x5gsq"), ExtResource("51_bgxxf"), ExtResource("52_575i5")]
 }
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("../Shootmask:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [Vector2(16, 14)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("../Shootmask:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
 
 [sub_resource type="Animation" id="Animation_qiygl"]
 resource_name = "reset_recharge_prep"
@@ -192,6 +281,30 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
 "update": 1,
 "values": [ExtResource("53_h2ffi"), ExtResource("54_3nyqi"), ExtResource("55_qamap"), ExtResource("56_0vvwu"), ExtResource("57_0vwqi"), ExtResource("58_1221g"), ExtResource("59_poof5"), ExtResource("60_fjlb6"), ExtResource("61_bnsvy"), ExtResource("62_y1fig")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("../Shootmask:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.058142, 0.120935, 0.165123),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [Vector2(18, 9), Vector2(18, 10), Vector2(17, 11), Vector2(16, 14)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("../Shootmask:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
 }
 
 [sub_resource type="Animation" id="Animation_tqmgl"]
@@ -210,6 +323,30 @@ tracks/0/keys = {
 "update": 1,
 "values": [ExtResource("52_575i5"), ExtResource("63_03hqv"), ExtResource("64_dmjth"), ExtResource("65_tki8t"), ExtResource("66_1lbet"), ExtResource("67_mchlh"), ExtResource("68_331da")]
 }
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("../Shootmask:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.272105, 0.337224, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [Vector2(16, 14), Vector2(17, 11), Vector2(18, 10), Vector2(18, 9)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("../Shootmask:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
 
 [sub_resource type="Animation" id="Animation_166h2"]
 resource_name = "run"
@@ -227,6 +364,18 @@ tracks/0/keys = {
 "update": 1,
 "values": [ExtResource("27_hopws"), ExtResource("28_4swev"), ExtResource("29_wbqwf"), ExtResource("30_d5xkp"), ExtResource("31_ttglh"), ExtResource("32_noc7i"), ExtResource("33_egda4"), ExtResource("34_lnek5"), ExtResource("35_1kn5d"), ExtResource("36_6vvc5"), ExtResource("37_gd78a"), ExtResource("38_7581i"), ExtResource("39_2pplg"), ExtResource("40_dq7rs"), ExtResource("41_svcqn")]
 }
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("../Shootmask:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
 
 [sub_resource type="Animation" id="Animation_nht0r"]
 resource_name = "shoot"
@@ -243,6 +392,18 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
 "update": 1,
 "values": [ExtResource("41_65r88"), ExtResource("42_17x8i"), ExtResource("43_ocrbb"), ExtResource("44_3essy"), ExtResource("45_257w3"), ExtResource("46_2nkxv")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("../Shootmask:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_oresa"]
@@ -360,6 +521,29 @@ wait_time = 30.0
 libraries = {
 "": SubResource("AnimationLibrary_qm2kh")
 }
+
+[node name="Shootmask" type="Sprite2D" parent="."]
+visible = false
+texture_filter = 1
+position = Vector2(18, 10)
+texture = ExtResource("71_x0pf5")
+
+[node name="hit_sound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("72_kr7g0")
+volume_db = 24.0
+pitch_scale = 1.1
+attenuation = 2.0
+
+[node name="destroyed_demo" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("73_2kryp")
+pitch_scale = 1.17
+
+[node name="BlasterMetallic01" type="AudioStreamPlayer2D" parent="."]
+position = Vector2(-24, -47)
+stream = ExtResource("74_j1wgf")
+volume_db = -25.0
+pitch_scale = 1.41
+script = ExtResource("75_beray")
 
 [connection signal="animation_finished" from="Sprite2D/AnimationPlayer" to="." method="_on_animation_player_animation_finished"]
 [connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]
