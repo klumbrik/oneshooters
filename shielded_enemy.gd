@@ -11,7 +11,8 @@ func _on_animation_player_animation_finished(anim_name: StringName) -> void:
 	super._on_animation_player_animation_finished(anim_name)
 	# delete shield if it exists
 	if anim_name == "damage_taken":
-		$Sprite2D/AnimationPlayer.play("run")
+		if !G.wave_going:
+			enemy_state_machine.dispatch(&"to reset_recharge_prep")
 		var shield = get_node_or_null("ShieldMask")
 		if is_instance_valid(shield):
 			shield.queue_free()

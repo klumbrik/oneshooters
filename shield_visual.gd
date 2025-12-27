@@ -44,8 +44,10 @@ func _process(_delta: float) -> void:
 func _on_animation_player_animation_started(anim_name: StringName) -> void:
 	if anim_name == "appear":
 		appeared = true
-
-
+		$energy.play()
+		
+	if anim_name == "destroyed":
+		$shield_crash.play()
 		
 
 
@@ -53,3 +55,4 @@ func _on_animation_player_animation_finished(anim_name: StringName) -> void:
 	if anim_name == "destroyed":
 		queue_free()
 		G.shield_enabled = false
+		

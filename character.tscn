@@ -1,4 +1,4 @@
-[gd_scene load_steps=74 format=3 uid="uid://d4biv87sinkk1"]
+[gd_scene load_steps=75 format=3 uid="uid://d4biv87sinkk1"]
 
 [ext_resource type="Script" path="res://character.gd" id="1_tuy5w"]
 [ext_resource type="Texture2D" uid="uid://bum1mhblqjvd3" path="res://sprites/Jedanims/jedduck/jedduck1.png" id="3_bghx8"]
@@ -58,11 +58,12 @@
 [ext_resource type="Texture2D" uid="uid://bghmjbs2wmyqr" path="res://sprites/Jedanims/jeddeath/death_anim4.png" id="54_gj2or"]
 [ext_resource type="Texture2D" uid="uid://oo0rodtvv3ng" path="res://sprites/Jedanims/jeddeath/death_anim5.png" id="55_y8thq"]
 [ext_resource type="Texture2D" uid="uid://ug3ajcxeovbv" path="res://sprites/Jedanims/jeddeath/death_anim6.png" id="56_r28w2"]
-[ext_resource type="AudioStream" uid="uid://dnfxaiwq6exrv" path="res://sounds/sfx/roblox-death-sound_1.mp3" id="57_8lh4s"]
 [ext_resource type="Script" path="res://sound_pad.gd" id="58_wipks"]
+[ext_resource type="AudioStream" uid="uid://bh5vexy2bp6au" path="res://sounds/sfx/jeddeath-sound2 (mp3cut.net).mp3" id="60_x151h"]
 [ext_resource type="AudioStream" uid="uid://c0d50t8ha1lyb" path="res://sounds/sfx/recharge.mp3" id="61_etfct"]
 [ext_resource type="AudioStream" uid="uid://ech10v8aqpyp" path="res://sounds/sfx/running-on-a-concrete-floor-in-shoes.mp3" id="62_4esr6"]
 [ext_resource type="AudioStream" uid="uid://cv3ynoyciqsse" path="res://sounds/sfx/b668a8edf797e49.mp3" id="63_v3srm"]
+[ext_resource type="AudioStream" uid="uid://crwngqs6jfxrw" path="res://sounds/sfx/pick.mp3" id="64_y3t1b"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_qc853"]
 size = Vector2(26.1, 34.2)
@@ -459,6 +460,7 @@ size = Vector2(186, 98.8333)
 
 [node name="character" type="CharacterBody2D" groups=["character"]]
 script = ExtResource("1_tuy5w")
+dontshoot = true
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture_filter = 1
@@ -523,22 +525,18 @@ offset_bottom = -30.0
 text = "fdsfdsf"
 
 [node name="RobloxOof" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource("57_8lh4s")
-volume_db = -15.0
-pitch_scale = 1.08
-attenuation = 1.07177
+stream = ExtResource("60_x151h")
+pitch_scale = 1.4
 panning_strength = 1.22
 
 [node name="Reload" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("61_etfct")
-volume_db = -12.22
 pitch_scale = 1.22
 attenuation = 1.07177
 panning_strength = 1.22
 
 [node name="Run" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("62_4esr6")
-volume_db = -21.034
 pitch_scale = 1.02
 attenuation = 1.07177
 panning_strength = 1.22
@@ -550,6 +548,11 @@ pitch_scale = 1.62
 panning_strength = 1.22
 
 [node name="ShieldMarker" type="Marker2D" parent="."]
+
+[node name="pick" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("64_y3t1b")
+volume_db = 10.0
+pitch_scale = 2.0
 
 [connection signal="animation_finished" from="Sprite2D/AnimationPlayer" to="." method="_on_animation_player_animation_finished"]
 [connection signal="animation_started" from="Sprite2D/AnimationPlayer" to="." method="_on_animation_player_animation_started"]

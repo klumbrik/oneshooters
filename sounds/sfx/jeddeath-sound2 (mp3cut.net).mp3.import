@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://bh5vexy2bp6au"
+path="res://.godot/imported/jeddeath-sound2 (mp3cut.net).mp3-5c4c4f1802a3c94e7f7d7d1ae8287819.mp3str"
+
+[deps]
+
+source_file="res://sounds/sfx/jeddeath-sound2 (mp3cut.net).mp3"
+dest_files=["res://.godot/imported/jeddeath-sound2 (mp3cut.net).mp3-5c4c4f1802a3c94e7f7d7d1ae8287819.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

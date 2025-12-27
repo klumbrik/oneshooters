@@ -1,9 +1,13 @@
 extends CharacterBody2D
 
+signal died
+
+var untapable = false
 
 var mouse_onself = false
 var SPEED: float 
 @onready var hp = 1
+@onready var area = $Area2D
 var chance
 var disabled_damage = false
 var is_in_zone = false
@@ -22,12 +26,19 @@ var reset_recharging_state: LimboState
 var reset_recharging_prep_state: LimboState
 var reset_recharging_exit_transition_state: LimboState
 
+var death_handled
 var coin_given = false
 
 func _ready() -> void: #when spawns randomly defines hp
+	$hit_sound.volume_db = 0
+	$destroyed_demo.volume_db = -25
+	
 	$Sprite2D/AnimationPlayer.play("run")
 	G.connect("delete_enemies_out_of_screen", _delete_enemies_out_of_screen)
-	SPEED = randf_range(30.0, 60.0) * G.pacedif_modifier
+	if G.tutorial_mode:
+		SPEED = 20
+	else:
+		SPEED = randf_range(15.0, 25.0) * G.pacedif_modifier
 	initiate_state_machine()
 	collision_mask = 1
 
@@ -72,7 +83,9 @@ func moving_update(delta: float):
 	add_target()
 	velocity.x = -SPEED if should_move() else 0
 	is_reset_recharging()
-
+	
+	move_and_slide()
+	
 func beaten_enter():
 	die()
 	
@@ -166,14 +179,19 @@ func _physics_process(delta: float) -> void:
 
 
 func _on_area_2d_area_entered(area: Area2D) -> void:
-	if area.is_in_group('damage') and self == G.current_target_enemy:
+	if area.is_in_group("drone_bullet"): #drone damage priority
+		print("DROONE")
+		hp -= 1 #damage
+		get_damage()
+	elif area.is_in_group('damage') and self == G.current_target_enemy:
 		hp -= 1 #damage
 		get_damage()
 	if area.is_in_group('character'):
+		pass
 		#if !disabled_damage:
 			#get_tree().paused = true
 			#G.game_over = true removed it because it worked badly
-		pass
+	
 	if area.is_in_group('target_zone'):
 		is_in_zone = true
 		#print("Entered zone ", is_in_zone)
@@ -186,22 +204,30 @@ func _on_area_2d_area_entered(area: Area2D) -> void:
 func add_target():
 	if mouse_onself:
 		#print("MOUSEEEE")
-		if Input.is_action_just_released("press"):
+		if Input.is_action_just_released("press") and !untapable:
 			#var new_target = target.instantiate()
 			#add_child(new_target)
 			G.emit_signal("enemy_tap",self) #handing over self link as a parameter along with emitting a signal
 
 func die():
+	$hit_sound.pitch_scale = randf_range(1.1, 1.2)
+	$hit_sound.play()
+	
+	$destroyed_demo.pitch_scale = randf_range(1.1, 1.2)
+	$destroyed_demo.play()
+	
 	$Sprite2D/AnimationPlayer.play("beaten")
 	if !bonus_dropped:
-		bonus_chance = randf()
-		if bonus_chance <= 0.1: #chance of bonus - move the chance to main script
-			#print(bonus_chance)
-			G.emit_signal("drop_bonus", global_position)
-			bonus_dropped = true
+		#print(bonus_chance)
+		G.emit_signal("drop_bonus", global_position)
+		bonus_dropped = true
 	
 func is_dead():
 	if hp <= 0:
+		if !death_handled:
+			emit_signal("died") #for drone script
+			add_score(10) #only once till handled +10 for each defeated enemy
+			death_handled = true
 		$CollisionShape2D.disabled = true
 		$Area2D/CollisionShape2D.disabled = true
 		enemy_state_machine.dispatch(&"to beaten")
@@ -211,14 +237,15 @@ func is_dead():
 			if G.stash < 6:
 				G.stash += 3
 				G.stash_pieces += 1
-				G.emit_signal("enemy_died_in_zone", self) #passing self as an arguement
 			else:
 				G.coins += 1
 				coin_given = true
+			G.emit_signal("enemy_died_in_zone", self) #passing self as an arguement
 			killed = true
 			coin_given = false
 		disable_damage()
 func get_damage():
+	$hit_sound.play()
 	velocity.x = 0
 	$hit_flash_anim.play("hit_flash") #shader effect
 	$Sprite2D/AnimationPlayer.play("damage_taken")
@@ -251,9 +278,10 @@ func _on_animation_player_animation_finished(anim_name: StringName) -> void:
 		unregister()
 		queue_free()
 		
-		G.score += 10 #adding 10 points for each enemy defeated
+		#G.score += 10 #adding 10 points for each enemy defeated
 	if anim_name == "damage_taken":
-		$Sprite2D/AnimationPlayer.play("run")
+		if G.wave_going:
+			$Sprite2D/AnimationPlayer.play("run")
 		
 	if anim_name == "reset_recharge_prep":
 		prep_finished = true
@@ -354,8 +382,14 @@ func is_reset_recharging():
 		enemy_state_machine.dispatch(&"to reset_recharge_prep")
 
 
+func add_score(amount):
+	G.score += amount
+	G.emit_signal("score_changed", G.score) #for label
+
 func _on_delete_timer_timeout() -> void: #delete after 30 seconds off screen
 	if for_deletion:
 		print("ENEMY DELETED")
 		queue_free()
 		
+func get_hp():
+	return hp

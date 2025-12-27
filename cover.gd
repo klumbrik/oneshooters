@@ -32,7 +32,7 @@ func _on_cover_area_area_entered(area: Area2D) -> void:
 				#print("signal emitted")
 				#print(G.current_cover_number)
 				if G.current_cover_number > 1:
-					G.score += 50
+					add_score(50)
 					
 				if G.last_cover_moved:
 					G.last_cover_moved = false
@@ -59,6 +59,12 @@ func dodge_reset():
 	G.number_of_dodges = 1 #only one dodge per run
 	G.number_of_right_swipes = 0
 	G.emit_signal("dodge_bar_fill")
+	
+	
+	
+func add_score(amount):
+	G.score += amount
+	G.emit_signal("score_changed", G.score) #for label
 ##func spawn_new_cover():
 	##G.covers_to_spawn -= 1
 	##var new_cover = cover.instantiate()

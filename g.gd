@@ -14,20 +14,31 @@ signal shot
 signal delete_enemies_out_of_screen
 signal reload_game
 signal menu_play
+signal to_wardrobe
 signal pause_menu
 signal drop_bonus(position)
 signal move_last_cover
 signal dodge_bar_empty
 signal dodge_bar_fill
 signal bonus_stash
+signal player_died
+signal score_changed(score)
 
 var json_path = "user://essential_data.json"
 
 var e_data: Dictionary = {}
 var coins = 0
+var skin2bought = false
 var break_bar_progress = 0.0
 var pacedif_modifier = 1 #Set to 1 to revert to play with original values. modifier for speed in terms of difficulty (testing). 
 #Contains global vars
+
+var difficulty_level = 1.0
+var difficulty_growth_rate = 0.05 # increases each n secs
+var difficulty_timer = 0.0
+
+var tutorial_mode = true
+var tutorial_finished = false
 var character_ref: Node2D
 var game_over = false
 var last_sound_state
@@ -49,6 +60,8 @@ var reload_cooldown_duration = 0.1 #change carefully
 
 var area_res #?
 var shield_enabled = false
+var drone_active = false
+
 
 var character_position: Vector2 #INITIAL CHARACTER POSITION (NOT UPDATING)
 var enemiesonscreen = [] #an array containing all the enemies in the screen
@@ -63,6 +76,7 @@ var last_cover_area_ref = null
 var last_cover_moved = false
 var best_score = 0
 
+var game_started := false
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	process_mode = PROCESS_MODE_ALWAYS #always processes even if paused
@@ -81,6 +95,12 @@ func _process(delta: float) -> void:
 		else:
 			AudioServer.set_bus_mute(AudioServer.get_bus_index("Master"), true)
 			#print("OFF")
+			
+	difficulty_timer += delta
+	if difficulty_timer >= 30.0: # каждые 30 секунд
+		G.difficulty_level += 0.25
+		difficulty_timer = 0.0
+		
 
 func reset(): #reset essential variables
 	G.stash_pieces = 0
@@ -97,7 +117,14 @@ func reset(): #reset essential variables
 	G.ammo = 6
 	G.number_of_right_swipes = 0
 	G.number_of_dodges = 1
+	G.shield_enabled = false
+	G.drone_active = false
 	
+	difficulty_level = 1.0
+	difficulty_growth_rate = 0.05 # increases each n secs
+	difficulty_timer = 0.0
+	game_started = false
+
 func _move_last_cover():
 	G.last_cover_area_ref.position.x -= 30
 	#print("cover pos changed")
@@ -109,7 +136,9 @@ func load_json_file():
 		print("JSON file not found, creating default")
 		e_data = {
 			"best_score": 0,
-			"coins": 0
+			"coins": 0,
+			"skin2bought": false,
+			"tutorial_finished": false
 			}
 		save_json_file()
 		return e_data
@@ -136,6 +165,10 @@ func load_json_file():
 		best_score = e_data["best_score"]
 	if e_data.has("coins"):
 		coins = e_data["coins"]
+	if e_data.has("skin2bought"):
+		skin2bought = e_data["skin2bought"]
+	if e_data.has("tutorial_finished"):
+		tutorial_finished = e_data["tutorial_finished"]
 		
 	return e_data
 
@@ -147,7 +180,8 @@ func save_json_file():
 		
 	e_data["best_score"] = best_score
 	e_data["coins"] = coins
-	
+	e_data["skin2bought"] = skin2bought
+	e_data["tutorial_finished"] = tutorial_finished
 	var json_string = JSON.stringify(e_data)
 	file.store_string(json_string)
 	file.close()

@@ -3,6 +3,8 @@ extends Control
 @onready var text_loc = $VBoxContainer/sound/CenterContainer/soundLabel
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	
+	$impact.play()
 	if G.sound_on:
 		text_loc.text = "sound: on"
 	else:
@@ -28,9 +30,13 @@ func _on_to_menu_button_down() -> void:
 
 
 func _on_sound_toggled(toggled_on: bool) -> void:
+	$impact.play()
 	if toggled_on:
 		text_loc.text = "sound: on"
 		G.sound_on = true
+		AudioServer.set_bus_volume_db(AudioServer.get_bus_index("Master"), 0)
+		
 	else:
 		text_loc.text = "sound: off"
 		G.sound_on = false
+		AudioServer.set_bus_volume_db(AudioServer.get_bus_index("Master"), -80)

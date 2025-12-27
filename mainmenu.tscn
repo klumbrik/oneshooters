@@ -1,11 +1,49 @@
-[gd_scene load_steps=7 format=3 uid="uid://b0clrx6pdvkxi"]
+[gd_scene load_steps=10 format=3 uid="uid://b0clrx6pdvkxi"]
 
 [ext_resource type="Script" path="res://mainmenu.gd" id="1_ctg56"]
-[ext_resource type="Texture2D" uid="uid://bvor273at4cw3" path="res://ui/oneshooterslogo.png" id="1_d02lp"]
 [ext_resource type="Texture2D" uid="uid://bddq0yxkqgq15" path="res://sprite plugs/706ed7a3a5eb8f7e4bd227188cff51d1.png" id="2_il6ra"]
+[ext_resource type="Texture2D" uid="uid://b3inl7thgnbla" path="res://ui/oneshooterslogo_tall.png" id="3_valbl"]
 [ext_resource type="Texture2D" uid="uid://c0gwq8hmmp3wd" path="res://ui/desks/deskui.png" id="4_n7rnn"]
 [ext_resource type="FontFile" uid="uid://cjsn6sorvmyt6" path="res://demo/assets/fonts/8bitOperatorPlusSC-Bold.ttf" id="5_l3jkq"]
 [ext_resource type="Texture2D" uid="uid://do45gq4e744ua" path="res://sprites/jedpromo1.png" id="6_c0ehk"]
+
+[sub_resource type="Animation" id="Animation_hbwma"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="Animation" id="Animation_mj41p"]
+resource_name = "blink"
+length = 2.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1, 2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [true, false, true]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_pvm5c"]
+_data = {
+"RESET": SubResource("Animation_hbwma"),
+"blink": SubResource("Animation_mj41p")
+}
 
 [node name="MainMenu" type="Control"]
 layout_mode = 3
@@ -19,18 +57,18 @@ metadata/_edit_lock_ = true
 
 [node name="706Ed7a3a5Eb8f7e4Bd227188Cff51d1" type="Sprite2D" parent="."]
 texture_filter = 1
-position = Vector2(178.5, 320)
-scale = Vector2(0.363, 1.288)
+position = Vector2(-300.875, 409)
+scale = Vector2(2.11825, 2.58)
 texture = ExtResource("2_il6ra")
-metadata/_edit_lock_ = true
 
 [node name="logo" type="Sprite2D" parent="."]
 texture_filter = 1
-position = Vector2(131, 171)
+position = Vector2(177, 153)
 scale = Vector2(0.214006, 0.214006)
-texture = ExtResource("1_d02lp")
+texture = ExtResource("3_valbl")
 
 [node name="CenterContainer" type="CenterContainer" parent="."]
+visible = false
 layout_mode = 0
 offset_left = 87.0
 offset_top = 228.0
@@ -85,7 +123,6 @@ text = "exit
 "
 
 [node name="Jedpromo1" type="Sprite2D" parent="."]
-visible = false
 texture_filter = 1
 position = Vector2(347, 405)
 scale = Vector2(0.956203, 0.956203)
@@ -95,14 +132,19 @@ texture = ExtResource("6_c0ehk")
 visible = false
 texture_filter = 1
 layout_mode = 0
-offset_left = 24.0
-offset_top = 441.0
-offset_right = 227.0
-offset_bottom = 508.0
+offset_left = 12.0
+offset_top = 430.0
+offset_right = 215.0
+offset_bottom = 497.0
 theme_override_fonts/font = ExtResource("5_l3jkq")
 theme_override_font_sizes/font_size = 23
 text = "tap anywhere
     to start"
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Label"]
+libraries = {
+"": SubResource("AnimationLibrary_pvm5c")
+}
 
 [connection signal="button_down" from="CenterContainer/VBoxContainer/play" to="." method="_on_play_button_down"]
 [connection signal="button_down" from="CenterContainer/VBoxContainer/exit" to="." method="_on_exit_button_down"]

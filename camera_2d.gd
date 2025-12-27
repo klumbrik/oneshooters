@@ -2,7 +2,7 @@ extends Camera2D
 #I'll make precise position relative to main if I find out how to do it.
 #change to your code. refine
 
-@export var wiggle_enabled := true
+@export var wiggle_enabled: bool
 @export var wiggle_intensity := 15.0
 @export var wiggle_speed := 5.0
 
@@ -15,7 +15,8 @@ var wiggle_time := 0.0
 @export var y_offset_on_zoom := 60.0
 @export var offset_lerp_speed := 5.0
 func _ready():
-	base_position = position
+	pass
+	#base_position = position
 
 func _process(delta):
 	# WIGGLE
@@ -42,7 +43,8 @@ func _process(delta):
 
 		offset = offset.lerp(target_offset, offset_lerp_speed * delta)
 	else:
-		position = position.lerp(base_position, 0.1)
+		pass
+		#position = position.lerp(base_position, 0.1)
 
 
 		

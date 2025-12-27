@@ -47,6 +47,8 @@ target_zone=""
 damage=""
 enemy_damage=""
 shield=""
+drone_bullet=""
+bonuses=""
 
 [input]
 
