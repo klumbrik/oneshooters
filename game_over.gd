@@ -9,6 +9,7 @@ func _ready() -> void:
 
 func _on_again_button_button_up() -> void:
 	$AnimationPlayer.play_backwards("appear")
+	G.reset()
 	
 	
 func _on_animation_player_animation_finished(anim_name: StringName) -> void:

@@ -6,16 +6,40 @@ var is_animating = false
 var _displayed: int = 0          # что сейчас видно игроку
 var _target: int = 0             # куда хотим докрутить
 var _tween: Tween = null
-var _last_shown: int = -1    # чтобы тики и апдейты были только при изменении целого
+var _last_shown: int = 0    # чтобы тики и апдейты были только при изменении целого
 
 # Called when the node enters the scene tree for the first time.
-func _ready() -> void:	
+func _ready() -> void:
 	text = str(_displayed)
 	G.score_changed.connect(_on_score_changed)
-	
+	# Добавляем подписку на сигнал рестарта игры (или смерти игрока)
+	G.player_died.connect(_on_reset_score_display) 
+	# Если есть отдельный сигнал для новой игры, можно использовать его, 
+	# но player_died у вас вызывает G.reset()
 
+func _on_reset_score_display():
+	# Принудительно сбрасываем все локальные счетчики
+	if _tween and _tween.is_running():
+		_tween.kill()
+	_displayed = 0
+	_target = 0
+	_last_shown = 0
+	is_animating = false
+	text = "0"
 
-func animate_to(target: int, duration: float = -1) -> void:
+func _update_displayed(v: float):
+	var next := int(round(v))
+	if _target > _displayed:
+		next = clamp(next, _displayed, _target)
+	else:
+		next = clamp(next, _target, _displayed)
+		
+	if next != _last_shown:
+		_last_shown = next
+		_displayed = next
+		text = str(_displayed)
+
+func animate_to(target: int, duration: float = 0) -> void:
 	if duration <= 0:
 		duration = default_duration
 		
@@ -30,25 +54,13 @@ func animate_to(target: int, duration: float = -1) -> void:
 	_last_shown = _displayed
 	is_animating = true
 	
+	
+	
 	_tween = create_tween().set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
 	
 	_tween.tween_method(_update_displayed, float(_displayed), float(_target), duration)
 	
 	_tween.finished.connect(_on_tween_finished)
-
-
-func _update_displayed(v: float):
-	var next := int(round(v))
-	if _target > _displayed:
-		next = clamp(next, _displayed, _target)
-	else:
-		next = clamp(next, _target, _displayed)
-		
-	if next != _last_shown:
-		_last_shown = next
-		_displayed = next
-		text = str(_displayed)
-
 
 func _on_tween_finished():
 	_displayed = _target
