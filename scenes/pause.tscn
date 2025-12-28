@@ -1,0 +1,125 @@
+[gd_scene load_steps=6 format=3 uid="uid://cc0meviethdh8"]
+
+[ext_resource type="Script" path="res://scripts/pause.gd" id="1_6kdec"]
+[ext_resource type="Texture2D" uid="uid://jsrea88hmguy" path="res://ui/desks/bigdeskui.png" id="2_q46vk"]
+[ext_resource type="Texture2D" uid="uid://c0gwq8hmmp3wd" path="res://ui/desks/deskui.png" id="3_tv1pl"]
+[ext_resource type="FontFile" uid="uid://cjsn6sorvmyt6" path="res://demo/assets/fonts/8bitOperatorPlusSC-Bold.ttf" id="4_olcgg"]
+[ext_resource type="AudioStream" uid="uid://2ew1hvttxqv6" path="res://sounds/sfx/noshum1sec.mp3" id="5_xh4nn"]
+
+[node name="Pause" type="Control"]
+process_mode = 3
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_6kdec")
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_top = -48.92
+offset_bottom = -48.92
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Board1" type="Sprite2D" parent="CenterContainer"]
+texture_filter = 1
+position = Vector2(1, -5)
+texture = ExtResource("2_q46vk")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+clip_contents = true
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -61.5
+offset_top = -105.0
+offset_right = 61.5
+offset_bottom = -7.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="continue" type="TextureButton" parent="VBoxContainer"]
+texture_filter = 1
+layout_mode = 2
+texture_normal = ExtResource("3_tv1pl")
+
+[node name="continueLabel" type="RichTextLabel" parent="VBoxContainer/continue"]
+layout_mode = 0
+offset_left = 6.0
+offset_top = -3.0
+offset_right = 116.0
+offset_bottom = 37.0
+mouse_filter = 1
+theme_override_fonts/normal_font = ExtResource("4_olcgg")
+theme_override_font_sizes/normal_font_size = 20
+text = "continue"
+
+[node name="sound" type="TextureButton" parent="VBoxContainer"]
+texture_filter = 1
+layout_mode = 2
+size_flags_vertical = 4
+toggle_mode = true
+button_pressed = true
+texture_normal = ExtResource("3_tv1pl")
+
+[node name="CenterContainer" type="CenterContainer" parent="VBoxContainer/sound"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -59.0
+offset_top = -1.0
+offset_right = 56.185
+offset_bottom = 25.0
+grow_horizontal = 2
+
+[node name="soundLabel" type="RichTextLabel" parent="VBoxContainer/sound/CenterContainer"]
+texture_filter = 1
+custom_minimum_size = Vector2(6.965, 24.69)
+layout_mode = 2
+mouse_filter = 1
+theme_override_fonts/normal_font = ExtResource("4_olcgg")
+theme_override_font_sizes/normal_font_size = 18
+bbcode_enabled = true
+text = "sound: on"
+fit_content = true
+scroll_active = false
+autowrap_mode = 0
+
+[node name="to menu" type="TextureButton" parent="VBoxContainer"]
+texture_filter = 1
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 1
+texture_normal = ExtResource("3_tv1pl")
+
+[node name="tomenuLabel" type="RichTextLabel" parent="VBoxContainer/to menu"]
+texture_filter = 1
+layout_mode = 0
+offset_left = 36.0
+offset_top = -2.0
+offset_right = 98.0
+offset_bottom = 38.0
+mouse_filter = 1
+theme_override_fonts/normal_font = ExtResource("4_olcgg")
+theme_override_font_sizes/normal_font_size = 20
+text = "exit
+"
+
+[node name="impact" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("5_xh4nn")
+volume_db = 10.0
+
+[connection signal="button_down" from="VBoxContainer/continue" to="." method="_on_continue_button_down"]
+[connection signal="toggled" from="VBoxContainer/sound" to="." method="_on_sound_toggled"]
+[connection signal="button_down" from="VBoxContainer/to menu" to="." method="_on_to_menu_button_down"]

@@ -15,7 +15,7 @@ warnings/check_invalid_track_paths=false
 [application]
 
 config/name="Oneshooters"
-run/main_scene="res://mainadaptive.tscn"
+run/main_scene="res://scenes/mainadaptive.tscn"
 config/features=PackedStringArray("4.3", "Mobile")
 boot_splash/bg_color=Color(0.00784314, 0.0117647, 0.137255, 0.658824)
 boot_splash/image="res://ui/oneshooterslogo.png"
@@ -23,7 +23,7 @@ config/icon="res://oneshooters_test_icon.png"
 
 [autoload]
 
-G="*res://g.gd"
+G="*res://scripts/g.gd"
 
 [display]
 

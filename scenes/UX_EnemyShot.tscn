@@ -1,0 +1,82 @@
+[gd_scene load_steps=5 format=3 uid="uid://bbif6mo5fwxg3"]
+
+[ext_resource type="Script" path="res://scripts/ux_enemy_shot.gd" id="1_xmfhe"]
+[ext_resource type="Texture2D" uid="uid://bybwpkfkw6wtj" path="res://sprites/enemyanims/shootmask/UX_Shot/shot_ball_ux.png" id="3_qmt1w"]
+
+[sub_resource type="Animation" id="Animation_4123e"]
+resource_name = "shoot_sign"
+length = 2.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("position_anim/ball:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1.96667),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [ExtResource("3_qmt1w"), ExtResource("3_qmt1w")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("position_anim/ball:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.0333333, 1.96667),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(21.3333, 69.3333), Vector2(21.3333, 69.3333)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("position_anim/ball:scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 1.96667),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(0.00225217, 0.00225217)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("position_anim/ball:self_modulate")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.133333, 1.8, 1.98764),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_wrlld"]
+_data = {
+"shoot_sign": SubResource("Animation_4123e")
+}
+
+[node name="UX_EnemyShot" type="Node2D"]
+z_index = 1
+script = ExtResource("1_xmfhe")
+
+[node name="position_anim" type="Node2D" parent="."]
+scale = Vector2(1.5, 1.5)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="position_anim"]
+root_node = NodePath("../..")
+libraries = {
+"": SubResource("AnimationLibrary_wrlld")
+}
+
+[node name="ball" type="Sprite2D" parent="position_anim"]
+self_modulate = Color(1, 1, 1, 0)
+texture_filter = 1
+position = Vector2(21.3333, 69.3333)
+texture = ExtResource("3_qmt1w")
+
+[connection signal="animation_finished" from="position_anim/AnimationPlayer" to="." method="_on_animation_player_animation_finished"]

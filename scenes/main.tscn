@@ -1,0 +1,307 @@
+[gd_scene load_steps=24 format=3 uid="uid://67ic5nix6m4w"]
+
+[ext_resource type="PackedScene" uid="uid://d4biv87sinkk1" path="res://scenes/character.tscn" id="1_27mtl"]
+[ext_resource type="Script" path="res://scripts/main.gd" id="1_puokp"]
+[ext_resource type="PackedScene" uid="uid://ceyrugadvxkjw" path="res://scenes/enemyspawn.tscn" id="3_xclp6"]
+[ext_resource type="Script" path="res://scripts/camera_2d.gd" id="4_yq4g2"]
+[ext_resource type="Texture2D" uid="uid://dy2dqswyle8it" path="res://sprites/bg_oneshooters2.png" id="6_edprf"]
+[ext_resource type="Texture2D" uid="uid://bno6ymqyvp7h1" path="res://sprites/Jedanims/reload ui/jedweaponui.png" id="8_g5wx0"]
+[ext_resource type="Texture2D" uid="uid://cfbsi3nvg1nsp" path="res://bonuses/ammo_pack.png" id="8_r0e3b"]
+[ext_resource type="PackedScene" uid="uid://hm68mls7f6mg" path="res://scenes/jebulletui.tscn" id="9_fsngq"]
+[ext_resource type="PackedScene" uid="uid://c2w83k7j2ggod" path="res://scenes/target.tscn" id="10_5unnn"]
+[ext_resource type="PackedScene" uid="uid://b66imsg6xttyv" path="res://scenes/room.tscn" id="11_35bvq"]
+[ext_resource type="Texture2D" uid="uid://djm5e7xioilic" path="res://ui/dodge_bar/dodge_bar_inactive.png" id="11_nu4lv"]
+[ext_resource type="Texture2D" uid="uid://ctc0ompolh7kw" path="res://ui/dodge_bar/dodge_bar.png" id="12_sm2la"]
+[ext_resource type="Script" path="res://scripts/dodge_bar.gd" id="13_v57sa"]
+[ext_resource type="FontFile" uid="uid://cjsn6sorvmyt6" path="res://demo/assets/fonts/8bitOperatorPlusSC-Bold.ttf" id="14_xe6vs"]
+[ext_resource type="Texture2D" uid="uid://bwxdn42km7djw" path="res://ui/wardrobe_icon.png" id="15_wo3n0"]
+[ext_resource type="Texture2D" uid="uid://c0hk12txuwnpr" path="res://ui/play/play.png" id="16_ve8ms"]
+[ext_resource type="Texture2D" uid="uid://d203xjmnn03io" path="res://sprites/space/space_no_stars.png" id="17_o44jm"]
+[ext_resource type="Shader" path="res://scripts/up_and_down_bg.gdshader" id="17_wtkdp"]
+[ext_resource type="Shader" path="res://scripts/up_and_down_stars.gdshader" id="18_fxl7f"]
+[ext_resource type="Texture2D" uid="uid://drqqepykcmgvj" path="res://sprites/space/space_yes_stars.png" id="18_qn2c6"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_haprv"]
+radius = 13.0384
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_2i5o3"]
+shader = ExtResource("17_wtkdp")
+shader_parameter/x_amplitude = 0.05
+shader_parameter/y_amplitude = 0.01
+shader_parameter/speed = 0.01
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_tqgy7"]
+shader = ExtResource("18_fxl7f")
+shader_parameter/x_amplitude = 1.0
+shader_parameter/y_amplitude = 0.3
+shader_parameter/speed = 0.02
+
+[node name="main" type="Node2D"]
+texture_filter = 1
+script = ExtResource("1_puokp")
+metadata/_edit_horizontal_guides_ = [-12.0]
+metadata/_edit_lock_ = true
+
+[node name="character" parent="." instance=ExtResource("1_27mtl")]
+z_index = 1
+position = Vector2(53, 306)
+
+[node name="Camera2D" type="Camera2D" parent="character"]
+position = Vector2(-53, -306)
+anchor_mode = 0
+ignore_rotation = false
+script = ExtResource("4_yq4g2")
+
+[node name="enemyspawn" parent="." instance=ExtResource("3_xclp6")]
+position = Vector2(363, 298)
+enabled = false
+
+[node name="target" parent="enemyspawn" instance=ExtResource("10_5unnn")]
+z_index = 4
+
+[node name="фигнядлятеста" type="ColorRect" parent="."]
+visible = false
+offset_left = -90.0
+offset_top = 873.0
+offset_right = 1030.0
+offset_bottom = 1164.0
+
+[node name="ColorRect2" type="ColorRect" parent="."]
+visible = false
+top_level = true
+z_index = -7
+offset_left = -82.0
+offset_top = -65.0
+offset_right = 452.0
+offset_bottom = 736.0
+color = Color(0.9484, 0.85557, 0.960793, 1)
+
+[node name="ColorRect" type="ColorRect" parent="."]
+visible = false
+top_level = true
+z_index = -4
+offset_left = -82.0
+offset_top = -65.0
+offset_right = 452.0
+offset_bottom = 736.0
+color = Color(0.188235, 0.164706, 0.239216, 1)
+
+[node name="bg position" type="Node2D" parent="."]
+position = Vector2(-360, 0)
+scale = Vector2(2, 2)
+
+[node name="BgOneshooters" type="Sprite2D" parent="bg position"]
+z_index = -4
+texture_filter = 1
+texture = ExtResource("6_edprf")
+centered = false
+
+[node name="room" parent="." instance=ExtResource("11_35bvq")]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="CenterContainer" type="CenterContainer" parent="CanvasLayer"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -153.0
+offset_top = 37.5
+offset_right = 153.0
+offset_bottom = 276.5
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_edit_lock_ = true
+
+[node name="stash1" type="Sprite2D" parent="CanvasLayer/CenterContainer"]
+visible = false
+texture_filter = 1
+position = Vector2(256.95, 114)
+scale = Vector2(2, 2)
+texture = ExtResource("8_r0e3b")
+
+[node name="stash2" type="Sprite2D" parent="CanvasLayer/CenterContainer"]
+visible = false
+texture_filter = 1
+position = Vector2(43, 114)
+scale = Vector2(2, 2)
+texture = ExtResource("8_r0e3b")
+
+[node name="ui_weapon" type="Sprite2D" parent="CanvasLayer/CenterContainer"]
+texture_filter = 1
+position = Vector2(151, 131)
+scale = Vector2(4.42188, 4.42188)
+texture = ExtResource("8_g5wx0")
+metadata/_edit_lock_ = true
+
+[node name="Jebulletui" parent="CanvasLayer/CenterContainer/ui_weapon" instance=ExtResource("9_fsngq")]
+position = Vector2(0, -19.2226)
+
+[node name="Jebulletui2" parent="CanvasLayer/CenterContainer/ui_weapon" instance=ExtResource("9_fsngq")]
+position = Vector2(-17.1873, -9.27208)
+
+[node name="Jebulletui3" parent="CanvasLayer/CenterContainer/ui_weapon" instance=ExtResource("9_fsngq")]
+position = Vector2(-16.735, 10.1767)
+
+[node name="Jebulletui4" parent="CanvasLayer/CenterContainer/ui_weapon" instance=ExtResource("9_fsngq")]
+position = Vector2(-0.226149, 18.7703)
+
+[node name="Jebulletui5" parent="CanvasLayer/CenterContainer/ui_weapon" instance=ExtResource("9_fsngq")]
+position = Vector2(16.5088, 9.49822)
+
+[node name="Jebulletui6" parent="CanvasLayer/CenterContainer/ui_weapon" instance=ExtResource("9_fsngq")]
+position = Vector2(16.735, -9.27207)
+
+[node name="slot1" type="Marker2D" parent="CanvasLayer/CenterContainer/ui_weapon"]
+position = Vector2(0, -19.4487)
+
+[node name="slot2" type="Marker2D" parent="CanvasLayer/CenterContainer/ui_weapon"]
+position = Vector2(16.735, -9.27207)
+
+[node name="slot3" type="Marker2D" parent="CanvasLayer/CenterContainer/ui_weapon"]
+position = Vector2(16.5088, 9.49822)
+
+[node name="slot4" type="Marker2D" parent="CanvasLayer/CenterContainer/ui_weapon"]
+position = Vector2(-0.226147, 18.7703)
+
+[node name="slot5" type="Marker2D" parent="CanvasLayer/CenterContainer/ui_weapon"]
+position = Vector2(-16.735, 10.1767)
+
+[node name="slot6" type="Marker2D" parent="CanvasLayer/CenterContainer/ui_weapon"]
+position = Vector2(-17.1873, -9.27207)
+
+[node name="Area2D" type="Area2D" parent="CanvasLayer/CenterContainer"]
+position = Vector2(-75, 46)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CanvasLayer/CenterContainer/Area2D"]
+position = Vector2(226, 0)
+shape = SubResource("CircleShape2D_haprv")
+
+[node name="spawner_metrics" type="RichTextLabel" parent="CanvasLayer"]
+visible = false
+offset_right = 360.0
+offset_bottom = 295.0
+mouse_filter = 2
+theme_override_font_sizes/normal_font_size = 30
+text = "dfdfsfsdfsdfssfsdfsf"
+
+[node name="DodgeBar" type="TextureProgressBar" parent="CanvasLayer"]
+texture_filter = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -17.0
+offset_top = 140.0
+offset_right = -7.0
+offset_bottom = 158.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(3, 3)
+value = 100.0
+fill_mode = 3
+texture_under = ExtResource("11_nu4lv")
+texture_progress = ExtResource("12_sm2la")
+script = ExtResource("13_v57sa")
+metadata/_edit_lock_ = true
+
+[node name="WardrobeButton" type="TextureButton" parent="CanvasLayer"]
+texture_filter = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -32.0
+offset_top = -167.0
+offset_right = 2.0
+offset_bottom = -135.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(2, 2)
+mouse_filter = 1
+texture_normal = ExtResource("15_wo3n0")
+
+[node name="Label" type="Label" parent="CanvasLayer/WardrobeButton"]
+visible = false
+custom_minimum_size = Vector2(-2.69, 0)
+layout_mode = 0
+offset_left = -10.5
+offset_top = -50.5
+offset_right = 103.5
+offset_bottom = 50.5
+scale = Vector2(0.5, 0.5)
+text = "купить
+респект
+разработчика
+20 ->"
+
+[node name="StartGameButton" type="TextureButton" parent="CanvasLayer"]
+texture_filter = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -17.0
+offset_top = 155.0
+offset_right = 15.0
+offset_bottom = 187.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(4, 4)
+pivot_offset = Vector2(16, 16)
+mouse_filter = 1
+texture_normal = ExtResource("16_ve8ms")
+
+[node name="BestContainer" type="CenterContainer" parent="CanvasLayer"]
+texture_filter = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -180.0
+offset_top = -299.0
+offset_bottom = -222.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(2, 2)
+mouse_filter = 2
+
+[node name="BestLabel" type="Label" parent="CanvasLayer/BestContainer"]
+texture_filter = 1
+layout_mode = 2
+theme_override_fonts/font = ExtResource("14_xe6vs")
+text = "Best"
+
+[node name="space" type="CanvasLayer" parent="."]
+layer = -1
+
+[node name="bg" type="TextureRect" parent="space"]
+texture_filter = 1
+material = SubResource("ShaderMaterial_2i5o3")
+offset_left = -345.0
+offset_top = -18.0
+offset_right = 615.0
+offset_bottom = 522.0
+texture = ExtResource("17_o44jm")
+
+[node name="SpaceYesStars" type="TextureRect" parent="space"]
+texture_filter = 2
+texture_repeat = 3
+material = SubResource("ShaderMaterial_tqgy7")
+offset_left = -266.0
+offset_top = -112.0
+offset_right = 1237.0
+offset_bottom = 762.0
+texture = ExtResource("18_qn2c6")
+stretch_mode = 1
+
+[connection signal="child_entered_tree" from="." to="." method="_on_child_entered_tree"]
+[connection signal="body_entered" from="CanvasLayer/CenterContainer/Area2D" to="." method="_on_area_2d_body_entered"]
+[connection signal="body_exited" from="CanvasLayer/CenterContainer/Area2D" to="." method="_on_area_2d_body_exited"]
+[connection signal="button_down" from="CanvasLayer/WardrobeButton" to="." method="_on_wardrobe_button_button_down"]
+[connection signal="button_down" from="CanvasLayer/StartGameButton" to="." method="_on_start_game_button_button_down"]
