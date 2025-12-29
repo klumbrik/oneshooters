@@ -1,5 +1,7 @@
 #extends CharacterBody2D
-extends "res://scripts/enemy.gd"
+extends Enemy
+
+class_name ShootingEnemy
 
 signal shot_start #for tutorial
 
@@ -13,6 +15,7 @@ func _ready() -> void:
 	await super._ready()
 	extend_state_machine()
 	SPEED = randf_range(30.0, 35.0)
+	score_amount = 30
 
 func _physics_process(delta: float) -> void:
 	super._physics_process(delta)
@@ -113,7 +116,8 @@ func is_dead():
 		$CollisionShape2D.disabled = true
 		$Area2D/CollisionShape2D.disabled = true
 		enemy_state_machine.dispatch(&"to beaten")
-		add_score(20)
+		add_score(get_score_amount())
+		play_score_effect()
 		
 func should_move() -> bool:
 	var anim = $Sprite2D/AnimationPlayer

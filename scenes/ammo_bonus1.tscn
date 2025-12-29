@@ -1,7 +1,7 @@
 [gd_scene load_steps=12 format=3 uid="uid://ceafcuo2kew1o"]
 
 [ext_resource type="Script" path="res://scripts/ammo_bonus_1.gd" id="1_uu701"]
-[ext_resource type="Texture2D" uid="uid://cfbsi3nvg1nsp" path="res://bonuses/ammo_pack.png" id="2_d2j4g"]
+[ext_resource type="Texture2D" uid="uid://cfbsi3nvg1nsp" path="res://scenes/ammo_pack.png" id="2_d2j4g"]
 [ext_resource type="Texture2D" uid="uid://b1anqar4ockw" path="res://bonuses/coin.png" id="3_eiv41"]
 [ext_resource type="AudioStream" uid="uid://bixgpxpq8h57y" path="res://sounds/sfx/zvon-brosanija-monet (mp3cut.net).mp3" id="4_sjhdu"]
 

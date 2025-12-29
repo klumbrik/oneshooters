@@ -7,7 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://c2w83k7j2ggod" path="res://scenes/target.tscn" id="5_pbsc4"]
 [ext_resource type="Texture2D" uid="uid://dy2dqswyle8it" path="res://sprites/bg_oneshooters2.png" id="6_hh1no"]
 [ext_resource type="PackedScene" uid="uid://b66imsg6xttyv" path="res://scenes/room.tscn" id="7_vlrpi"]
-[ext_resource type="Texture2D" uid="uid://cfbsi3nvg1nsp" path="res://bonuses/ammo_pack.png" id="8_4we7d"]
+[ext_resource type="Texture2D" uid="uid://cfbsi3nvg1nsp" path="res://scenes/ammo_pack.png" id="8_4we7d"]
 [ext_resource type="Texture2D" uid="uid://bno6ymqyvp7h1" path="res://sprites/Jedanims/reload ui/jedweaponui.png" id="9_06txo"]
 [ext_resource type="PackedScene" uid="uid://hm68mls7f6mg" path="res://scenes/jebulletui.tscn" id="10_iiwwu"]
 [ext_resource type="Texture2D" uid="uid://djm5e7xioilic" path="res://ui/dodge_bar/dodge_bar_inactive.png" id="11_8hgam"]

@@ -1,6 +1,11 @@
 extends Node2D
 var used = false #the cover should be used only 1 time
 var number_of_uses = 0 #local variable - how many times we used this certain cover
+
+var score_effect = preload("res://scenes/score_added_ux_effect.tscn")
+
+@export var score_amount = 50
+
 #var cover = preload("res://cover.tscn")
 ## Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -32,7 +37,8 @@ func _on_cover_area_area_entered(area: Area2D) -> void:
 				#print("signal emitted")
 				#print(G.current_cover_number)
 				if G.current_cover_number > 1:
-					add_score(50)
+					add_score(get_score_amount())
+					play_score_effect()
 					
 				if G.last_cover_moved:
 					G.last_cover_moved = false
@@ -65,6 +71,20 @@ func dodge_reset():
 func add_score(amount):
 	G.score += amount
 	G.emit_signal("score_changed", G.score) #for label
+	
+	
+	
+	
+func play_score_effect():
+	var score_effect_instance: Score_effect = score_effect.instantiate()
+	score_effect_instance.position = Vector2(-45, -73)
+	score_effect_instance.set_score_amount(get_score_amount())
+	add_child(score_effect_instance) #the deletion is inside the effect scene's script
+	score_effect_instance.play_y_anim()
+	
+func get_score_amount() -> int:
+	return score_amount	
+	
 ##func spawn_new_cover():
 	##G.covers_to_spawn -= 1
 	##var new_cover = cover.instantiate()

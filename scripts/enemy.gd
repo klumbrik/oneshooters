@@ -1,4 +1,5 @@
 extends CharacterBody2D
+class_name Enemy
 
 signal died
 
@@ -29,6 +30,9 @@ var reset_recharging_exit_transition_state: LimboState
 var death_handled
 var coin_given = false
 
+var score_effect = preload("res://scenes/score_added_ux_effect.tscn")
+@export var score_amount = 10
+
 func _ready() -> void: #when spawns randomly defines hp
 	$hit_sound.volume_db = 0
 	$destroyed_demo.volume_db = -25
@@ -41,6 +45,8 @@ func _ready() -> void: #when spawns randomly defines hp
 		SPEED = randf_range(15.0, 25.0) * G.pacedif_modifier
 	initiate_state_machine()
 	collision_mask = 1
+	
+	
 
 func initiate_state_machine():
 	enemy_state_machine = LimboHSM.new()
@@ -226,11 +232,12 @@ func is_dead():
 	if hp <= 0:
 		if !death_handled:
 			emit_signal("died") #for drone script
-			add_score(10) #only once till handled +10 for each defeated enemy
+			add_score(get_score_amount()) #only once till handled +10 for each defeated enemy
 			death_handled = true
 		$CollisionShape2D.disabled = true
 		$Area2D/CollisionShape2D.disabled = true
 		enemy_state_machine.dispatch(&"to beaten")
+		play_score_effect()
 		
 	
 		if is_in_zone: #before disabling collision we track if it is in zone to add stash ammo. The limit can be tweaked.
@@ -393,3 +400,13 @@ func _on_delete_timer_timeout() -> void: #delete after 30 seconds off screen
 		
 func get_hp():
 	return hp
+
+func play_score_effect():
+	var score_effect_instance: Score_effect = score_effect.instantiate()
+	score_effect_instance.position = Vector2(-10, -33)
+	score_effect_instance.set_score_amount(get_score_amount())
+	add_child(score_effect_instance) #the deletion is inside the effect scene's script
+	score_effect_instance.play_y_anim()
+	
+func get_score_amount() -> int:
+	return score_amount

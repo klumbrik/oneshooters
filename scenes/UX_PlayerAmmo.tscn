@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://scripts/playerammoeffect.gd" id="1_x0pig"]
 [ext_resource type="Texture2D" uid="uid://lkqhbbwkowpw" path="res://sprite plugs/5461aebe75097a621b7e395e661ea9a3.png" id="2_cmojm"]
-[ext_resource type="Texture2D" uid="uid://cfbsi3nvg1nsp" path="res://bonuses/ammo_pack.png" id="2_fvb00"]
+[ext_resource type="Texture2D" uid="uid://cfbsi3nvg1nsp" path="res://scenes/ammo_pack.png" id="2_fvb00"]
 [ext_resource type="FontFile" uid="uid://cjsn6sorvmyt6" path="res://demo/assets/fonts/8bitOperatorPlusSC-Bold.ttf" id="3_ui3h5"]
 
 [sub_resource type="Animation" id="Animation_hyo5s"]

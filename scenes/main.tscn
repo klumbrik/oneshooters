@@ -6,7 +6,7 @@
 [ext_resource type="Script" path="res://scripts/camera_2d.gd" id="4_yq4g2"]
 [ext_resource type="Texture2D" uid="uid://dy2dqswyle8it" path="res://sprites/bg_oneshooters2.png" id="6_edprf"]
 [ext_resource type="Texture2D" uid="uid://bno6ymqyvp7h1" path="res://sprites/Jedanims/reload ui/jedweaponui.png" id="8_g5wx0"]
-[ext_resource type="Texture2D" uid="uid://cfbsi3nvg1nsp" path="res://bonuses/ammo_pack.png" id="8_r0e3b"]
+[ext_resource type="Texture2D" uid="uid://cfbsi3nvg1nsp" path="res://scenes/ammo_pack.png" id="8_r0e3b"]
 [ext_resource type="PackedScene" uid="uid://hm68mls7f6mg" path="res://scenes/jebulletui.tscn" id="9_fsngq"]
 [ext_resource type="PackedScene" uid="uid://c2w83k7j2ggod" path="res://scenes/target.tscn" id="10_5unnn"]
 [ext_resource type="PackedScene" uid="uid://b66imsg6xttyv" path="res://scenes/room.tscn" id="11_35bvq"]

@@ -1,10 +1,13 @@
-extends "res://scripts/enemy.gd"
+extends Enemy
+
+class_name ShieldedEnemy
 
 
 
 func _ready() -> void:
 	super._ready() #call base parent's ready
 	# change hp
+	score_amount = 20
 	hp = 2
 
 func _on_animation_player_animation_finished(anim_name: StringName) -> void:
@@ -16,7 +19,6 @@ func _on_animation_player_animation_finished(anim_name: StringName) -> void:
 		var shield = get_node_or_null("ShieldMask")
 		if is_instance_valid(shield):
 			shield.queue_free()
-
 
 #remove enemies from the game (NOT from the array) when player reaches a new cover to keep memory clean
 
