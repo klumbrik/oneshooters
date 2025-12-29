@@ -1,0 +1,115 @@
+[gd_scene load_steps=15 format=3 uid="uid://bj8vwq162bunf"]
+
+[ext_resource type="Script" path="res://scripts/enemy_bullet.gd" id="2_5mep8"]
+[ext_resource type="Texture2D" uid="uid://bhg8x48jtk0rv" path="res://sprites/enemyanims/shootmask/enemybullet/enemybullet1.png" id="3_rm7xy"]
+[ext_resource type="Texture2D" uid="uid://bly8inrjhxffd" path="res://sprites/enemyanims/shootmask/enemybullet/enemybullet2.png" id="4_ef4cb"]
+[ext_resource type="Texture2D" uid="uid://burwk137wp1w8" path="res://sprites/enemyanims/shootmask/enemybullet/enemybullet3.png" id="5_fsn3b"]
+[ext_resource type="Texture2D" uid="uid://gvn14q42qtn3" path="res://sprites/enemyanims/shootmask/enemybullet/enemybullet4.png" id="6_v5aip"]
+[ext_resource type="Texture2D" uid="uid://bftdoi2deu8n0" path="res://sprites/enemyanims/shootmask/enemybullet/enemybullet5.png" id="7_5nrao"]
+[ext_resource type="Texture2D" uid="uid://dh6jxnj63eghd" path="res://sprites/enemyanims/shootmask/enemybullet/enemybullet6.png" id="8_1uyx2"]
+[ext_resource type="Texture2D" uid="uid://df1xhdo4uve3n" path="res://sprites/enemyanims/shootmask/enemybullet/enemybullet7.png" id="9_aboh0"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_y7d4q"]
+size = Vector2(38.5, 12.8333)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_8aaci"]
+size = Vector2(40, 13.3333)
+
+[sub_resource type="Animation" id="Animation_pmrmv"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("3_rm7xy")]
+}
+
+[sub_resource type="Animation" id="Animation_meo5f"]
+resource_name = "collided"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.0333333, 0.0666667, 0.1, 0.133333, 0.166667, 0.2, 0.233333),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [ExtResource("3_rm7xy"), ExtResource("4_ef4cb"), ExtResource("5_fsn3b"), ExtResource("6_v5aip"), ExtResource("7_5nrao"), ExtResource("8_1uyx2"), ExtResource("9_aboh0"), null]
+}
+
+[sub_resource type="Animation" id="Animation_6hnkg"]
+resource_name = "thrown"
+length = 0.1
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.0666667),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [ExtResource("3_rm7xy"), ExtResource("4_ef4cb")]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_4o2au"]
+_data = {
+"RESET": SubResource("Animation_pmrmv"),
+"collided": SubResource("Animation_meo5f"),
+"thrown": SubResource("Animation_6hnkg")
+}
+
+[node name="enemy_bullet" type="RigidBody2D" groups=["enemy_damage"]]
+z_index = 2
+scale = Vector2(0.3, 0.3)
+collision_layer = 2
+collision_mask = 2
+gravity_scale = 0.0
+inertia = 1.0
+linear_velocity = Vector2(-700, 0)
+constant_force = Vector2(-1000, 0)
+script = ExtResource("2_5mep8")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+visible = false
+offset_right = 40.0
+offset_bottom = 13.0
+color = Color(0.0901961, 1, 1, 1)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visibility_layer = 4
+position = Vector2(20, 6.66667)
+shape = SubResource("RectangleShape2D_y7d4q")
+disabled = true
+debug_color = Color(0, 0.6, 0.701961, 0.411765)
+
+[node name="Area2D" type="Area2D" parent="." groups=["enemy_damage"]]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(20, 6.66667)
+shape = SubResource("RectangleShape2D_8aaci")
+
+[node name="BulletTexture" type="Sprite2D" parent="." groups=["enemy_damage"]]
+texture_filter = 1
+position = Vector2(20, 6.66667)
+texture = ExtResource("3_rm7xy")
+flip_h = true
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="BulletTexture"]
+libraries = {
+"": SubResource("AnimationLibrary_4o2au")
+}
+
+[connection signal="range" from="." to="." method="_on_range"]
+[connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]
+[connection signal="animation_finished" from="BulletTexture/AnimationPlayer" to="." method="_on_animation_player_animation_finished"]

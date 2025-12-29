@@ -1,0 +1,49 @@
+[gd_scene load_steps=6 format=3 uid="uid://b66imsg6xttyv"]
+
+[ext_resource type="PackedScene" uid="uid://b280h02fo0dqi" path="res://scenes/cover.tscn" id="2_4rady"]
+[ext_resource type="Texture2D" uid="uid://dy2dqswyle8it" path="res://sprites/bg_oneshooters2.png" id="2_bu2md"]
+[ext_resource type="PackedScene" uid="uid://c3hvy83ddqlbe" path="res://scenes/hot_target_spawner.tscn" id="10_wyumr"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ffwrv"]
+size = Vector2(365, 7)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_vtvw2"]
+size = Vector2(360, 640)
+
+[node name="room" type="Node2D"]
+metadata/_edit_lock_ = true
+metadata/_edit_horizontal_guides_ = [-12.0]
+
+[node name="Cover" parent="." instance=ExtResource("2_4rady")]
+show_behind_parent = true
+visibility_layer = 2
+position = Vector2(69, 332)
+
+[node name="bg position" type="Node2D" parent="."]
+scale = Vector2(2, 2)
+
+[node name="BgOneshooters" type="Sprite2D" parent="bg position"]
+z_index = -4
+texture_filter = 1
+texture = ExtResource("2_bu2md")
+centered = false
+
+[node name="Hot_Target_Spawner" parent="." instance=ExtResource("10_wyumr")]
+position = Vector2(2, 1)
+
+[node name="floor" type="StaticBody2D" parent="."]
+position = Vector2(181, 338.5)
+collision_layer = 8388608
+collision_mask = 8388608
+
+[node name="floor" type="CollisionShape2D" parent="floor"]
+shape = SubResource("RectangleShape2D_ffwrv")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+visible = false
+collision_layer = 0
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(180, 320)
+shape = SubResource("RectangleShape2D_vtvw2")
