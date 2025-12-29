@@ -31,7 +31,7 @@ func _on_cover_area_area_entered(area: Area2D) -> void:
 			G.moving = false #character stops
 			dodge_reset()
 			
-			if number_of_uses <= 1: #if we collide with the same cover only once
+			if number_of_uses <= 1 and G.game_started == true: #if we collide with the same cover only once
 				G.current_cover_number += 1
 				G.emit_signal("delete_enemies_out_of_screen")
 				#print("signal emitted")
