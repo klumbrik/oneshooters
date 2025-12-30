@@ -11,6 +11,7 @@ func _ready() -> void:
 	$RayCast2D.enabled = true
 	$RayCast2D.force_raycast_update()
 	$RayCast2D.hit_from_inside = true #in order for bullet to not pierce enemies
+	
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta: float) -> void:
 	if not hit:
