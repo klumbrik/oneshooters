@@ -1,6 +1,6 @@
 extends Node2D
 
-
+@export var spawn_enabled: bool = false
 var room = preload("res://scenes/room.tscn")
 @onready var sprite = $CanvasLayer/CenterContainer/ui_weapon
 
@@ -392,9 +392,10 @@ func start_game():
 	#camera.base_position = camera.position
 
 	# Запуск спавна
-	$enemyspawn.enabled = true
-	$enemyspawn/Timer.start()
-	$enemyspawn/WaveEnd.start()
+	if spawn_enabled:
+		$enemyspawn.enabled = true
+		$enemyspawn/Timer.start()
+		$enemyspawn/WaveEnd.start()
 	
 	$character.controls_blocked = false
 	$character.dontshoot = false
@@ -412,6 +413,13 @@ func _on_start_game_button_button_down() -> void:
 	var button = $CanvasLayer/StartGameButton
 	tween.tween_property(button, "scale", Vector2.ZERO, 0.3).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
 	start_game()
+	
+	#bullet bug debugging
+	$character.dontshoot = true
+	$enemy.able_to_move = true
+	await get_tree().create_timer(1.44).timeout
+	$character.shot()
+	$character.dontshoot = false
 
 
 func _on_wardrobe_button_button_down() -> void:

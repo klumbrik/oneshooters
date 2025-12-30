@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=3 uid="uid://67ic5nix6m4w"]
+[gd_scene load_steps=25 format=3 uid="uid://67ic5nix6m4w"]
 
 [ext_resource type="PackedScene" uid="uid://d4biv87sinkk1" path="res://scenes/character.tscn" id="1_27mtl"]
 [ext_resource type="Script" path="res://scripts/main.gd" id="1_puokp"]
@@ -20,6 +20,7 @@
 [ext_resource type="Shader" path="res://scripts/up_and_down_bg.gdshader" id="17_wtkdp"]
 [ext_resource type="Shader" path="res://scripts/up_and_down_stars.gdshader" id="18_fxl7f"]
 [ext_resource type="Texture2D" uid="uid://drqqepykcmgvj" path="res://sprites/space/space_yes_stars.png" id="18_qn2c6"]
+[ext_resource type="PackedScene" uid="uid://c7g4sld7qgrml" path="res://scenes/enemy.tscn" id="21_u6ypf"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_haprv"]
 radius = 13.0384
@@ -301,6 +302,10 @@ offset_bottom = 762.0
 texture = ExtResource("18_qn2c6")
 stretch_mode = 1
 metadata/_edit_lock_ = true
+
+[node name="enemy" parent="." instance=ExtResource("21_u6ypf")]
+position = Vector2(116, 297)
+able_to_move = false
 
 [connection signal="child_entered_tree" from="." to="." method="_on_child_entered_tree"]
 [connection signal="body_entered" from="CanvasLayer/CenterContainer/Area2D" to="." method="_on_area_2d_body_entered"]

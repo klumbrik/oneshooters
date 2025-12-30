@@ -206,6 +206,12 @@ centered = false
 
 [node name="room" parent="." instance=ExtResource("7_vlrpi")]
 
+[node name="room2" parent="." instance=ExtResource("7_vlrpi")]
+position = Vector2(360, 0)
+
+[node name="room3" parent="." instance=ExtResource("7_vlrpi")]
+position = Vector2(720, 0)
+
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="CenterContainer" type="CenterContainer" parent="CanvasLayer"]
