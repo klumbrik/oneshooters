@@ -1,15 +1,19 @@
 extends CanvasLayer
 
 
+var already_pressed
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	var already_pressed = false
 	$AnimationPlayer.play("appear")
 	$CenterContainer/RichTextLabel.text = "Game Over. Score: " + str(G.score)
 
 
 func _on_again_button_button_up() -> void:
-	$AnimationPlayer.play_backwards("appear")
-	G.reset()
+	if !already_pressed:
+		already_pressed = true
+		$AnimationPlayer.play_backwards("appear")
+		G.reset()
 	
 	
 func _on_animation_player_animation_finished(anim_name: StringName) -> void:

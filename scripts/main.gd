@@ -409,6 +409,7 @@ func start_game():
 
 
 func _on_start_game_button_button_down() -> void:
+	
 	var tween = create_tween()
 	var button = $CanvasLayer/StartGameButton
 	tween.tween_property(button, "scale", Vector2.ZERO, 0.3).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
@@ -420,7 +421,7 @@ func _on_start_game_button_button_down() -> void:
 	await get_tree().create_timer(1.44).timeout
 	$character.shot()
 	$character.dontshoot = false
-
+	#bullet bug debugging
 
 func _on_wardrobe_button_button_down() -> void:
 	G.emit_signal("to_wardrobe")
