@@ -14,7 +14,7 @@ func _ready() -> void:
 #
 ## Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
-	#print(number_of_uses)
+	#print("number of uses:", number_of_uses, " game started: ", G.game_started)
 	pass
 #
 #
@@ -36,7 +36,7 @@ func _on_cover_area_area_entered(area: Area2D) -> void:
 				G.emit_signal("delete_enemies_out_of_screen")
 				#print("signal emitted")
 				#print(G.current_cover_number)
-				if G.current_cover_number > 1:
+				if G.current_cover_number > 1 and G.game_started:
 					add_score(get_score_amount())
 					play_score_effect()
 					

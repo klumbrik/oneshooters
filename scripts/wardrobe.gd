@@ -5,7 +5,7 @@ var animation_playing
 
 var mouse_on_skin2 = false
 
-
+#NOTE: implement with an array
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:

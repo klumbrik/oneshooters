@@ -41,6 +41,7 @@ z_index = -1
 texture_filter = 1
 clip_contents = false
 custom_minimum_size = Vector2(12, 20)
+layout_mode = 0
 offset_right = 48.0
 offset_bottom = 36.0
 mouse_filter = 2

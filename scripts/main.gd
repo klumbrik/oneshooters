@@ -73,7 +73,7 @@ func _ready() -> void:
 	4:slot4,
 	5:slot5,
 	6:slot6
-} #slots indexes match their positions
+	} #slots indexes match their positions
 
 
 	await get_tree().process_frame #to not get null when adding the first room to array

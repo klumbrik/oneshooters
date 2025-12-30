@@ -1,14 +1,29 @@
-[gd_scene load_steps=10 format=3 uid="uid://bobyak77883m1"]
+[gd_scene load_steps=15 format=3 uid="uid://bobyak77883m1"]
 
 [ext_resource type="Script" path="res://scripts/wardrobe.gd" id="1_l4j83"]
-[ext_resource type="Texture2D" uid="uid://bddq0yxkqgq15" path="res://sprite plugs/706ed7a3a5eb8f7e4bd227188cff51d1.png" id="2_olgki"]
+[ext_resource type="Shader" path="res://scripts/up_and_down_bg.gdshader" id="2_smukw"]
 [ext_resource type="FontFile" uid="uid://cjsn6sorvmyt6" path="res://demo/assets/fonts/8bitOperatorPlusSC-Bold.ttf" id="3_daeiu"]
+[ext_resource type="Texture2D" uid="uid://d203xjmnn03io" path="res://sprites/space/space_no_stars.png" id="3_o1rny"]
+[ext_resource type="Shader" path="res://scripts/up_and_down_stars.gdshader" id="4_062sc"]
 [ext_resource type="Texture2D" uid="uid://0wlfs75fojwa" path="res://sprites/jedbigres.png" id="4_a7fyu"]
+[ext_resource type="Texture2D" uid="uid://drqqepykcmgvj" path="res://sprites/space/space_yes_stars.png" id="5_4yo5c"]
 [ext_resource type="Texture2D" uid="uid://b1anqar4ockw" path="res://bonuses/coin.png" id="5_hc0r1"]
 [ext_resource type="Texture2D" uid="uid://chw8gpb1htitq" path="res://sprites/shrug_smile-removebg-preview.png" id="6_5lm1y"]
 [ext_resource type="Texture2D" uid="uid://ge5ny3s1s1wm" path="res://ui/arrow_icon.png" id="7_0oo56"]
 [ext_resource type="AudioStream" uid="uid://2ew1hvttxqv6" path="res://sounds/sfx/noshum1sec.mp3" id="8_y4p42"]
 [ext_resource type="AudioStream" uid="uid://bla0lipucdyh8" path="res://sounds/sfx/apple-pay-succes.mp3" id="9_874hk"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_aslen"]
+shader = ExtResource("2_smukw")
+shader_parameter/x_amplitude = 0.05
+shader_parameter/y_amplitude = 0.01
+shader_parameter/speed = 0.01
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_waw7a"]
+shader = ExtResource("4_062sc")
+shader_parameter/x_amplitude = 1.0
+shader_parameter/y_amplitude = 0.3
+shader_parameter/speed = 0.02
 
 [node name="Wardrobe" type="Control"]
 layout_mode = 3
@@ -19,12 +34,29 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_l4j83")
 
-[node name="706Ed7a3a5Eb8f7e4Bd227188Cff51d1" type="Sprite2D" parent="."]
+[node name="space" type="CanvasLayer" parent="."]
+layer = -1
+
+[node name="bg" type="TextureRect" parent="space"]
 texture_filter = 1
-position = Vector2(178.5, 320)
-scale = Vector2(0.363, 1.288)
-texture = ExtResource("2_olgki")
-metadata/_edit_lock_ = true
+material = SubResource("ShaderMaterial_aslen")
+offset_left = -433.0
+offset_top = -39.0
+offset_right = 527.0
+offset_bottom = 501.0
+scale = Vector2(1.4, 1.4)
+texture = ExtResource("3_o1rny")
+
+[node name="SpaceYesStars" type="TextureRect" parent="space"]
+texture_filter = 2
+texture_repeat = 3
+material = SubResource("ShaderMaterial_waw7a")
+offset_left = -266.0
+offset_top = -112.0
+offset_right = 1237.0
+offset_bottom = 762.0
+texture = ExtResource("5_4yo5c")
+stretch_mode = 1
 
 [node name="CenterContainer" type="CenterContainer" parent="."]
 layout_mode = 1
