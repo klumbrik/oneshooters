@@ -26,6 +26,7 @@ func _on_cover_area_area_entered(area: Area2D) -> void:
 		
 		if !used:
 			used = true #after the character reaches the cover, it becomes used
+			G.emit_signal("cover_create_room", get_parent())
 			G.right_swipe_detected = false
 			G.left_swipe_detected = false
 			G.moving = false #character stops

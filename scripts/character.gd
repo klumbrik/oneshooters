@@ -59,7 +59,7 @@ func _input(event: InputEvent) -> void: #for pc controls
 			G.left_swipe_detected = false
 			G.number_of_right_swipes += 1
 			if !G.moving and G.current_cover_number > G.last_cover_number:
-				G.emit_signal("swipe_room") #to create a new room
+				G.emit_signal("cover_create_room") #to create a new room
 				G.last_cover_number = G.current_cover_number
 		elif Input.is_action_just_pressed("left"):
 			if !left_swipe_blocked:
@@ -399,7 +399,7 @@ func swipe_detection():
 							G.left_swipe_detected = false
 							G.number_of_right_swipes += 1
 							if !G.moving and G.current_cover_number > G.last_cover_number:
-								G.emit_signal("swipe_room") #to create a new room
+								G.emit_signal("cover_create_room") #to create a new room
 								G.last_cover_number = G.current_cover_number
 						elif swipe_start_pos.x > swipe_cur_pos.x:
 							#print("left swipe!")
