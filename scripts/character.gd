@@ -59,7 +59,7 @@ func _input(event: InputEvent) -> void: #for pc controls
 			G.left_swipe_detected = false
 			G.number_of_right_swipes += 1
 			if !G.moving and G.current_cover_number > G.last_cover_number:
-				G.emit_signal("swipe_room") #to create a new room
+				G.emit_signal("cover_create_room") #to create a new room
 				G.last_cover_number = G.current_cover_number
 		elif Input.is_action_just_pressed("left"):
 			if !left_swipe_blocked:
@@ -135,20 +135,6 @@ func _on_shootingrange_body_exited(body: Node2D) -> void: #bullet range restrict
 	if body.is_in_group("damage"):
 		body.emit_signal("range")
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 func shoot_controls():
 	if controls_blocked:
 		return
@@ -172,11 +158,8 @@ func shot():
 		if G.sound_on == true:
 			$BlasterMetallic01.play()
 
-
 func _on_swipe_timer_timeout() -> void:
 	swiping = false
-
-
 
 func initiate_state_machine():
 	character_state_machine = LimboHSM.new()
@@ -273,7 +256,6 @@ func duckingup_update(delta: float):
 		character_state_machine.dispatch(&"to downduck")
 	elif $Sprite2D/AnimationPlayer.current_animation_position == 0.0 and $Sprite2D/AnimationPlayer.current_animation == "": #empty animation string is default stand pose
 		character_state_machine.dispatch(&"to shoot")
-	
 	
 	#elif $Sprite2D/AnimationPlayer.current_animation_position >= 0: #changing to the shooting state if we're currently on the 0 sec of the duck animation
 		##print("mistake", $Sprite2D/AnimationPlayer.current_animation, $Sprite2D/AnimationPlayer.current_animation_position)
@@ -398,8 +380,8 @@ func swipe_detection():
 							G.right_swipe_detected = true
 							G.left_swipe_detected = false
 							G.number_of_right_swipes += 1
-							if !G.moving and G.current_cover_number > G.last_cover_number:
-								G.emit_signal("swipe_room") #to create a new room
+							if !G.moving and G.current_cover_number <= G.last_cover_number:
+								G.emit_signal("cover_create_room") #to create a new room
 								G.last_cover_number = G.current_cover_number
 						elif swipe_start_pos.x > swipe_cur_pos.x:
 							#print("left swipe!")
