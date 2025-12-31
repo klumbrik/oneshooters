@@ -87,7 +87,8 @@ func _process(delta: float) -> void:
 		$LobbySoundButton.hide()
 		$LobbySoundButton.disabled = true
 
-		
+		$TutorialSkipButton.show()
+		$TutorialSkipButton.disabled = false
 
 
 	#if !G.tutorial_finished:
