@@ -103,7 +103,7 @@ func _input(event):
 func _process(delta: float) -> void: #for testing only, comment later
 	
 	#print(G.game_started)
-	#print("disabled: ", $CanvasLayer/StartGameButton.disabled)
+	print("disabled: ", $CanvasLayer/StartGameButton.disabled)
 	
 	$CanvasLayer/spawner_metrics.text = """new_enemy_in: %.2f\nwave ends in: %.2f\nbreak ends in: %.2f""" % [$enemyspawn/Timer.time_left, $enemyspawn/WaveEnd.time_left, $enemyspawn/Break_Window.time_left]
 	if $enemyspawn/Timer.time_left == 0 and not $CanvasLayer/spawner_metrics.get("modulate").r == 1.0:
@@ -426,7 +426,7 @@ func _on_start_game_button_button_down() -> void:
 func _on_wardrobe_button_button_down():
 	$CanvasLayer/StartGameButton.disabled = true
 	await get_tree().process_frame
-	#print(wardrobe_button.disabled) # true
+	#print(.disabled) # true
 	G.emit_signal("to_wardrobe")
 	
 	
