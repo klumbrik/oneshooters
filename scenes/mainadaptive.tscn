@@ -119,6 +119,7 @@ offset_right = 180.0
 offset_bottom = 320.0
 grow_horizontal = 2
 grow_vertical = 2
+metadata/_edit_lock_ = true
 
 [node name="SubViewport" type="SubViewport" parent="SubViewportContainer"]
 handle_input_locally = false
@@ -195,6 +196,34 @@ offset_left = 115.0
 offset_top = -299.0
 offset_right = 162.0
 offset_bottom = -254.0
+texture_normal = ExtResource("7_v5td5")
+texture_pressed = ExtResource("8_0fewg")
+stretch_mode = 4
+script = ExtResource("12_mo1yl")
+
+[node name="TutorialSkipButton" type="TextureButton" parent="."]
+process_mode = 3
+visible = false
+texture_filter = 1
+layout_mode = 0
+offset_left = 115.0
+offset_top = -299.0
+offset_right = 162.0
+offset_bottom = -254.0
+texture_normal = ExtResource("7_v5td5")
+texture_pressed = ExtResource("8_0fewg")
+stretch_mode = 4
+script = ExtResource("12_mo1yl")
+
+[node name="TutorialStartButton" type="TextureButton" parent="."]
+process_mode = 3
+visible = false
+texture_filter = 1
+layout_mode = 0
+offset_left = 115.0
+offset_top = 255.0
+offset_right = 162.0
+offset_bottom = 300.0
 texture_normal = ExtResource("7_v5td5")
 texture_pressed = ExtResource("8_0fewg")
 stretch_mode = 4
@@ -371,5 +400,7 @@ stream = ExtResource("19_l3x83")
 [connection signal="finished" from="LobbyMusic" to="." method="_on_lobby_music_finished"]
 [connection signal="button_down" from="PauseButton" to="." method="_on_pause_button_button_down"]
 [connection signal="toggled" from="PauseButton" to="PauseButton" method="_on_toggled"]
+[connection signal="button_down" from="TutorialSkipButton" to="." method="_on_tutorial_skip_button_button_down"]
+[connection signal="button_down" from="TutorialStartButton" to="." method="_on_tutorial_start_button_button_down"]
 [connection signal="animation_finished" from="Transition_player" to="." method="_on_transition_player_animation_finished"]
 [connection signal="animation_started" from="Transition_player" to="." method="_on_transition_player_animation_started"]

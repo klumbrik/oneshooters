@@ -16,6 +16,9 @@ var game_scene = preload("res://scenes/main.tscn")
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	
+	if !G.tutorial_finished:
+		$TutorialSkipButton.visible = true
+	
 	$LobbyMusic.play()
 	$Synthoneshootersdemo4.play()
 	AudioServer.set_bus_volume_db(1, -80)
@@ -51,10 +54,28 @@ func _process(delta: float) -> void:
 	#print(current_bullet)
 	#print(mouse_on_screen)
 	
+	if current_screen == "menu":
+		$TutorialStartButton
+	
 	if G.game_started and !ui_shown:
 		show_ui()
 		ui_shown = true
 		crossfade_buses("LobbyMusic", "Music", 1)
+		
+	#show lobby buttons
+	if !current_screen == "menu":
+		if !G.game_started:
+			if G.tutorial_finished:
+				$TutorialStartButton.visible = true
+		else:
+			$TutorialStartButton.visible = false
+			
+		if !G.tutorial_finished:
+			$TutorialSkipButton.visible = true
+		else:
+			$TutorialSkipButton.visible = false
+		
+	
 	
 	#print(current_screen)	
 		
@@ -278,3 +299,18 @@ func _notification(what):
 func auto_pause_if_needed():
 	if G.game_started and not G.pause_added and not G.game_over:
 		pause()
+
+#tutorial skip
+func _on_tutorial_skip_button_button_down() -> void:
+	var main = preload("res://scenes/main.tscn")
+	G.tutorial_finished = true
+	change_scene_to(main)
+	$TutorialSkipButton.visible = false
+	G.reset()
+
+#tutorial start from lobby
+func _on_tutorial_start_button_button_down() -> void:
+	var tutorial = preload("res://scenes/tutorial.tscn")
+	G.tutorial_finished = false
+	change_scene_to(tutorial)
+	$TutorialStartButton.visible = false
