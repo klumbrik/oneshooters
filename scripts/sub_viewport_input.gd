@@ -89,6 +89,18 @@ func _process(delta: float) -> void:
 
 		$TutorialSkipButton.hide()
 		$TutorialSkipButton.disabled = true
+	else:
+		$TutorialSkipButton.hide()
+		$TutorialSkipButton.disabled = true
+		
+		$TutorialStartButton.hide()
+		$TutorialStartButton.disabled = true
+		
+		$LobbySoundButton.hide()
+		$LobbySoundButton.disabled = true
+		
+		$ExitToMenuButton.hide()
+		$ExitToMenuButton.disabled = true
 	
 		
 
