@@ -63,7 +63,7 @@ func _input(event: InputEvent) -> void: #for pc controls
 				G.last_cover_number = G.current_cover_number
 		elif Input.is_action_just_pressed("left"):
 			if !left_swipe_blocked:
-				G.left_swipe_detected = true	
+				G.left_swipe_detected = true
 				G.right_swipe_detected = false
 		elif Input.is_action_pressed("space"):
 			ducking = true
@@ -369,26 +369,29 @@ func swipe_detection():
 				$Swipe_Timer.start()
 				swiping = true
 				swipe_start_pos = get_viewport().get_mouse_position()
+		
 		if Input.is_action_pressed("press"):
 			if swiping:
 				swipe_cur_pos = get_viewport().get_mouse_position()
 				if swipe_start_pos.distance_to(swipe_cur_pos) >= swipe_length:
 					if abs(swipe_start_pos.y - swipe_cur_pos.y) <= swipe_threshold:
-						#print("horizontal swipe!")
+						
 						if swipe_start_pos.x < swipe_cur_pos.x:
-							#print("right swipe!")
+							# --- ПРАВЫЙ СВАЙП ---
 							G.right_swipe_detected = true
 							G.left_swipe_detected = false
 							G.number_of_right_swipes += 1
-							if !G.moving and G.current_cover_number <= G.last_cover_number:
-								G.emit_signal("cover_create_room") #to create a new room
-								G.last_cover_number = G.current_cover_number
+							
+							# УДАЛЕНО: Прямой вызов генерации комнаты.
+							# Генерация должна происходить ТОЛЬКО в cover.gd при столкновении.
+							
 						elif swipe_start_pos.x > swipe_cur_pos.x:
-							#print("left swipe!")
+							# --- ЛЕВЫЙ СВАЙП ---
 							if !left_swipe_blocked:
 								G.left_swipe_detected = true
 								G.right_swipe_detected = false
-					swiping = false
+								
+					swiping = false # Сброс свайпа после регистрации
 		else:
 			swiping = false
 		
