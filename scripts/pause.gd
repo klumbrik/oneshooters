@@ -34,7 +34,7 @@ func _on_sound_toggled(toggled_on: bool) -> void:
 	if toggled_on:
 		text_loc.text = "sound: on"
 		G.sound_on = true
-		AudioServer.set_bus_volume_db(AudioServer.get_bus_index("Master"), 0)
+		AudioServer.set_bus_volume_db(AudioServer.get_bus_index("Master"), -8.8)
 		
 	else:
 		text_loc.text = "sound: off"

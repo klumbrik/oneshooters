@@ -35,7 +35,6 @@ func _ready() -> void:
 	$CenterContainer3.visible = false
 	
 	
-	
 	if sound:
 		G.sound_on = true
 		AudioServer.set_bus_mute(AudioServer.get_bus_index("Master"), false)
@@ -55,25 +54,43 @@ func _process(delta: float) -> void:
 	#print(mouse_on_screen)
 	
 	if current_screen == "menu":
-		$TutorialStartButton
+		$TutorialStartButton.hide()
+		$LobbySoundButton.hide()
 	
 	if G.game_started and !ui_shown:
 		show_ui()
 		ui_shown = true
 		crossfade_buses("LobbyMusic", "Music", 1)
 		
+		$ExitToMenuButton.hide()
+	else:
+		if current_screen == "main" and current_screen != "menu":
+			$ExitToMenuButton.show()
+	
 	#show lobby buttons
 	if !current_screen == "menu":
 		if !G.game_started:
 			if G.tutorial_finished:
-				$TutorialStartButton.visible = true
+				$TutorialSkipButton.hide()
+				$TutorialSkipButton.disabled = true
+				
+				$TutorialStartButton.show()
+				$TutorialStartButton.disabled = false
+				$LobbySoundButton.show()
+				$LobbySoundButton.disabled = false
 		else:
-			$TutorialStartButton.visible = false
-			
+			$TutorialStartButton.hide()
+			$TutorialStartButton.disabled = true
+			$LobbySoundButton.hide()
+			$LobbySoundButton.disabled = true
+
+
 		if !G.tutorial_finished:
-			$TutorialSkipButton.visible = true
+			$TutorialSkipButton.show()
+			$TutorialSkipButton.disabled = false
 		else:
-			$TutorialSkipButton.visible = false
+			$TutorialSkipButton.hide()
+			$TutorialSkipButton.disabled = true
 		
 	
 	
@@ -306,7 +323,9 @@ func _on_tutorial_skip_button_button_down() -> void:
 	G.tutorial_finished = true
 	change_scene_to(main)
 	$TutorialSkipButton.visible = false
+	$TutorialSkipButton.disabled = true
 	G.reset()
+	$fade.play()
 
 #tutorial start from lobby
 func _on_tutorial_start_button_button_down() -> void:
@@ -314,3 +333,28 @@ func _on_tutorial_start_button_button_down() -> void:
 	G.tutorial_finished = false
 	change_scene_to(tutorial)
 	$TutorialStartButton.visible = false
+	$TutorialSkipButton.disabled = true
+	$fade.play()
+
+
+
+
+func _on_lobby_sound_button_toggled(toggled_on: bool) -> void:
+	$impact.play()
+	if toggled_on:
+		G.sound_on = false
+		AudioServer.set_bus_volume_db(AudioServer.get_bus_index("Master"), -80)
+		
+	else:
+		G.sound_on = true
+		AudioServer.set_bus_volume_db(AudioServer.get_bus_index("Master"), -8.8)
+
+
+func _on_exit_to_menu_button_button_down() -> void:
+	var menu = preload("res://scenes/mainmenu.tscn")
+	change_scene_to(menu)
+	crossfade_buses("Music", "LobbyMusic", 1)
+	hide_ui()
+	current_screen = "menu"
+	G.reset()
+	#G.tutorial_finished если надо
