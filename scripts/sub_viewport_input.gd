@@ -68,29 +68,33 @@ func _process(delta: float) -> void:
 			$ExitToMenuButton.show()
 	
 	#show lobby buttons
-	if !current_screen == "menu":
-		if !G.game_started:
-			if G.tutorial_finished:
-				$TutorialSkipButton.hide()
-				$TutorialSkipButton.disabled = true
-				
-				$TutorialStartButton.show()
-				$TutorialStartButton.disabled = false
-				$LobbySoundButton.show()
-				$LobbySoundButton.disabled = false
-		else:
-			$TutorialStartButton.hide()
-			$TutorialStartButton.disabled = true
-			$LobbySoundButton.hide()
-			$LobbySoundButton.disabled = true
+	if !current_screen == "menu" and !G.game_started and G.tutorial_finished:
+		$TutorialSkipButton.hide()
+		$TutorialSkipButton.disabled = true
+		
+		$TutorialStartButton.show()
+		$TutorialStartButton.disabled = false
+		
+		$LobbySoundButton.show()
+		$LobbySoundButton.disabled = false
+	else:
+		$TutorialStartButton.hide()
+		$TutorialStartButton.disabled = true
+		
+		$LobbySoundButton.hide()
+		$LobbySoundButton.disabled = true
+		
+		$TutorialSkipButton.show()
+		$TutorialSkipButton.disabled = false
+		
 
 
-		if !G.tutorial_finished:
-			$TutorialSkipButton.show()
-			$TutorialSkipButton.disabled = false
-		else:
-			$TutorialSkipButton.hide()
-			$TutorialSkipButton.disabled = true
+	#if !G.tutorial_finished:
+	#	$TutorialSkipButton.show()
+	#	$TutorialSkipButton.disabled = false
+	#else:
+	#	$TutorialSkipButton.hide()
+	#	$TutorialSkipButton.disabled = true
 		
 	
 	
@@ -356,5 +360,6 @@ func _on_exit_to_menu_button_button_down() -> void:
 	crossfade_buses("Music", "LobbyMusic", 1)
 	hide_ui()
 	current_screen = "menu"
+	G.tutorial_finished = true
 	G.reset()
 	#G.tutorial_finished если надо
