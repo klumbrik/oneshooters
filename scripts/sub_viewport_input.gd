@@ -80,16 +80,17 @@ func _process(delta: float) -> void:
 		$LobbySoundButton.show()
 		$LobbySoundButton.disabled = false
 	
-	else:
+	elif current_screen == "menu":
 		$TutorialStartButton.hide()
 		$TutorialStartButton.disabled = true
 		
 		$LobbySoundButton.hide()
 		$LobbySoundButton.disabled = true
 
-		$TutorialSkipButton.show()
-		$TutorialSkipButton.disabled = false
-
+		$TutorialSkipButton.hide()
+		$TutorialSkipButton.disabled = true
+	
+		
 
 	#if !G.tutorial_finished:
 	#	$TutorialSkipButton.show()
