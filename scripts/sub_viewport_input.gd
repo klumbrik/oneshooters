@@ -52,10 +52,12 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	#print(current_bullet)
 	#print(mouse_on_screen)
+	print(current_screen)
 	
 	if current_screen == "menu":
 		$TutorialStartButton.hide()
 		$LobbySoundButton.hide()
+		$ExitToMenuButton.hide()
 	
 	if G.game_started and !ui_shown:
 		show_ui()
@@ -77,15 +79,14 @@ func _process(delta: float) -> void:
 		
 		$LobbySoundButton.show()
 		$LobbySoundButton.disabled = false
+	
 	else:
 		$TutorialStartButton.hide()
 		$TutorialStartButton.disabled = true
 		
 		$LobbySoundButton.hide()
 		$LobbySoundButton.disabled = true
-		
-		$TutorialSkipButton.show()
-		$TutorialSkipButton.disabled = false
+
 		
 
 
@@ -335,6 +336,7 @@ func _on_tutorial_start_button_button_down() -> void:
 	var tutorial = preload("res://scenes/tutorial.tscn")
 	G.tutorial_finished = false
 	change_scene_to(tutorial)
+	current_screen = "tutorial"
 	$TutorialStartButton.visible = false
 	$TutorialSkipButton.disabled = true
 	$fade.play()
