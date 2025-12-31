@@ -1,24 +1,31 @@
-[gd_scene load_steps=27 format=3 uid="uid://xsvakw5amtad"]
+[gd_scene load_steps=34 format=3 uid="uid://xsvakw5amtad"]
 
 [ext_resource type="Script" path="res://scripts/sub_viewport_input.gd" id="1_4clg3"]
 [ext_resource type="Script" path="res://scripts/rich_text_label.gd" id="2_l1s8a"]
 [ext_resource type="PackedScene" uid="uid://b0clrx6pdvkxi" path="res://scenes/mainmenu.tscn" id="2_owi17"]
 [ext_resource type="Script" path="res://scripts/button.gd" id="3_1e27r"]
 [ext_resource type="AudioStream" uid="uid://cvem6kg526qhp" path="res://sounds/music/synthoneshootersdemo4.mp3" id="4_cvftn"]
-[ext_resource type="AudioStream" uid="uid://mnviedpjbnfk" path="res://sounds/music/oneshooters lobby draft.mp3" id="5_bo76p"]
+[ext_resource type="AudioStream" uid="uid://c5tdkfnrcyaja" path="res://Oneshot Main Menu.wav" id="5_04ep3"]
 [ext_resource type="Texture2D" uid="uid://ceku7bkys0cr8" path="res://ui/pause/pause.png" id="7_v5td5"]
-[ext_resource type="Texture2D" uid="uid://c0hk12txuwnpr" path="res://ui/play/play.png" id="8_0fewg"]
 [ext_resource type="FontFile" uid="uid://cjsn6sorvmyt6" path="res://demo/assets/fonts/8bitOperatorPlusSC-Bold.ttf" id="8_o3xom"]
 [ext_resource type="Script" path="res://scripts/center_container.gd" id="9_0ubch"]
 [ext_resource type="Script" path="res://scripts/score.gd" id="9_g5afe"]
+[ext_resource type="Texture2D" uid="uid://b2dk734wpchx" path="res://ui/more_buttons/fast-forward.png" id="10_ei4b3"]
+[ext_resource type="Texture2D" uid="uid://ij58qf6or3oc" path="res://ui/more_buttons/fast-forward-pressed.png" id="11_8d7x2"]
+[ext_resource type="Texture2D" uid="uid://d1lprovmycafb" path="res://ui/more_buttons/home.png" id="12_8m3lr"]
 [ext_resource type="Script" path="res://scripts/texture_button.gd" id="12_mo1yl"]
 [ext_resource type="Texture2D" uid="uid://dpqkn18cvqxnl" path="res://ui/bar.png" id="12_ovhjg"]
 [ext_resource type="Script" path="res://scripts/wave_bar.gd" id="13_fe0dc"]
+[ext_resource type="Texture2D" uid="uid://dpnxhca87i6sw" path="res://ui/more_buttons/home-enable.png" id="13_h75mh"]
+[ext_resource type="Texture2D" uid="uid://dc0kl3sljk0yu" path="res://ui/more_buttons/tutorial.png" id="14_0ocfh"]
 [ext_resource type="Shader" path="res://scripts/scroll_shader.gdshader" id="14_pjq25"]
+[ext_resource type="Texture2D" uid="uid://dkasl5wrd86ro" path="res://ui/more_buttons/tutorial-enabled.png" id="15_g35fu"]
 [ext_resource type="Texture2D" uid="uid://coxxu11e5l2sf" path="res://ui/scroll_bg.png" id="15_jut70"]
 [ext_resource type="Shader" path="res://scenes/bar_shader.gdshader" id="15_pq2ii"]
 [ext_resource type="Texture2D" uid="uid://b1anqar4ockw" path="res://bonuses/coin.png" id="16_ah2rw"]
+[ext_resource type="Texture2D" uid="uid://bn8f6txq4r4n6" path="res://ui/more_buttons/sound-off.png" id="16_so5ug"]
 [ext_resource type="Script" path="res://scripts/label.gd" id="17_7sycf"]
+[ext_resource type="Texture2D" uid="uid://dg4o42xagumim" path="res://ui/more_buttons/sound-on.png" id="17_y5nge"]
 [ext_resource type="AudioStream" uid="uid://ciuneb0n3cfn6" path="res://sounds/sfx/simple-and-concise.mp3" id="19_l3x83"]
 [ext_resource type="AudioStream" uid="uid://2ew1hvttxqv6" path="res://sounds/sfx/noshum1sec.mp3" id="21_t7pfa"]
 
@@ -162,7 +169,7 @@ parameters/looping = true
 
 [node name="LobbyMusic" type="AudioStreamPlayer2D" parent="."]
 process_mode = 3
-stream = ExtResource("5_bo76p")
+stream = ExtResource("5_04ep3")
 volume_db = 5.0
 bus = &"LobbyMusic"
 
@@ -191,19 +198,6 @@ metadata/_edit_lock_ = true
 
 [node name="PauseButton" type="TextureButton" parent="."]
 process_mode = 3
-texture_filter = 1
-layout_mode = 0
-offset_left = 115.0
-offset_top = -299.0
-offset_right = 162.0
-offset_bottom = -254.0
-texture_normal = ExtResource("7_v5td5")
-texture_pressed = ExtResource("8_0fewg")
-stretch_mode = 4
-script = ExtResource("12_mo1yl")
-
-[node name="TutorialSkipButton" type="TextureButton" parent="."]
-process_mode = 3
 visible = false
 texture_filter = 1
 layout_mode = 0
@@ -212,7 +206,20 @@ offset_top = -299.0
 offset_right = 162.0
 offset_bottom = -254.0
 texture_normal = ExtResource("7_v5td5")
-texture_pressed = ExtResource("8_0fewg")
+texture_pressed = ExtResource("7_v5td5")
+stretch_mode = 4
+script = ExtResource("12_mo1yl")
+
+[node name="TutorialSkipButton" type="TextureButton" parent="."]
+process_mode = 3
+texture_filter = 1
+layout_mode = 0
+offset_left = 114.45
+offset_top = -299.0
+offset_right = 161.45
+offset_bottom = -254.0
+texture_normal = ExtResource("10_ei4b3")
+texture_pressed = ExtResource("11_8d7x2")
 stretch_mode = 4
 script = ExtResource("12_mo1yl")
 
@@ -221,12 +228,12 @@ process_mode = 3
 visible = false
 texture_filter = 1
 layout_mode = 0
-offset_left = 115.0
-offset_top = -299.0
-offset_right = 162.0
-offset_bottom = -254.0
-texture_normal = ExtResource("7_v5td5")
-texture_pressed = ExtResource("8_0fewg")
+offset_left = -166.615
+offset_top = 255.0
+offset_right = -119.615
+offset_bottom = 300.0
+texture_normal = ExtResource("12_8m3lr")
+texture_pressed = ExtResource("13_h75mh")
 stretch_mode = 4
 script = ExtResource("12_mo1yl")
 
@@ -235,26 +242,27 @@ process_mode = 3
 visible = false
 texture_filter = 1
 layout_mode = 0
-offset_left = 115.0
+offset_left = -21.795
 offset_top = 255.0
-offset_right = 162.0
+offset_right = 25.205
 offset_bottom = 300.0
-texture_normal = ExtResource("7_v5td5")
-texture_pressed = ExtResource("8_0fewg")
+texture_normal = ExtResource("14_0ocfh")
+texture_pressed = ExtResource("15_g35fu")
 stretch_mode = 4
 script = ExtResource("12_mo1yl")
 
 [node name="LobbySoundButton" type="TextureButton" parent="."]
 process_mode = 3
+visible = false
 texture_filter = 1
 layout_mode = 0
-offset_left = 59.88
-offset_top = -299.0
-offset_right = 106.88
-offset_bottom = -254.0
+offset_left = 115.0
+offset_top = 255.0
+offset_right = 162.0
+offset_bottom = 300.0
 toggle_mode = true
-texture_normal = ExtResource("7_v5td5")
-texture_pressed = ExtResource("8_0fewg")
+texture_normal = ExtResource("17_y5nge")
+texture_pressed = ExtResource("16_so5ug")
 stretch_mode = 4
 script = ExtResource("12_mo1yl")
 

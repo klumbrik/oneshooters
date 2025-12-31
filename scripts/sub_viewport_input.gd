@@ -54,6 +54,7 @@ func _process(delta: float) -> void:
 	#print(mouse_on_screen)
 	print(current_screen)
 	
+	
 	if current_screen == "menu":
 		$TutorialStartButton.hide()
 		$LobbySoundButton.hide()
@@ -89,6 +90,9 @@ func _process(delta: float) -> void:
 
 		$TutorialSkipButton.hide()
 		$TutorialSkipButton.disabled = true
+	elif current_screen == "tutorial":
+		$TutorialSkipButton.show()
+		$TutorialSkipButton.disabled = false
 	else:
 		$TutorialSkipButton.hide()
 		$TutorialSkipButton.disabled = true

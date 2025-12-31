@@ -179,6 +179,7 @@ position = Vector2(226, 0)
 shape = SubResource("CircleShape2D_haprv")
 
 [node name="spawner_metrics" type="RichTextLabel" parent="CanvasLayer"]
+visible = false
 offset_right = 360.0
 offset_bottom = 295.0
 mouse_filter = 2
