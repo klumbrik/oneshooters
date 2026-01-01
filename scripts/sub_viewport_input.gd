@@ -15,7 +15,6 @@ var game_scene = preload("res://scenes/main.tscn")
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	
 	if !G.tutorial_finished:
 		$TutorialSkipButton.visible = true
 	
@@ -52,7 +51,7 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	#print(current_bullet)
 	#print(mouse_on_screen)
-	print(current_screen)
+	print(current_screen, G.game_started)
 	
 	
 	if current_screen == "menu":

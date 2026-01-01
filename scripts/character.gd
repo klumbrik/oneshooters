@@ -466,7 +466,7 @@ func game_over():
 	G.game_over = true
 	G.save_json_file()
 	G.game_started = false
-
+	print("game over:", G.game_over)
 
 func freeze_script():
 	invincible = true
