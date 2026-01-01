@@ -51,7 +51,8 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	#print(current_bullet)
 	#print(mouse_on_screen)
-	print(current_screen)
+	
+	#print(current_screen)
 	
 	
 	if current_screen == "menu":
@@ -122,6 +123,14 @@ func _process(delta: float) -> void:
 		$ExitToMenuButton.hide()
 		$ExitToMenuButton.disabled = true
 	else:
+		var game_over = find_child("GameOver", true, false)
+		if game_over != null:
+			var anim: AnimationPlayer = game_over.animation_player
+			await anim.animation_finished
+			print("AWAITING")
+		else:
+			print("GAME OVER NOT FOUND")
+		
 		$TutorialSkipButton.hide()
 		$TutorialSkipButton.disabled = true
 		

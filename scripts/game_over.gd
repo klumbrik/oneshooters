@@ -1,9 +1,10 @@
 extends CanvasLayer
 
-
+var animation_player
 var already_pressed
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	animation_player = $Transition
 	var already_pressed = false
 	$AnimationPlayer.play("appear")
 	$CenterContainer/RichTextLabel.text = "Game Over. Score: " + str(G.score)
