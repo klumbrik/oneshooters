@@ -73,6 +73,7 @@ offset_right = 161.0
 offset_bottom = 20.0
 grow_horizontal = 2
 grow_vertical = 2
+scale = Vector2(1e-05, 1e-05)
 pivot_offset = Vector2(160, 320)
 
 [node name="RichTextLabel" type="RichTextLabel" parent="CenterContainer"]
@@ -101,7 +102,7 @@ offset_right = 16.0
 offset_bottom = 185.0
 grow_horizontal = 2
 grow_vertical = 2
-scale = Vector2(3, 3)
+scale = Vector2(1e-05, 1e-05)
 pivot_offset = Vector2(16, 16)
 texture_normal = ExtResource("2_kdnmw")
 

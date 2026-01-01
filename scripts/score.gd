@@ -70,7 +70,7 @@ func _on_tween_finished():
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	if !G.wave_going and !is_animating:
-		text = "RUN?"
+		text = "BREAK" #RUN? before
 	else:
 		if !is_animating:
 			text = str(G.score)

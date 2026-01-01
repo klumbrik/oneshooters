@@ -1,4 +1,4 @@
-[gd_scene load_steps=75 format=3 uid="uid://d4biv87sinkk1"]
+[gd_scene load_steps=76 format=3 uid="uid://d4biv87sinkk1"]
 
 [ext_resource type="Script" path="res://scripts/character.gd" id="1_tuy5w"]
 [ext_resource type="Texture2D" uid="uid://bum1mhblqjvd3" path="res://sprites/Jedanims/jedduck/jedduck1.png" id="3_bghx8"]
@@ -455,6 +455,9 @@ _data = {
 "shoot": SubResource("Animation_avpbm")
 }
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_3jru4"]
+size = Vector2(26.1, 34.2)
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_c3lwm"]
 size = Vector2(186, 98.8333)
 
@@ -474,7 +477,7 @@ libraries = {
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(3.4, 10.3)
-shape = SubResource("RectangleShape2D_qc853")
+shape = SubResource("RectangleShape2D_3jru4")
 disabled = true
 
 [node name="Timer" type="Timer" parent="."]

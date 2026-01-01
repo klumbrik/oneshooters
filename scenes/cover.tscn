@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://b280h02fo0dqi"]
 
-[ext_resource type="Texture2D" uid="uid://dlr63l8xx000x" path="res://sprites/oneshootercover.png" id="1_28t3h"]
 [ext_resource type="Script" path="res://scripts/cover.gd" id="1_etrp5"]
+[ext_resource type="Texture2D" uid="uid://cgc5l3g6wbwxj" path="res://ui/oneshootercover.png" id="2_de1wx"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_0i48a"]
 size = Vector2(10, 16.5)
@@ -12,7 +12,7 @@ script = ExtResource("1_etrp5")
 [node name="Oneshootercover" type="Sprite2D" parent="."]
 texture_filter = 1
 position = Vector2(-16, -28)
-texture = ExtResource("1_28t3h")
+texture = ExtResource("2_de1wx")
 
 [node name="Cover_Area" type="Area2D" parent="."]
 collision_layer = 2

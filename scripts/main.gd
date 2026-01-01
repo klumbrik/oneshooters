@@ -1,5 +1,6 @@
 extends Node2D
 
+@export var spawn_enabled: bool = false
 var room = preload("res://scenes/room.tscn")
 @onready var sprite = $CanvasLayer/CenterContainer/ui_weapon
 
@@ -51,6 +52,7 @@ var bullet_removal_in_progress = false
 var revolver
 
 func _ready() -> void:
+	G.connect("cover_create_room", _create_room_on_swipe)
 	G.tutorial_mode = false
 	$room/Hot_Target_Spawner.disabled = false
 	$character.controls_blocked = true
@@ -79,7 +81,7 @@ func _ready() -> void:
 	await get_tree().process_frame #to not get null when adding the first room to array
 	G.rooms.clear()
 	G.rooms.append($room) #adding the first room to array
-	G.swipe_room.connect(self._create_room_on_swipe)
+	
 	
 	G.rotate_ui.connect(self._on_ui_rotate)
 	G.cancel_reload_rotation.connect(self.cancel_reload_sequence)
@@ -101,7 +103,7 @@ func _input(event):
 func _process(delta: float) -> void: #for testing only, comment later
 	
 	#print(G.game_started)
-	
+	#print("disabled: ", $CanvasLayer/StartGameButton.disabled)
 	
 	$CanvasLayer/spawner_metrics.text = """new_enemy_in: %.2f\nwave ends in: %.2f\nbreak ends in: %.2f""" % [$enemyspawn/Timer.time_left, $enemyspawn/WaveEnd.time_left, $enemyspawn/Break_Window.time_left]
 	if $enemyspawn/Timer.time_left == 0 and not $CanvasLayer/spawner_metrics.get("modulate").r == 1.0:
@@ -118,12 +120,6 @@ func _process(delta: float) -> void: #for testing only, comment later
 func reset_color(): #testing only!
 	await get_tree().create_timer(1.0).timeout
 	$CanvasLayer/spawner_metrics.modulate = Color(1, 1, 1) #white or default
-	
-	
-	
-	
-	
-	
 func start_reload_sequence(): #reload tween
 	if reload_in_progress or reload_cycle_active or bullet_removal_in_progress:
 		return
@@ -136,15 +132,7 @@ func start_reload_sequence(): #reload tween
 	reload_start_time = Time.get_ticks_msec() / 1000.0 #tween start time
 	rotation_pending = true
 	rotation_completed = false
-	
-	
-	
-		
-	
-	
 	ui_add_bullet()
-	
-	
 	reload_origin_angle = sprite.rotation_degrees
 	var new_rotation = reload_origin_angle + 60.0
 	sprite_angle = new_rotation
@@ -208,26 +196,39 @@ func _on_area_2d_body_entered(body: Node2D) -> void:
 func _on_area_2d_body_exited(body: Node2D) -> void:
 	body_in_area = false
 
+func _create_room_on_swipe(triggering_room = null):
+	
+	# 1. ПРОВЕРКА НА ВОЗВРАТ
+	# Если мы зашли в комнату, но она НЕ является последней в списке G.rooms,
+	# значит, мы вернулись назад. В таком случае ничего генерировать не нужно.
+	if triggering_room != null and not G.rooms.is_empty():
+		if triggering_room != G.rooms[-1]:
+			# print("Игрок вернулся назад, генерация отменена")
+			return
 
+	if G.rooms.is_empty():
+		return 
 
-
-func _create_room_on_swipe():
 	var previous_room = G.rooms[-1]
-	#print("room created")
+	
+	# 2. СОЗДАНИЕ НОВОЙ КОМНАТЫ
 	var next_room = room.instantiate()
-	add_child(next_room)
-	next_room.global_position.x = previous_room.position.x + 360
+	call_deferred("add_child", next_room)
+	
+	# Используем global_position для идеальной стыковки без швов
+	next_room.global_position.x = previous_room.global_position.x + 360
 		
-	#adding the new room
+	# 3. ДОБАВЛЕНИЕ В МАССИВ
 	G.rooms.append(next_room) 
 
-	#removing rooms
-	if G.rooms.size() > 2: #2 for safety but can be 1
+	# 4. УДАЛЕНИЕ СТАРЫХ (ЛИМИТ 3)
+	# Мы держим буфер из 3 комнат: [Комната сзади, Текущая комната, Комната впереди].
+	# Как только комнат становится 4, самую старую удаляем.
+	if G.rooms.size() > 3: 
 		var old_room = G.rooms[0]
 		if is_instance_valid(old_room):
 			old_room.queue_free()
 		G.rooms.remove_at(0)
-		
 	#print(G.rooms)
 	
 func stash_visibility():
@@ -391,9 +392,10 @@ func start_game():
 	#camera.base_position = camera.position
 
 	# Запуск спавна
-	$enemyspawn.enabled = true
-	$enemyspawn/Timer.start()
-	$enemyspawn/WaveEnd.start()
+	if spawn_enabled:
+		$enemyspawn.enabled = true
+		$enemyspawn/Timer.start()
+		$enemyspawn/WaveEnd.start()
 	
 	$character.controls_blocked = false
 	$character.dontshoot = false
@@ -407,14 +409,27 @@ func start_game():
 
 
 func _on_start_game_button_button_down() -> void:
+	
 	var tween = create_tween()
 	var button = $CanvasLayer/StartGameButton
 	tween.tween_property(button, "scale", Vector2.ZERO, 0.3).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
 	start_game()
+	
+	##bullet bug debugging
+	#$character.dontshoot = true
+	#$enemy.able_to_move = true
+	#await get_tree().create_timer(1.44).timeout
+	#$character.shot()
+	#$character.dontshoot = false
+	##bullet bug debugging
 
-
-func _on_wardrobe_button_button_down() -> void:
+func _on_wardrobe_button_button_down():
+	$CanvasLayer/StartGameButton.disabled = true
+	await get_tree().process_frame
+	#print(.disabled) # true
 	G.emit_signal("to_wardrobe")
+	
+	
 
 
 func _on_player_died():

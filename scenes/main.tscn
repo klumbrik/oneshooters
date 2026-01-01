@@ -39,6 +39,7 @@ shader_parameter/speed = 0.02
 [node name="main" type="Node2D"]
 texture_filter = 1
 script = ExtResource("1_puokp")
+spawn_enabled = true
 metadata/_edit_horizontal_guides_ = [-12.0]
 metadata/_edit_lock_ = true
 
@@ -54,7 +55,6 @@ script = ExtResource("4_yq4g2")
 
 [node name="enemyspawn" parent="." instance=ExtResource("3_xclp6")]
 position = Vector2(363, 298)
-enabled = false
 
 [node name="target" parent="enemyspawn" instance=ExtResource("10_5unnn")]
 z_index = 4
@@ -288,6 +288,7 @@ offset_top = -18.0
 offset_right = 615.0
 offset_bottom = 522.0
 texture = ExtResource("17_o44jm")
+metadata/_edit_lock_ = true
 
 [node name="SpaceYesStars" type="TextureRect" parent="space"]
 texture_filter = 2
@@ -299,6 +300,7 @@ offset_right = 1237.0
 offset_bottom = 762.0
 texture = ExtResource("18_qn2c6")
 stretch_mode = 1
+metadata/_edit_lock_ = true
 
 [connection signal="child_entered_tree" from="." to="." method="_on_child_entered_tree"]
 [connection signal="body_entered" from="CanvasLayer/CenterContainer/Area2D" to="." method="_on_area_2d_body_entered"]

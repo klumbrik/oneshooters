@@ -15,6 +15,8 @@ var game_scene = preload("res://scenes/main.tscn")
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	if !G.tutorial_finished:
+		$TutorialSkipButton.visible = true
 	
 	$LobbyMusic.play()
 	$Synthoneshootersdemo4.play()
@@ -30,7 +32,6 @@ func _ready() -> void:
 	
 	$CenterContainer2.visible = false
 	$CenterContainer3.visible = false
-	
 	
 	
 	if sound:
@@ -51,10 +52,107 @@ func _process(delta: float) -> void:
 	#print(current_bullet)
 	#print(mouse_on_screen)
 	
+	#print(current_screen)
+	
+	
+	if current_screen == "menu":
+		$TutorialStartButton.hide()
+		$LobbySoundButton.hide()
+		$ExitToMenuButton.hide()
+	
 	if G.game_started and !ui_shown:
 		show_ui()
 		ui_shown = true
 		crossfade_buses("LobbyMusic", "Music", 1)
+		
+		$ExitToMenuButton.hide()
+	
+	#show lobby buttons
+	if current_screen == "wardrobe" and !G.game_started:
+		$TutorialSkipButton.hide()
+		$TutorialSkipButton.disabled = true
+		
+		$TutorialStartButton.hide()
+		$TutorialStartButton.disabled = true
+		
+		$LobbySoundButton.show()
+		$LobbySoundButton.disabled = false
+		
+		$ExitToMenuButton.hide()
+		$ExitToMenuButton.disabled = true
+	
+	elif current_screen == "menu":
+		$TutorialStartButton.hide()
+		$TutorialStartButton.disabled = true
+		
+		$LobbySoundButton.hide()
+		$LobbySoundButton.disabled = true
+
+		$TutorialSkipButton.hide()
+		$TutorialSkipButton.disabled = true
+		
+	elif current_screen == "tutorial":
+		$TutorialSkipButton.show()
+		$TutorialSkipButton.disabled = false
+		
+		$ExitToMenuButton.hide()
+		$ExitToMenuButton.disabled = true
+		
+	elif G.game_started:
+		$TutorialSkipButton.hide()
+		$TutorialSkipButton.disabled = true
+		
+		$TutorialStartButton.hide()
+		$TutorialStartButton.disabled = true
+		
+		$LobbySoundButton.hide()
+		$LobbySoundButton.disabled = true
+		
+		$ExitToMenuButton.hide()
+		$ExitToMenuButton.disabled = true
+	elif G.game_over:
+		$TutorialSkipButton.hide()
+		$TutorialSkipButton.disabled = true
+		
+		$TutorialStartButton.hide()
+		$TutorialStartButton.disabled = true
+		
+		$LobbySoundButton.hide()
+		$LobbySoundButton.disabled = true
+		
+		$ExitToMenuButton.hide()
+		$ExitToMenuButton.disabled = true
+	else:
+		var game_over = find_child("GameOver", true, false)
+		if game_over != null:
+			var anim: AnimationPlayer = game_over.animation_player
+			await anim.animation_finished
+			print("AWAITING")
+		else:
+			print("GAME OVER NOT FOUND")
+		
+		$TutorialSkipButton.hide()
+		$TutorialSkipButton.disabled = true
+		
+		$TutorialStartButton.show()
+		$TutorialStartButton.disabled = false
+		
+		$LobbySoundButton.show()
+		$LobbySoundButton.disabled = false
+		
+		$ExitToMenuButton.show()
+		$ExitToMenuButton.disabled = false
+	
+		
+
+	#if !G.tutorial_finished:
+	#	$TutorialSkipButton.show()
+	#	$TutorialSkipButton.disabled = false
+	#else:
+	#	$TutorialSkipButton.hide()
+	#	$TutorialSkipButton.disabled = true
+		
+	
 	
 	#print(current_screen)	
 		
@@ -102,6 +200,18 @@ func hide_ui():
 	$ScoreLayer.visible = false
 	$PauseButton.visible = false
 	
+	$TutorialSkipButton.hide()
+	$TutorialSkipButton.disabled = true
+		
+	$TutorialStartButton.hide()
+	$TutorialStartButton.disabled = true
+		
+	$LobbySoundButton.hide()
+	$LobbySoundButton.disabled = true
+		
+	$ExitToMenuButton.hide()
+	$ExitToMenuButton.disabled = true
+	
 func show_ui():
 	#$SubViewportContainer/CanvasLayer.visible = true
 	$ScoreLayer.visible = true
@@ -146,12 +256,6 @@ func change_scene_to(scene: PackedScene):
 
 func _on_pause_button_button_down() -> void:
 	pause()
-
-
-	
-
-
-	
 
 
 func _on_transition_player_animation_finished(anim_name: StringName) -> void:
@@ -209,8 +313,7 @@ func _on_transition_player_animation_started(anim_name: StringName) -> void:
 		wardrobe_or_null.animation_playing = true
 
 
-func _go_to_wardrobe():
-	
+func _go_to_wardrobe():                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
 	print("going to wardrobe")
 	$fade.play()
 	$Transition_player.play("basic_fade")
@@ -222,11 +325,9 @@ func _on_player_died():
 	var game_over_ui = preload("res://scenes/game_over.tscn").instantiate()
 	add_child(game_over_ui)
 	
-	
-	
 	#reset
 	G.reset()
-	
+	G.game_over = true
 	crossfade_buses("Music", "LobbyMusic", 1)
 	hide_ui()
 	ui_shown = false
@@ -278,3 +379,49 @@ func _notification(what):
 func auto_pause_if_needed():
 	if G.game_started and not G.pause_added and not G.game_over:
 		pause()
+
+#tutorial skip
+func _on_tutorial_skip_button_button_down() -> void:
+	var main = preload("res://scenes/main.tscn")
+	G.tutorial_finished = true
+	change_scene_to(main)
+	current_screen = "main"
+	$TutorialSkipButton.visible = false
+	$TutorialSkipButton.disabled = true
+	G.reset()
+	$fade.play()
+	print("bim-bom")
+
+#tutorial start from lobby
+func _on_tutorial_start_button_button_down() -> void:
+	var tutorial = preload("res://scenes/tutorial.tscn")
+	G.tutorial_finished = false
+	change_scene_to(tutorial)
+	current_screen = "tutorial"
+	$TutorialStartButton.visible = false
+	$TutorialStartButton.disabled = true
+	$fade.play()
+
+
+
+
+func _on_lobby_sound_button_toggled(toggled_on: bool) -> void:
+	$impact.play()
+	if toggled_on:
+		G.sound_on = false
+		AudioServer.set_bus_volume_db(AudioServer.get_bus_index("Master"), -80)
+		
+	else:
+		G.sound_on = true
+		AudioServer.set_bus_volume_db(AudioServer.get_bus_index("Master"), -8.8)
+
+
+func _on_exit_to_menu_button_button_down() -> void:
+	var menu = preload("res://scenes/mainmenu.tscn")
+	change_scene_to(menu)
+	crossfade_buses("Music", "LobbyMusic", 1)
+	hide_ui()
+	current_screen = "menu"
+	G.tutorial_finished = true
+	G.reset()
+	#G.tutorial_finished если надо

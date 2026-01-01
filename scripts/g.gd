@@ -6,7 +6,7 @@ signal enemy_tap(enemy)
 signal enemy_died_in_zone(enemy)
 signal out_of_ammo
 signal enemy_shoots(enemy)
-signal swipe_room
+signal cover_create_room
 signal make_cover_unused
 signal rotate_ui
 signal cancel_reload_rotation
@@ -27,7 +27,7 @@ signal score_changed(score)
 var json_path = "user://essential_data.json"
 
 var e_data: Dictionary = {}
-var coins = 0
+var coins: int = 0
 var skin2bought = false
 var break_bar_progress = 0.0
 var pacedif_modifier = 1 #Set to 1 to revert to play with original values. modifier for speed in terms of difficulty (testing). 
@@ -44,7 +44,7 @@ var game_over = false
 var last_sound_state
 var sound_on = true
 var is_enemy_in_zone: bool
-var score = 0
+var score: int = 0
 var ammo = 6
 var stash = 0
 var stash_pieces = 0
@@ -74,7 +74,7 @@ var pause_added = false
 
 var last_cover_area_ref = null
 var last_cover_moved = false
-var best_score = 0
+var best_score: int = 0
 
 var game_started := false
 

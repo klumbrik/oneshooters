@@ -32,6 +32,7 @@ var coin_given = false
 
 var score_effect = preload("res://scenes/score_added_ux_effect.tscn")
 @export var score_amount = 10
+@export var able_to_move: bool = true
 
 func _ready() -> void: #when spawns randomly defines hp
 	$hit_sound.volume_db = 0
@@ -382,7 +383,10 @@ func _delete_enemies_out_of_screen():#remove this instance from the game if it's
 #remove enemies from the game (NOT from the array) when player reaches a new cover to keep memory clean
 
 func should_move() -> bool:
-	return true  # by default the base enemy always moves when the wave is going
+	if able_to_move:
+		return true  # by default the base enemy always moves when the wave is going
+	else:
+		return false
 
 func is_reset_recharging():
 	if !G.wave_going:

@@ -5,12 +5,13 @@ var bullet_owner = "character"
 #var speed = 1000#
 # Called when the node enters the scene tree for the first time.
 
-#НАГОВНОКОДИЛ! ИСПРАВЬ и инглиш
+#НАГОВНОКОДИЛ! ИСПРАВЬ и инглиш - 12.25 полегче парень, я не буду это исправлять
 func _ready() -> void:
 	#$BulletTexture/AnimationPlayer.play("thrown")
 	$RayCast2D.enabled = true
 	$RayCast2D.force_raycast_update()
-
+	$RayCast2D.hit_from_inside = true #in order for bullet to not pierce enemies
+	
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta: float) -> void:
 	if not hit:

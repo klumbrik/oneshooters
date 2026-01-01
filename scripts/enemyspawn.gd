@@ -2,7 +2,7 @@ extends CharacterBody2D
 var enemy = preload("res://scenes/enemy.tscn")
 var shooting_enemy = preload("res://scenes/shooting_enemy.tscn")
 var shielded_enemy = preload("res://scenes/shielded_enemy.tscn")
-@export var enabled: bool #disable when tesitng
+var enabled: bool #disable when tesitng
 @onready var target = $target
 var shielded_streak := 0
 # Called when the node enters the scene tree for the first time.
@@ -12,13 +12,15 @@ func _ready() -> void:
 	$WaveEnd.wait_time = randf_range(10,15) #set to 1 for break testing
 	
 	if enabled:
+		print("ti viklychil a ya vklychilsya hahaha")
 		$Timer.start()
 		$WaveEnd.start()
 		
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta: float) -> void:
 	#print(G.enemiesonscreen)
-	
+	#if enabled:
+		#print("ti viklychil a ya vklychilsya hahaha")
 	
 	if !G.wave_going: #when wave stops we stop spawning
 		$Timer.stop()

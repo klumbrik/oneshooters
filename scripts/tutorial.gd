@@ -51,7 +51,7 @@ var dialogue := {
 	},
 	"intro_8": {
 		"speaker": "Jed",
-		"text": "Это парень опасный, пригнись",
+		"text": "Этот парень опасный, пригнись",
 		"action": "only_duck",
 		"next": "intro_9",
 	},
@@ -171,7 +171,7 @@ func _ready() -> void:
 	await get_tree().process_frame #to not get null when adding the first room to array
 	G.rooms.clear()
 	G.rooms.append($room) #adding the first room to array
-	G.swipe_room.connect(self._create_room_on_swipe)
+	
 	
 	G.rotate_ui.connect(self._on_ui_rotate)
 	G.cancel_reload_rotation.connect(self.cancel_reload_sequence)
