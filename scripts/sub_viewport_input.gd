@@ -51,7 +51,7 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	#print(current_bullet)
 	#print(mouse_on_screen)
-	print(current_screen, G.game_started)
+	print(current_screen)
 	
 	
 	if current_screen == "menu":
@@ -65,20 +65,20 @@ func _process(delta: float) -> void:
 		crossfade_buses("LobbyMusic", "Music", 1)
 		
 		$ExitToMenuButton.hide()
-	else:
-		if current_screen == "main" and current_screen != "menu":
-			$ExitToMenuButton.show()
 	
 	#show lobby buttons
-	if !current_screen == "menu" and !G.game_started and G.tutorial_finished:
+	if current_screen == "wardrobe" and !G.game_started:
 		$TutorialSkipButton.hide()
 		$TutorialSkipButton.disabled = true
 		
-		$TutorialStartButton.show()
-		$TutorialStartButton.disabled = false
+		$TutorialStartButton.hide()
+		$TutorialStartButton.disabled = true
 		
 		$LobbySoundButton.show()
 		$LobbySoundButton.disabled = false
+		
+		$ExitToMenuButton.hide()
+		$ExitToMenuButton.disabled = true
 	
 	elif current_screen == "menu":
 		$TutorialStartButton.hide()
@@ -89,10 +89,15 @@ func _process(delta: float) -> void:
 
 		$TutorialSkipButton.hide()
 		$TutorialSkipButton.disabled = true
+		
 	elif current_screen == "tutorial":
 		$TutorialSkipButton.show()
 		$TutorialSkipButton.disabled = false
-	else:
+		
+		$ExitToMenuButton.hide()
+		$ExitToMenuButton.disabled = true
+		
+	elif G.game_started:
 		$TutorialSkipButton.hide()
 		$TutorialSkipButton.disabled = true
 		
@@ -104,6 +109,30 @@ func _process(delta: float) -> void:
 		
 		$ExitToMenuButton.hide()
 		$ExitToMenuButton.disabled = true
+	elif G.game_over:
+		$TutorialSkipButton.hide()
+		$TutorialSkipButton.disabled = true
+		
+		$TutorialStartButton.hide()
+		$TutorialStartButton.disabled = true
+		
+		$LobbySoundButton.hide()
+		$LobbySoundButton.disabled = true
+		
+		$ExitToMenuButton.hide()
+		$ExitToMenuButton.disabled = true
+	else:
+		$TutorialSkipButton.hide()
+		$TutorialSkipButton.disabled = true
+		
+		$TutorialStartButton.show()
+		$TutorialStartButton.disabled = false
+		
+		$LobbySoundButton.show()
+		$LobbySoundButton.disabled = false
+		
+		$ExitToMenuButton.show()
+		$ExitToMenuButton.disabled = false
 	
 		
 
@@ -162,6 +191,18 @@ func hide_ui():
 	$ScoreLayer.visible = false
 	$PauseButton.visible = false
 	
+	$TutorialSkipButton.hide()
+	$TutorialSkipButton.disabled = true
+		
+	$TutorialStartButton.hide()
+	$TutorialStartButton.disabled = true
+		
+	$LobbySoundButton.hide()
+	$LobbySoundButton.disabled = true
+		
+	$ExitToMenuButton.hide()
+	$ExitToMenuButton.disabled = true
+	
 func show_ui():
 	#$SubViewportContainer/CanvasLayer.visible = true
 	$ScoreLayer.visible = true
@@ -206,12 +247,6 @@ func change_scene_to(scene: PackedScene):
 
 func _on_pause_button_button_down() -> void:
 	pause()
-
-
-	
-
-
-	
 
 
 func _on_transition_player_animation_finished(anim_name: StringName) -> void:
@@ -281,11 +316,9 @@ func _on_player_died():
 	var game_over_ui = preload("res://scenes/game_over.tscn").instantiate()
 	add_child(game_over_ui)
 	
-	
-	
 	#reset
 	G.reset()
-	
+	G.game_over = true
 	crossfade_buses("Music", "LobbyMusic", 1)
 	hide_ui()
 	ui_shown = false
@@ -343,10 +376,12 @@ func _on_tutorial_skip_button_button_down() -> void:
 	var main = preload("res://scenes/main.tscn")
 	G.tutorial_finished = true
 	change_scene_to(main)
+	current_screen = "main"
 	$TutorialSkipButton.visible = false
 	$TutorialSkipButton.disabled = true
 	G.reset()
 	$fade.play()
+	print("bim-bom")
 
 #tutorial start from lobby
 func _on_tutorial_start_button_button_down() -> void:
@@ -355,7 +390,7 @@ func _on_tutorial_start_button_button_down() -> void:
 	change_scene_to(tutorial)
 	current_screen = "tutorial"
 	$TutorialStartButton.visible = false
-	$TutorialSkipButton.disabled = true
+	$TutorialStartButton.disabled = true
 	$fade.play()
 
 
