@@ -47,6 +47,20 @@ func _ready() -> void:
 		
 	hide_ui()
 
+
+func _input(event: InputEvent) -> void: #space key start and restart
+	if event.is_action_pressed("space"):
+		var game_over: GameOverLayer = find_child("GameOver", true, false)
+		var main: MainScreen = find_child("main", true, false)
+		if main != null:
+			if game_over == null:
+				if !G.game_started:
+					main.start_game()
+			else:
+				game_over.animate_reload_button()  
+		
+
+
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	#print(current_bullet)
@@ -67,7 +81,7 @@ func _process(delta: float) -> void:
 		
 		$ExitToMenuButton.hide()
 	
-	#show lobby buttons
+	#show lobby buttons - refactor in future
 	if current_screen == "wardrobe" and !G.game_started:
 		$TutorialSkipButton.hide()
 		$TutorialSkipButton.disabled = true
@@ -127,9 +141,9 @@ func _process(delta: float) -> void:
 		if game_over != null:
 			var anim: AnimationPlayer = game_over.animation_player
 			await anim.animation_finished
-			print("AWAITING")
-		else:
-			print("GAME OVER NOT FOUND")
+			#print("AWAITING")
+		#else:
+			#print("GAME OVER NOT FOUND")
 		
 		$TutorialSkipButton.hide()
 		$TutorialSkipButton.disabled = true

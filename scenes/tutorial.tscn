@@ -13,8 +13,8 @@
 [ext_resource type="Texture2D" uid="uid://djm5e7xioilic" path="res://ui/dodge_bar/dodge_bar_inactive.png" id="11_8hgam"]
 [ext_resource type="Texture2D" uid="uid://ctc0ompolh7kw" path="res://ui/dodge_bar/dodge_bar.png" id="12_ipime"]
 [ext_resource type="Script" path="res://scripts/dodge_bar.gd" id="13_1bec0"]
+[ext_resource type="FontFile" uid="uid://c7txkjkt1g2mq" path="res://demo/assets/fonts/Epilepsy Sans/EpilepsySansBold.ttf" id="14_rhy1o"]
 [ext_resource type="Texture2D" uid="uid://0wlfs75fojwa" path="res://sprites/jedbigres.png" id="14_sh588"]
-[ext_resource type="FontFile" uid="uid://cjsn6sorvmyt6" path="res://demo/assets/fonts/8bitOperatorPlusSC-Bold.ttf" id="15_ev5jn"]
 [ext_resource type="Shader" path="res://scripts/up_and_down_bg.gdshader" id="16_f6k8r"]
 [ext_resource type="Texture2D" uid="uid://d203xjmnn03io" path="res://sprites/space/space_no_stars.png" id="17_lhflu"]
 [ext_resource type="Shader" path="res://scripts/up_and_down_stars.gdshader" id="18_7mr3i"]
@@ -323,12 +323,13 @@ metadata/_edit_lock_ = true
 
 [node name="Label" type="Label" parent="CanvasLayer"]
 z_index = 1
+texture_filter = 1
 offset_left = 160.0
 offset_top = 220.0
 offset_right = 350.0
 offset_bottom = 402.0
-theme_override_fonts/font = ExtResource("15_ev5jn")
-text = "r"
+theme_override_fonts/font = ExtResource("14_rhy1o")
+text = "TUTORIAL_TEXT "
 horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 3

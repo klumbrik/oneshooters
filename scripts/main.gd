@@ -1,4 +1,5 @@
 extends Node2D
+class_name MainScreen
 
 @export var spawn_enabled: bool = false
 var room = preload("res://scenes/room.tscn")
@@ -97,8 +98,10 @@ func _input(event):
 		return
 	#if $CanvasLayer/WardrobeButton.get_global_rect().has_point(get_viewport().get_mouse_position()):
 		#return
-	if event.is_action_pressed("space"):
-		start_game()
+	#if event.is_action_pressed("space"): NOW IN SUBVIEWPORT SCRIPT
+		#start_game()
+		#print("Space pressed")
+		
 		
 func _process(delta: float) -> void: #for testing only, comment later
 	
@@ -375,6 +378,8 @@ func choose_bonus_type() -> String:
 
 func start_game():
 	
+	animate_start_button()
+	
 	G.game_started = true
 	G.wave_going = true
 	# UI и камера
@@ -388,7 +393,7 @@ func start_game():
 	tween.set_parallel()
 	
 	tween.tween_property(camera, "zoom", Vector2(1, 1), 0.5).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
-	tween.tween_property(camera, "position", Vector2(-53, -306), 0.5).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+	tween.tween_property(camera, "position", Vector2(-53, -306), 0.5).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT) #x = -53
 	#camera.base_position = camera.position
 
 	# Запуск спавна
@@ -409,10 +414,6 @@ func start_game():
 
 
 func _on_start_game_button_button_down() -> void:
-	
-	var tween = create_tween()
-	var button = $CanvasLayer/StartGameButton
-	tween.tween_property(button, "scale", Vector2.ZERO, 0.3).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
 	start_game()
 	
 	##bullet bug debugging
@@ -430,7 +431,10 @@ func _on_wardrobe_button_button_down():
 	G.emit_signal("to_wardrobe")
 	
 	
-
+func animate_start_button():
+	var tween = create_tween()
+	var button = $CanvasLayer/StartGameButton
+	tween.tween_property(button, "scale", Vector2.ZERO, 0.3).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
 
 func _on_player_died():
 	G.game_started = false

@@ -3,12 +3,12 @@
 importer="font_data_dynamic"
 type="FontFile"
 uid="uid://c7txkjkt1g2mq"
-path="res://.godot/imported/EpilepsySansBold.ttf-4275adbf4d68c2c7580e22116a302457.fontdata"
+path="res://.godot/imported/EpilepsySansBold.ttf-48e754735e953aac615b3e874f2bdd8a.fontdata"
 
 [deps]
 
-source_file="res://scripts/Epilepsy Sans/EpilepsySansBold.ttf"
-dest_files=["res://.godot/imported/EpilepsySansBold.ttf-4275adbf4d68c2c7580e22116a302457.fontdata"]
+source_file="res://demo/assets/fonts/Epilepsy Sans/EpilepsySansBold.ttf"
+dest_files=["res://.godot/imported/EpilepsySansBold.ttf-48e754735e953aac615b3e874f2bdd8a.fontdata"]
 
 [params]
 

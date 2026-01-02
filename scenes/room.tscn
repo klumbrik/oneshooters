@@ -1,5 +1,6 @@
-[gd_scene load_steps=6 format=3 uid="uid://b66imsg6xttyv"]
+[gd_scene load_steps=7 format=3 uid="uid://b66imsg6xttyv"]
 
+[ext_resource type="Script" path="res://scenes/room.gd" id="1_172dq"]
 [ext_resource type="PackedScene" uid="uid://b280h02fo0dqi" path="res://scenes/cover.tscn" id="2_4rady"]
 [ext_resource type="Texture2D" uid="uid://dy2dqswyle8it" path="res://sprites/bg_oneshooters2.png" id="2_bu2md"]
 [ext_resource type="PackedScene" uid="uid://c3hvy83ddqlbe" path="res://scenes/hot_target_spawner.tscn" id="10_wyumr"]
@@ -11,6 +12,7 @@ size = Vector2(365, 7)
 size = Vector2(360, 640)
 
 [node name="room" type="Node2D"]
+script = ExtResource("1_172dq")
 metadata/_edit_lock_ = true
 metadata/_edit_horizontal_guides_ = [-12.0]
 

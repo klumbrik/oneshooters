@@ -1,4 +1,5 @@
 extends CanvasLayer
+class_name GameOverLayer
 
 var animation_player
 var already_pressed
@@ -11,10 +12,7 @@ func _ready() -> void:
 
 
 func _on_again_button_button_up() -> void:
-	if !already_pressed:
-		already_pressed = true
-		$AnimationPlayer.play_backwards("appear")
-		G.reset()
+	animate_reload_button()
 	
 	
 func _on_animation_player_animation_finished(anim_name: StringName) -> void:
@@ -29,3 +27,10 @@ func _on_transition_animation_finished(anim_name: StringName) -> void:
 	if anim_name == "fade":
 		G.emit_signal("reload_game")
 		queue_free()
+
+
+func animate_reload_button():
+	if !already_pressed:
+		already_pressed = true
+		$AnimationPlayer.play_backwards("appear")
+		G.reset()

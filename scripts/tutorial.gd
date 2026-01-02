@@ -57,13 +57,13 @@ var dialogue := {
 	},
 	"intro_9": {
 		"speaker": "Jed",
-		"text": "Время бежать. Свайпни вправо.",
+		"text": "Время бежать. Свайпни вправо. или нажми 'D' на клавиатуре",
 		"action": "run",
 		"next": "intro_10",
 	},
 	"intro_10": {
 		"speaker": "Jed",
-		"text": "Ой-ой, перекат!(Снова свайпни вправо)",
+		"text": "Ой-ой, перекат!(Снова свайпни вправо или нажми 'D' на клавиатуре)",
 		"action": "dodge",
 		"next": "intro_11",
 	},
@@ -75,7 +75,7 @@ var dialogue := {
 	},
 	"intro_12": {
 		"speaker": "Jed",
-		"text": "Хорошо, свайпни влево, чтобы вернутся назад",
+		"text": "Хорошо, свайпни влево или нажми 'A' на клавиатуре, чтобы вернутся назад",
 		"action": "back",
 		"next": "intro_13",
 	},
@@ -141,7 +141,8 @@ var revolver
 
 func _ready() -> void:
 	G.tutorial_mode = true
-	$room/Hot_Target_Spawner.disabled = true
+	#var room: Room = $room
+	#room.spawner.disabled = true
 	$character.dontduck = true
 	$character.dontshoot = true
 	$character.dontrun = true
@@ -201,8 +202,11 @@ func _input(event):
 		
 func _process(delta: float) -> void: #for testing only, comment later
 	
-	#print(G.game_started)
-	
+	print("PAUSE ADDED: ", G.pause_added)
+	if G.pause_added:
+		process_mode = PROCESS_MODE_PAUSABLE
+	else:
+		process_mode = PROCESS_MODE_ALWAYS
 	
 	$CanvasLayer/spawner_metrics.text = """new_enemy_in: %.2f\nwave ends in: %.2f\nbreak ends in: %.2f""" % [$enemyspawn/Timer.time_left, $enemyspawn/WaveEnd.time_left, $enemyspawn/Break_Window.time_left]
 	if $enemyspawn/Timer.time_left == 0 and not $CanvasLayer/spawner_metrics.get("modulate").r == 1.0:

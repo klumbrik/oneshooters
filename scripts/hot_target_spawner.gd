@@ -1,4 +1,7 @@
 extends Node2D
+
+class_name HotTargetSpawner
+
 #@onready var area: Vector2 = get_window().get_visible_rect().size 
 @onready var collision = get_parent().get_node("StaticBody2D/CollisionShape2D")
 @onready var shape = collision.shape as RectangleShape2D
@@ -23,7 +26,8 @@ func _ready() -> void:
 		return
 	G.enemy_died_in_zone.connect(self._on_enemy_died_in_zone)
 	G.delete_enemies_out_of_screen.connect(self._deactivate)
-	spawn()
+	if G.tutorial_finished:
+		spawn()
 		
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
@@ -56,13 +60,15 @@ func _on_hot_target_timer_timeout() -> void:
 	if disabled:
 		return
 	if G.character_position != Vector2.ZERO: #if the character pos is received early it may be zero which we don't want (though timer allows to avoid it)
-		spawn()
+		if G.tutorial_finished:
+			spawn()
 
 func _on_enemy_died_in_zone(enemy):
 	#print("he is defeated")
 	remove()
 	
 func _deactivate(): #called when new cover/room reached; spawner gets deactivated
-	if G.rooms.size() > 0:
-		if G.rooms[0] == parent_room and !G.rooms.size() == 1:
-			disabled = true
+	pass
+	#if G.rooms.size() > 0:
+		#if G.rooms[0] == parent_room and !G.rooms.size() == 1:
+			#disabled = true

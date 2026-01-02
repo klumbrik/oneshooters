@@ -37,6 +37,7 @@ shader_parameter/y_amplitude = 0.3
 shader_parameter/speed = 0.02
 
 [node name="main" type="Node2D"]
+process_mode = 1
 texture_filter = 1
 script = ExtResource("1_puokp")
 spawn_enabled = true
