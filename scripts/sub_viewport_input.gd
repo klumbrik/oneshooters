@@ -54,8 +54,9 @@ func _input(event: InputEvent) -> void: #space key start and restart
 		var main: MainScreen = find_child("main", true, false)
 		if main != null:
 			if game_over == null:
-				if !G.game_started:
-					main.start_game()
+				if !G.game_started and G.character_ref != null:
+					if G.character_ref.character_state_machine.get_active_state().name == "shooting":
+						main.start_game()
 			else:
 				game_over.animate_reload_button()  
 		
