@@ -141,6 +141,8 @@ var revolver
 
 func _ready() -> void:
 	G.tutorial_mode = true
+	G.pause_added = false
+	G.game_started = false
 	#var room: Room = $room
 	#room.spawner.disabled = true
 	$character.dontduck = true
@@ -202,11 +204,11 @@ func _input(event):
 		
 func _process(delta: float) -> void: #for testing only, comment later
 	
-	print("PAUSE ADDED: ", G.pause_added)
-	if G.pause_added:
-		process_mode = PROCESS_MODE_PAUSABLE
-	else:
-		process_mode = PROCESS_MODE_ALWAYS
+	#print("PAUSE ADDED: ", G.pause_added)
+	#if G.pause_added:
+		#process_mode = PROCESS_MODE_PAUSABLE
+	#else:
+		#process_mode = PROCESS_MODE_ALWAYS
 	
 	$CanvasLayer/spawner_metrics.text = """new_enemy_in: %.2f\nwave ends in: %.2f\nbreak ends in: %.2f""" % [$enemyspawn/Timer.time_left, $enemyspawn/WaveEnd.time_left, $enemyspawn/Break_Window.time_left]
 	if $enemyspawn/Timer.time_left == 0 and not $CanvasLayer/spawner_metrics.get("modulate").r == 1.0:
@@ -584,7 +586,7 @@ func handle_action(action: String):
 			var enemy = G.enemiesonscreen[0]
 			var timer = get_tree().create_timer(0.3)
 			await timer.timeout
-			
+			print("AWAITING FOR TAP")
 			await tapped
 			$CanvasLayer/Jedbigres/AnimationPlayer.play_backwards("popup")
 			await $CanvasLayer/Jedbigres/AnimationPlayer.animation_finished	

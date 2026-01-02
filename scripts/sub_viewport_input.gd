@@ -410,6 +410,8 @@ func _on_tutorial_skip_button_button_down() -> void:
 func _on_tutorial_start_button_button_down() -> void:
 	var tutorial = preload("res://scenes/tutorial.tscn")
 	G.tutorial_finished = false
+	G.reset()
+	process_mode = Node.PROCESS_MODE_ALWAYS #Careful with this line
 	change_scene_to(tutorial)
 	current_screen = "tutorial"
 	$TutorialStartButton.visible = false
