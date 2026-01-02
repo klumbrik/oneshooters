@@ -224,6 +224,7 @@ grow_vertical = 2
 scale = Vector2(2, 2)
 mouse_filter = 1
 texture_normal = ExtResource("15_wo3n0")
+metadata/_edit_lock_ = true
 
 [node name="Label" type="Label" parent="CanvasLayer/WardrobeButton"]
 visible = false

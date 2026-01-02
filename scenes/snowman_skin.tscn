@@ -1,60 +1,62 @@
-[gd_scene load_steps=65 format=3 uid="uid://bbayo25ijb3hf"]
+[gd_scene load_steps=67 format=3 uid="uid://dty8daexju8ht"]
 
-[ext_resource type="Texture2D" uid="uid://bum1mhblqjvd3" path="res://sprites/Jedanims/jedduck/jedduck1.png" id="1_h4852"]
-[ext_resource type="Texture2D" uid="uid://pqtkdd5splp1" path="res://sprites/Jedanims/jeddeath/death_anim2.png" id="2_ll8nw"]
-[ext_resource type="Texture2D" uid="uid://cnhna4wndkl5e" path="res://sprites/Jedanims/jeddeath/death_anim3.png" id="3_fwiub"]
-[ext_resource type="Texture2D" uid="uid://bghmjbs2wmyqr" path="res://sprites/Jedanims/jeddeath/death_anim4.png" id="4_w6dlu"]
-[ext_resource type="Texture2D" uid="uid://oo0rodtvv3ng" path="res://sprites/Jedanims/jeddeath/death_anim5.png" id="5_6qxdk"]
-[ext_resource type="Texture2D" uid="uid://ug3ajcxeovbv" path="res://sprites/Jedanims/jeddeath/death_anim6.png" id="6_655ld"]
-[ext_resource type="Texture2D" uid="uid://s60eyyfp626i" path="res://sprites/Jedanims/jeddodge/dodge1.png" id="7_loqvh"]
-[ext_resource type="Texture2D" uid="uid://bicke3vjgmjav" path="res://sprites/Jedanims/jeddodge/dodge2.png" id="8_arbfk"]
-[ext_resource type="Texture2D" uid="uid://bo1jssqabsl68" path="res://sprites/Jedanims/jeddodge/dodge3.png" id="9_ve7xl"]
-[ext_resource type="Texture2D" uid="uid://yhnuh65v3kw7" path="res://sprites/Jedanims/jeddodge/dodge4.png" id="10_k836n"]
-[ext_resource type="Texture2D" uid="uid://c686tqosnijwr" path="res://sprites/Jedanims/jeddodge/dodge5.png" id="11_54rxv"]
-[ext_resource type="Texture2D" uid="uid://d2h1ce55npl8a" path="res://sprites/Jedanims/jeddodge/dodge6.png" id="12_qx7gh"]
-[ext_resource type="Texture2D" uid="uid://ch744v656syng" path="res://sprites/Jedanims/jeddodge/dodge7.png" id="13_bel5k"]
-[ext_resource type="Texture2D" uid="uid://cemdqxyr7xcos" path="res://sprites/Jedanims/jeddodge/dodge8.png" id="14_4nrjm"]
-[ext_resource type="Texture2D" uid="uid://dtwpq5s07yr45" path="res://sprites/Jedanims/jeddodge/dodge9.png" id="15_x7whw"]
-[ext_resource type="Texture2D" uid="uid://dmkhnb4widcs5" path="res://sprites/Jedanims/jeddodge/dodge10.png" id="16_rseeo"]
-[ext_resource type="Texture2D" uid="uid://h2hev0h63yut" path="res://sprites/Jedanims/jeddodge/dodge11.png" id="17_ro5cm"]
-[ext_resource type="Texture2D" uid="uid://hppjni86co3x" path="res://sprites/Jedanims/jeddodge/dodge12.png" id="18_smhwp"]
-[ext_resource type="Texture2D" uid="uid://doyv8qrncnmpv" path="res://sprites/Jedanims/jeddodge/dodge13.png" id="19_kud6g"]
-[ext_resource type="Texture2D" uid="uid://b4h0vuhcjtaes" path="res://sprites/Jedanims/jeddodge/dodge14.png" id="20_b70ko"]
-[ext_resource type="Texture2D" uid="uid://1r0d62k80gbb" path="res://sprites/Jedanims/jeddodge/dodge15.png" id="21_xdjtr"]
-[ext_resource type="Texture2D" uid="uid://dmxp861spd0hj" path="res://sprites/Jedanims/jeddodge/dodge16.png" id="22_8mbqo"]
-[ext_resource type="Texture2D" uid="uid://dewfh0mr666bp" path="res://sprites/Jedanims/jeddodge/dodge17.png" id="23_npe3b"]
-[ext_resource type="Texture2D" uid="uid://1623411uapl2" path="res://sprites/Jedanims/jeddodge/dodge18.png" id="24_vbjtl"]
-[ext_resource type="Texture2D" uid="uid://cbri3bnn5gecs" path="res://sprites/Jedanims/jeddodge/dodge19.png" id="25_ulnaw"]
-[ext_resource type="Texture2D" uid="uid://c6yh4qjw4rmk" path="res://sprites/Jedanims/jedduck/jedduck2.png" id="26_bcngx"]
-[ext_resource type="Texture2D" uid="uid://bt5atlee63m0q" path="res://sprites/Jedanims/jedduck/jedduck3.png" id="27_0ghb0"]
-[ext_resource type="Texture2D" uid="uid://e2y7sk1b1mlc" path="res://sprites/Jedanims/jedduck/jedduck4.png" id="28_upt2o"]
-[ext_resource type="Texture2D" uid="uid://d3tgvewxku3d2" path="res://sprites/Jedanims/jedduck/jedduck5.png" id="29_54rg7"]
-[ext_resource type="Texture2D" uid="uid://c02n8bcvjrt4p" path="res://sprites/Jedanims/jedduck/jedduck6.png" id="30_w5ow6"]
-[ext_resource type="Texture2D" uid="uid://c7jh88w62dj5n" path="res://sprites/Jedanims/jedreload/jedreload1.png" id="31_p4psb"]
-[ext_resource type="Texture2D" uid="uid://b4yogjt8wfqo1" path="res://sprites/Jedanims/jedreload/jedreload2.png" id="32_cipn7"]
-[ext_resource type="Texture2D" uid="uid://c0k56mwggj8pr" path="res://sprites/Jedanims/jedreload/jedreload3.png" id="33_fwkpm"]
-[ext_resource type="Texture2D" uid="uid://b4aqwp2bi8faw" path="res://sprites/Jedanims/jedreload/jedreload4.png" id="34_6dbcf"]
-[ext_resource type="Texture2D" uid="uid://claf07svbxv02" path="res://sprites/Jedanims/jedreload/jedreload5.png" id="35_rvwr6"]
-[ext_resource type="Texture2D" uid="uid://cjsog3hg6yr0a" path="res://sprites/Jedanims/jedreload/jedreload6.png" id="36_es1l2"]
-[ext_resource type="Texture2D" uid="uid://2gjmri5v17b1" path="res://sprites/Jedanims/jedreload/jedreload7.png" id="37_5f2ue"]
-[ext_resource type="Texture2D" uid="uid://bknt2fciuwfq" path="res://sprites/Jedanims/jedrun/jedrun8.png" id="38_6a5iv"]
-[ext_resource type="Texture2D" uid="uid://b2kk7ie251mid" path="res://sprites/Jedanims/jedrun/jedrun9.png" id="39_lxhsb"]
-[ext_resource type="Texture2D" uid="uid://b02aorwdlcc3g" path="res://sprites/Jedanims/jedrun/jedrun10.png" id="40_p37d4"]
-[ext_resource type="Texture2D" uid="uid://behxcsmcknyii" path="res://sprites/Jedanims/jedrun/jedrun11.png" id="41_6thac"]
-[ext_resource type="Texture2D" uid="uid://dmbh8pxpynld2" path="res://sprites/Jedanims/jedrun/jedrun12.png" id="42_ewiww"]
-[ext_resource type="Texture2D" uid="uid://cq2jselm5uud6" path="res://sprites/Jedanims/jedrun/jedrun13.png" id="43_yspl7"]
-[ext_resource type="Texture2D" uid="uid://db6qv1vu336iq" path="res://sprites/Jedanims/jedrun/jedrun14.png" id="44_oda7x"]
-[ext_resource type="Texture2D" uid="uid://ccp17ocqppq2b" path="res://sprites/Jedanims/jedrun/jedrun15.png" id="45_62001"]
-[ext_resource type="Texture2D" uid="uid://df66ng7tklwvq" path="res://sprites/Jedanims/jedrun/jedrun16.png" id="46_2n0u2"]
-[ext_resource type="Texture2D" uid="uid://5qjmy2aqit6" path="res://sprites/Jedanims/jedrun/jedrun17.png" id="47_0jhxp"]
-[ext_resource type="Texture2D" uid="uid://b8nuffo454d5v" path="res://sprites/Jedanims/jedrun/jedrun18.png" id="48_qn8j4"]
-[ext_resource type="Texture2D" uid="uid://bqmf04j0rokd3" path="res://sprites/Jedanims/jedrun/jedrun19.png" id="49_v6bhm"]
-[ext_resource type="Texture2D" uid="uid://cj8dobjixwsvc" path="res://sprites/Jedanims/Jedshoot/jedshoot7.png" id="50_r2s2t"]
-[ext_resource type="Texture2D" uid="uid://bqqr5dnrcoe3i" path="res://sprites/Jedanims/Jedshoot/jedshoot2.png" id="51_26m8i"]
-[ext_resource type="Texture2D" uid="uid://b7y75q4fwra8n" path="res://sprites/Jedanims/Jedshoot/jedshoot3.png" id="52_bbt30"]
-[ext_resource type="Texture2D" uid="uid://dgx45i0qmgee4" path="res://sprites/Jedanims/Jedshoot/jedshoot4.png" id="53_mfnfx"]
-[ext_resource type="Texture2D" uid="uid://13weqac66t3f" path="res://sprites/Jedanims/Jedshoot/jedshoot5.png" id="54_qt2xo"]
-[ext_resource type="Texture2D" uid="uid://0eiemvrj772b" path="res://sprites/Jedanims/Jedshoot/jedshoot6.png" id="55_40gh0"]
+[ext_resource type="Texture2D" uid="uid://trlgcjidvlm8" path="res://sprites/Jedanims/Snowman/snowmanrun/snowmanrun1.png" id="1_7kaxy"]
+[ext_resource type="Texture2D" uid="uid://ckinugrspb65s" path="res://sprites/Jedanims/Snowman/snowmandeath/snowmandeath2.png" id="2_urj0o"]
+[ext_resource type="Texture2D" uid="uid://dbkl4hn0gmsge" path="res://sprites/Jedanims/Snowman/snowmandeath/snowmandeath3.png" id="3_2qng7"]
+[ext_resource type="Texture2D" uid="uid://br0pr86c7d2ya" path="res://sprites/Jedanims/Snowman/snowmandeath/snowmandeath4.png" id="4_s3rye"]
+[ext_resource type="Texture2D" uid="uid://bhrigy438l5v4" path="res://sprites/Jedanims/Snowman/snowmandeath/snowmandeath5.png" id="5_gjjyt"]
+[ext_resource type="Texture2D" uid="uid://dgl75tgn82iah" path="res://sprites/Jedanims/Snowman/snowmandeath/snowmandeath6.png" id="6_g1u1a"]
+[ext_resource type="Texture2D" uid="uid://c6wxjags6uanb" path="res://sprites/Jedanims/Snowman/snowmandodge/snowmandodge1.png" id="7_rqg40"]
+[ext_resource type="Texture2D" uid="uid://4fptevhpylyg" path="res://sprites/Jedanims/Snowman/snowmandodge/snowmandodge2.png" id="8_dwvek"]
+[ext_resource type="Texture2D" uid="uid://cio60mo58et4h" path="res://sprites/Jedanims/Snowman/snowmandodge/snowmandodge3.png" id="9_5i13x"]
+[ext_resource type="Texture2D" uid="uid://wisjnrdbo0vc" path="res://sprites/Jedanims/Snowman/snowmandodge/snowmandodge4.png" id="10_5uhq1"]
+[ext_resource type="Texture2D" uid="uid://btlop6rglo8ew" path="res://sprites/Jedanims/Snowman/snowmandodge/snowmandodge5.png" id="11_0lb6p"]
+[ext_resource type="Texture2D" uid="uid://cn3qygmqjvbpl" path="res://sprites/Jedanims/Snowman/snowmandodge/snowmandodge6.png" id="12_osf0m"]
+[ext_resource type="Texture2D" uid="uid://bipih8k6koo47" path="res://sprites/Jedanims/Snowman/snowmandodge/snowmandodge7.png" id="13_awsm7"]
+[ext_resource type="Texture2D" uid="uid://c82vqwh5l162s" path="res://sprites/Jedanims/Snowman/snowmandodge/snowmandodge8.png" id="14_jmx8e"]
+[ext_resource type="Texture2D" uid="uid://dfgtylwnp4af6" path="res://sprites/Jedanims/Snowman/snowmandodge/snowmandodge9.png" id="15_diyux"]
+[ext_resource type="Texture2D" uid="uid://cn85j5fr1p48s" path="res://sprites/Jedanims/Snowman/snowmandodge/snowmandodge10.png" id="16_wwob5"]
+[ext_resource type="Texture2D" uid="uid://8x2qmivhw6i8" path="res://sprites/Jedanims/Snowman/snowmandodge/snowmandodge11.png" id="17_dp3vt"]
+[ext_resource type="Texture2D" uid="uid://c1komq2h37wub" path="res://sprites/Jedanims/Snowman/snowmandodge/snowmandodge12.png" id="18_ftuao"]
+[ext_resource type="Texture2D" uid="uid://bbkyosvw68m4i" path="res://sprites/Jedanims/Snowman/snowmandodge/snowmandodge13.png" id="19_32vos"]
+[ext_resource type="Texture2D" uid="uid://c5seypiqodhog" path="res://sprites/Jedanims/Snowman/snowmandodge/snowmandodge14.png" id="20_7gkw0"]
+[ext_resource type="Texture2D" uid="uid://csjjoivifcu6l" path="res://sprites/Jedanims/Snowman/snowmandodge/snowmandodge15.png" id="21_2efr8"]
+[ext_resource type="Texture2D" uid="uid://dlsjfeqj4f7o" path="res://sprites/Jedanims/Snowman/snowmandodge/snowmandodge16.png" id="22_u2ep2"]
+[ext_resource type="Texture2D" uid="uid://cc5lumuohr27r" path="res://sprites/Jedanims/Snowman/snowmandodge/snowmandodge17.png" id="23_faxrq"]
+[ext_resource type="Texture2D" uid="uid://cla1j4w5uhi1n" path="res://sprites/Jedanims/Snowman/snowmandodge/snowmandodge18.png" id="24_efg0l"]
+[ext_resource type="Texture2D" uid="uid://tmlvvuri0av0" path="res://sprites/Jedanims/Snowman/snowmandodge/snowmandodge19.png" id="25_jarev"]
+[ext_resource type="Texture2D" uid="uid://6fafrcgy6uwa" path="res://sprites/Jedanims/Snowman/snowmanduck/snowmanduck1.png" id="26_bs1rm"]
+[ext_resource type="Texture2D" uid="uid://c2ntj282rjhlj" path="res://sprites/Jedanims/Snowman/snowmanduck/snowmanduck2.png" id="27_pi7ct"]
+[ext_resource type="Texture2D" uid="uid://cw2n1gcutf1xk" path="res://sprites/Jedanims/Snowman/snowmanduck/snowmanduck3.png" id="28_dk0dn"]
+[ext_resource type="Texture2D" uid="uid://bm1lg7ouo36iq" path="res://sprites/Jedanims/Snowman/snowmanduck/snowmanduck4.png" id="29_gssv5"]
+[ext_resource type="Texture2D" uid="uid://1itdtivd16eu" path="res://sprites/Jedanims/Snowman/snowmanduck/snowmanduck5.png" id="30_wckfe"]
+[ext_resource type="Texture2D" uid="uid://dab6kjyr40ed4" path="res://sprites/Jedanims/Snowman/snowmanduck/snowmanduck6.png" id="31_paeus"]
+[ext_resource type="Texture2D" uid="uid://b7hhqw636ut6i" path="res://sprites/Jedanims/Snowman/snowmanduck/snowmanduck7.png" id="32_1xngl"]
+[ext_resource type="Texture2D" uid="uid://dat3qcowbi2bs" path="res://sprites/Jedanims/Snowman/snowmanreload/snowmanreload1.png" id="33_clemk"]
+[ext_resource type="Texture2D" uid="uid://esyimlrtk6rk" path="res://sprites/Jedanims/Snowman/snowmanreload/snowmanreload2.png" id="34_df6bj"]
+[ext_resource type="Texture2D" uid="uid://0uerewljin7g" path="res://sprites/Jedanims/Snowman/snowmanreload/snowmanreload3.png" id="35_dss0c"]
+[ext_resource type="Texture2D" uid="uid://bwtowfshlmmbt" path="res://sprites/Jedanims/Snowman/snowmanreload/snowmanreload4.png" id="36_xlgig"]
+[ext_resource type="Texture2D" uid="uid://cfkjoj2y0q87i" path="res://sprites/Jedanims/Snowman/snowmanreload/snowmanreload5.png" id="37_wwaep"]
+[ext_resource type="Texture2D" uid="uid://bd3aerqgh5mub" path="res://sprites/Jedanims/Snowman/snowmanreload/snowmanreload6.png" id="38_nrok0"]
+[ext_resource type="Texture2D" uid="uid://dng3563fdh0xh" path="res://sprites/Jedanims/Snowman/snowmanreload/snowmanreload7.png" id="39_r0wen"]
+[ext_resource type="Texture2D" uid="uid://ddalecttpoqrl" path="res://sprites/Jedanims/Snowman/snowmanrun/snowmanrun20.png" id="40_no6du"]
+[ext_resource type="Texture2D" uid="uid://dl8mq40sduvv2" path="res://sprites/Jedanims/Snowman/snowmanrun/snowmanrun9.png" id="41_t5a8k"]
+[ext_resource type="Texture2D" uid="uid://bqvqv7spbugi" path="res://sprites/Jedanims/Snowman/snowmanrun/snowmanrun10.png" id="42_ki5js"]
+[ext_resource type="Texture2D" uid="uid://cgdr4y87io0h6" path="res://sprites/Jedanims/Snowman/snowmanrun/snowmanrun11.png" id="43_ic7ov"]
+[ext_resource type="Texture2D" uid="uid://b7tmpdw2lcos0" path="res://sprites/Jedanims/Snowman/snowmanrun/snowmanrun12.png" id="44_uiuxk"]
+[ext_resource type="Texture2D" uid="uid://c7omrt4ayv4rl" path="res://sprites/Jedanims/Snowman/snowmanrun/snowmanrun13.png" id="45_rvk5a"]
+[ext_resource type="Texture2D" uid="uid://6h6fxcdomhxe" path="res://sprites/Jedanims/Snowman/snowmanrun/snowmanrun14.png" id="46_8ed4x"]
+[ext_resource type="Texture2D" uid="uid://buv4hagdqcdpt" path="res://sprites/Jedanims/Snowman/snowmanrun/snowmanrun15.png" id="47_iglyu"]
+[ext_resource type="Texture2D" uid="uid://du5ojnoxi62ei" path="res://sprites/Jedanims/Snowman/snowmanrun/snowmanrun16.png" id="48_gs2eh"]
+[ext_resource type="Texture2D" uid="uid://c1xqtyf06vsgp" path="res://sprites/Jedanims/Snowman/snowmanrun/snowmanrun17.png" id="49_qsah1"]
+[ext_resource type="Texture2D" uid="uid://cywhmrqvyfna0" path="res://sprites/Jedanims/Snowman/snowmanrun/snowmanrun18.png" id="50_d3egr"]
+[ext_resource type="Texture2D" uid="uid://cmjy6c5u4t8kc" path="res://sprites/Jedanims/Snowman/snowmanrun/snowmanrun19.png" id="51_gwmvl"]
+[ext_resource type="Texture2D" uid="uid://jjd7cn0vnvjg" path="res://sprites/Jedanims/Snowman/snowmanshoot/snowmanshoot7.png" id="52_d10jp"]
+[ext_resource type="Texture2D" uid="uid://1uc2s2vgqqpa" path="res://sprites/Jedanims/Snowman/snowmanshoot/snowmanshoot2.png" id="53_gg5aj"]
+[ext_resource type="Texture2D" uid="uid://dw6ypxuggk1t3" path="res://sprites/Jedanims/Snowman/snowmanshoot/snowmanshoot3.png" id="54_gialw"]
+[ext_resource type="Texture2D" uid="uid://dki5bbrne2ck1" path="res://sprites/Jedanims/Snowman/snowmanshoot/snowmanshoot4.png" id="55_ewdn5"]
+[ext_resource type="Texture2D" uid="uid://b7bjv0mifc2sy" path="res://sprites/Jedanims/Snowman/snowmanshoot/snowmanshoot5.png" id="56_nxf42"]
+[ext_resource type="Texture2D" uid="uid://bd5bshd05usij" path="res://sprites/Jedanims/Snowman/snowmanshoot/snowmanshoot6.png" id="57_wocon"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_qc853"]
 size = Vector2(26.1, 34.2)
@@ -71,7 +73,7 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0, 0.001),
 "transitions": PackedFloat32Array(1, 1),
 "update": 1,
-"values": [ExtResource("1_h4852"), ExtResource("1_h4852")]
+"values": [ExtResource("1_7kaxy"), ExtResource("1_7kaxy")]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
@@ -147,7 +149,7 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0, 0.0666667, 0.133333, 0.2, 0.266667),
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1),
 "update": 1,
-"values": [ExtResource("2_ll8nw"), ExtResource("3_fwiub"), ExtResource("4_w6dlu"), ExtResource("5_6qxdk"), ExtResource("6_655ld")]
+"values": [ExtResource("2_urj0o"), ExtResource("3_2qng7"), ExtResource("4_s3rye"), ExtResource("5_gjjyt"), ExtResource("6_g1u1a")]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
@@ -175,7 +177,7 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0, 0.0333333, 0.0666667, 0.1, 0.133333, 0.166667, 0.2, 0.233333, 0.266667, 0.3, 0.333333, 0.366667, 0.4, 0.433333, 0.466667, 0.5, 0.533333, 0.566667, 0.6),
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
 "update": 1,
-"values": [ExtResource("7_loqvh"), ExtResource("8_arbfk"), ExtResource("9_ve7xl"), ExtResource("10_k836n"), ExtResource("11_54rxv"), ExtResource("12_qx7gh"), ExtResource("13_bel5k"), ExtResource("14_4nrjm"), ExtResource("15_x7whw"), ExtResource("16_rseeo"), ExtResource("17_ro5cm"), ExtResource("18_smhwp"), ExtResource("19_kud6g"), ExtResource("20_b70ko"), ExtResource("21_xdjtr"), ExtResource("22_8mbqo"), ExtResource("23_npe3b"), ExtResource("24_vbjtl"), ExtResource("25_ulnaw")]
+"values": [ExtResource("7_rqg40"), ExtResource("8_dwvek"), ExtResource("9_5i13x"), ExtResource("10_5uhq1"), ExtResource("11_0lb6p"), ExtResource("12_osf0m"), ExtResource("13_awsm7"), ExtResource("14_jmx8e"), ExtResource("15_diyux"), ExtResource("16_wwob5"), ExtResource("17_dp3vt"), ExtResource("18_ftuao"), ExtResource("19_32vos"), ExtResource("20_7gkw0"), ExtResource("21_2efr8"), ExtResource("22_u2ep2"), ExtResource("23_faxrq"), ExtResource("24_efg0l"), ExtResource("25_jarev")]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
@@ -203,7 +205,7 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0, 0.0666667, 0.133333, 0.2, 0.266667, 0.333333, 0.4),
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
 "update": 1,
-"values": [ExtResource("1_h4852"), ExtResource("26_bcngx"), ExtResource("27_0ghb0"), ExtResource("28_upt2o"), ExtResource("29_54rg7"), ExtResource("30_w5ow6"), ExtResource("30_w5ow6")]
+"values": [ExtResource("26_bs1rm"), ExtResource("27_pi7ct"), ExtResource("28_dk0dn"), ExtResource("29_gssv5"), ExtResource("30_wckfe"), ExtResource("31_paeus"), ExtResource("32_1xngl")]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
@@ -291,7 +293,7 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0, 0.0666667, 0.133333, 0.2, 0.266667, 0.333333, 0.4),
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
 "update": 1,
-"values": [ExtResource("31_p4psb"), ExtResource("32_cipn7"), ExtResource("33_fwkpm"), ExtResource("34_6dbcf"), ExtResource("35_rvwr6"), ExtResource("36_es1l2"), ExtResource("37_5f2ue")]
+"values": [ExtResource("33_clemk"), ExtResource("34_df6bj"), ExtResource("35_dss0c"), ExtResource("36_xlgig"), ExtResource("37_wwaep"), ExtResource("38_nrok0"), ExtResource("39_r0wen")]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
@@ -321,7 +323,7 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0, 0.066667, 0.133333, 0.2, 0.265933, 0.3326, 0.399267, 0.4652, 0.531867, 0.5982, 0.665934, 0.731534),
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
 "update": 1,
-"values": [ExtResource("38_6a5iv"), ExtResource("39_lxhsb"), ExtResource("40_p37d4"), ExtResource("41_6thac"), ExtResource("42_ewiww"), ExtResource("43_yspl7"), ExtResource("44_oda7x"), ExtResource("45_62001"), ExtResource("46_2n0u2"), ExtResource("47_0jhxp"), ExtResource("48_qn8j4"), ExtResource("49_v6bhm")]
+"values": [ExtResource("40_no6du"), ExtResource("41_t5a8k"), ExtResource("42_ki5js"), ExtResource("43_ic7ov"), ExtResource("44_uiuxk"), ExtResource("45_rvk5a"), ExtResource("46_8ed4x"), ExtResource("47_iglyu"), ExtResource("48_gs2eh"), ExtResource("49_qsah1"), ExtResource("50_d3egr"), ExtResource("51_gwmvl")]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
@@ -384,7 +386,7 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0, 0.0666667, 0.133333, 0.2, 0.266667, 0.333333, 0.4),
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
 "update": 1,
-"values": [ExtResource("50_r2s2t"), ExtResource("51_26m8i"), ExtResource("52_bbt30"), ExtResource("53_mfnfx"), ExtResource("54_qt2xo"), ExtResource("55_40gh0"), ExtResource("50_r2s2t")]
+"values": [ExtResource("52_d10jp"), ExtResource("53_gg5aj"), ExtResource("54_gialw"), ExtResource("55_ewdn5"), ExtResource("56_nxf42"), ExtResource("57_wocon"), ExtResource("52_d10jp")]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
@@ -446,11 +448,11 @@ _data = {
 "shoot": SubResource("Animation_avpbm")
 }
 
-[node name="DefaultSkin" type="Node2D"]
+[node name="SnowmanSkin" type="Node2D"]
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture_filter = 1
-texture = ExtResource("1_h4852")
+texture = ExtResource("1_7kaxy")
 metadata/_edit_lock_ = true
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]

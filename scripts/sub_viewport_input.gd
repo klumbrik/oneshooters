@@ -328,7 +328,7 @@ func _on_transition_player_animation_started(anim_name: StringName) -> void:
 		wardrobe_or_null.animation_playing = true
 
 
-func _go_to_wardrobe():                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
+func _go_to_wardrobe():                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
 	print("going to wardrobe")
 	$fade.play()
 	$Transition_player.play("basic_fade")
@@ -409,6 +409,8 @@ func _on_tutorial_skip_button_button_down() -> void:
 
 #tutorial start from lobby
 func _on_tutorial_start_button_button_down() -> void:
+	if $Transition_player.is_playing():
+		return
 	var tutorial = preload("res://scenes/tutorial.tscn")
 	G.tutorial_finished = false
 	G.reset()
@@ -434,6 +436,8 @@ func _on_lobby_sound_button_toggled(toggled_on: bool) -> void:
 
 
 func _on_exit_to_menu_button_button_down() -> void:
+	if $Transition_player.is_playing():
+		return
 	var menu = preload("res://scenes/mainmenu.tscn")
 	change_scene_to(menu)
 	crossfade_buses("Music", "LobbyMusic", 1)

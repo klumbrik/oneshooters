@@ -17,38 +17,95 @@ var controls_blocked = false
 #var ammo = G.ammo
 var bullet = preload("res://scenes/bullet.tscn")
 var time_to_die = false
+
 var swipe_length = 25  #Swipe variables. They should be declared here globally.
 var swiping = false
 var swipe_cur_pos: Vector2
 var swipe_start_pos: Vector2
 var swipe_threshold = 30
+
 var ducking = false
 var shoot_cooldown_passed = false
 var anim_pos := 0.0
+
 var left_swipe_blocked = true
 var left_swipe_block_duration = 0.1
 
 var invincible = false #can't die and collide (for tests)
 var dodge_speed = 200
-
 var dodge_old_pos_x = position.x
 var character_state_machine: LimboHSM
 
 var dodge_finished = false
 var death_finished = false
-
 var reload_anim_played = false
 #var right_swipe_detected = false I decided to make this global in G to change it in the cover scene
 
+@onready var skin_container: Node2D = $SkinContainer
+
+var skin_instance: Node2D
+var skin_sprite: Sprite2D
+var skin_anim: AnimationPlayer
 
 func _ready() -> void:
 	G.character_ref = self
 	G.character_position = global_position
+	
+	_try_bind_existing_skin()
+
+	load_skin()
+	
+	if not G.skin_changed.is_connected(_on_global_skin_changed):
+		G.skin_changed.connect(_on_global_skin_changed)
+	
 	$Timer.wait_time = 0.8 / G.pacedif_modifier
 	#$ReloadTimer.wait_time = 0.6 / G.pacedif_modifier
 	initiate_state_machine()
 	character_state_machine.dispatch(&"to shoot") #entering the Sshooting state
 	$Timer.start() #INITIAL SHOOT timer start
+
+
+func load_skin():
+	# cleanup old
+	if skin_instance and is_instance_valid(skin_instance):
+		if skin_anim:
+			if skin_anim.animation_started.is_connected(_on_skin_animation_started):
+				skin_anim.animation_started.disconnect(_on_skin_animation_started)
+			if skin_anim.animation_finished.is_connected(_on_skin_animation_finished):
+				skin_anim.animation_finished.disconnect(_on_skin_animation_finished)
+
+		skin_instance.queue_free()
+
+	skin_instance = null
+	skin_sprite = null
+	skin_anim = null
+
+	# get scene
+	var skin_scene: PackedScene = G.skins.get(G.current_skin, null)
+	if skin_scene == null:
+		push_error("Skin not found: " + str(G.current_skin))
+		skin_scene = G.skins["default"]
+
+	# instantiate
+	skin_instance = skin_scene.instantiate()
+	skin_container.add_child(skin_instance)
+
+	if not skin_instance.has_node("Sprite2D") or not skin_instance.has_node("AnimationPlayer"):
+		push_error("Skin scene must contain Sprite2D and AnimationPlayer")
+		return
+
+	skin_sprite = skin_instance.get_node("Sprite2D")
+	skin_anim = skin_instance.get_node("AnimationPlayer")
+
+	# connect animation signals
+	skin_anim.animation_started.connect(_on_skin_animation_started)
+	skin_anim.animation_finished.connect(_on_skin_animation_finished)
+
+
+func _on_global_skin_changed(_new_skin: String) -> void:
+	load_skin()
+
+
 
 func _input(event: InputEvent) -> void: #for pc controls
 	if controls_blocked:
@@ -148,8 +205,8 @@ func shoot_controls():
 		
 func shot():
 	if G.ammo > 0:
-		$Sprite2D/AnimationPlayer.seek(0)
-		$Sprite2D/AnimationPlayer.play("shoot")
+		skin_anim.seek(0)
+		skin_anim.play("shoot")
 		var new_bullet = bullet.instantiate()
 		new_bullet.global_position = Vector2(5, -5) #bullet position for jed in space of the character scene (25, -5)
 		add_child(new_bullet)
@@ -198,8 +255,8 @@ func initiate_state_machine():
 func shooting_enter():
 	dodge_finished = false
 	#G.number_of_right_swipes = 0
-	$Sprite2D.flip_h = false
-	$Sprite2D/AnimationPlayer.play("RESET")
+	skin_sprite.flip_h = false
+	skin_anim.play("RESET")
 	G.moving = false
 	$Timer.paused = false #starting Timer from the same time where it was paused
 	if shoot_cooldown_passed and !G.moving and !dontshoot:
@@ -211,11 +268,11 @@ func shooting_enter():
 	
 func shooting_update(delta: float):
 	shoot_controls() #to detect input #it's important to repeat here to not have tap bugs
-	if $Sprite2D/AnimationPlayer.current_animation == "shoot":
-		if $Sprite2D/AnimationPlayer.current_animation_position >= 0.2: #we need to let the shoot animation play a bit so it looks coherent
+	if skin_anim.current_animation == "shoot":
+		if skin_anim.current_animation_position >= 0.2: #we need to let the shoot animation play a bit so it looks coherent
 			if ducking and !dontduck:
 				character_state_machine.dispatch(&"to downduck")
-	elif $Sprite2D/AnimationPlayer.current_animation_position == 1 or $Sprite2D/AnimationPlayer.current_animation == "":	
+	elif skin_anim.current_animation_position == 1 or skin_anim.current_animation == "":	
 		if ducking and !dontduck:
 				character_state_machine.dispatch(&"to downduck")
 	
@@ -227,19 +284,19 @@ func duckingdown_enter():
 	#$Sprite2D/AnimationPlayer.play("duck")
 	#$Timer.paused = true #We pause the timer to stop shooting
 	anim_pos = 0.0
-	if $Sprite2D/AnimationPlayer.current_animation == "duck":
-		anim_pos = $Sprite2D/AnimationPlayer.current_animation_position
+	if skin_anim.current_animation == "duck":
+		anim_pos = skin_anim.current_animation_position
 	#print(anim_pos)
-	$Sprite2D/AnimationPlayer.play("duck")
-	$Sprite2D/AnimationPlayer.seek(anim_pos, true) # Continue from current pos
+	skin_anim.play("duck")
+	skin_anim.seek(anim_pos, true) # Continue from current pos
 	$Timer.paused = true #We pause the timer to stop shooting
 func duckingdown_update(delta: float):
 	shoot_controls() #to detect input
 	if !ducking:
 		character_state_machine.dispatch(&"to upduck")
-	if $Sprite2D/AnimationPlayer.current_animation_position >= 0.26: #shooting cooldown
+	if skin_anim.current_animation_position >= 0.26: #shooting cooldown
 		shoot_cooldown_passed = true
-	if $Sprite2D/AnimationPlayer.current_animation_position >= 0.3:
+	if skin_anim.current_animation_position >= 0.3:
 		#print("relod")
 		character_state_machine.dispatch(&"to reload")
 		
@@ -248,13 +305,13 @@ func duckingdown_update(delta: float):
 		character_state_machine.dispatch(&"to run")
 
 func duckingup_enter():
-	$Sprite2D/AnimationPlayer.play_backwards("duck")
+	skin_anim.play_backwards("duck")
 func duckingup_update(delta: float):
 	shoot_controls() #to detect input
 	if ducking:
 		#$Sprite2D/AnimationPlayer.seek($Sprite2D/AnimationPlayer.current_animation_position)
 		character_state_machine.dispatch(&"to downduck")
-	elif $Sprite2D/AnimationPlayer.current_animation_position == 0.0 and $Sprite2D/AnimationPlayer.current_animation == "": #empty animation string is default stand pose
+	elif skin_anim.current_animation_position == 0.0 and skin_anim.current_animation == "": #empty animation string is default stand pose
 		character_state_machine.dispatch(&"to shoot")
 	
 	#elif $Sprite2D/AnimationPlayer.current_animation_position >= 0: #changing to the shooting state if we're currently on the 0 sec of the duck animation
@@ -286,7 +343,7 @@ func running_enter():
 		$Run.play()
 	$Timer.paused = true
 	shoot_cooldown_passed = false
-	$Sprite2D/AnimationPlayer.play("run")
+	skin_anim.play("run")
 	
 	left_swipe_blocked = true
 	await get_tree().create_timer(left_swipe_block_duration).timeout
@@ -303,7 +360,7 @@ func running_update(delta: float):
 	else:
 		if G.right_swipe_detected:
 			velocity.x = G.moving_speed
-			$Sprite2D.flip_h = false
+			skin_sprite.flip_h = false
 			if G.number_of_right_swipes > 1 and G.number_of_dodges > 0 and !dontdodge:
 				G.number_of_dodges -= 1
 				character_state_machine.dispatch(&"to dodge")
@@ -317,7 +374,7 @@ func running_update(delta: float):
 				#print("cover moved")
 				
 			velocity.x = -G.moving_speed
-			$Sprite2D.flip_h = true
+			skin_sprite.flip_h = true
 			G.number_of_right_swipes = 0 #to avoid superflous dodge bug
 			G.emit_signal("make_cover_unused")
 		move_and_slide()
@@ -329,7 +386,7 @@ func dodging_enter():
 	if G.sound_on:
 		$Roll.play()
 	invincible = true
-	$Sprite2D/AnimationPlayer.play("dodge")
+	skin_anim.play("dodge")
 	dodge_old_pos_x = position.x #remembering the old position to calculate dodge distance
 	
 	
@@ -408,7 +465,7 @@ func use_stash():
 
 	
 
-func _on_animation_player_animation_started(anim_name: StringName) -> void:
+func _on_skin_animation_started(anim_name: StringName) -> void:
 
 	if anim_name == "reload" and G.ammo < 6:
 		G.emit_signal("rotate_ui")
@@ -416,7 +473,7 @@ func _on_animation_player_animation_started(anim_name: StringName) -> void:
 		G.emit_signal("cancel_reload_rotation")
 
 
-func _on_animation_player_animation_finished(anim_name: StringName) -> void:
+func _on_skin_animation_finished(anim_name: StringName) -> void:
 	if anim_name == "reload":
 		reload_anim_played = false
 		if G.sound_on:
@@ -440,9 +497,9 @@ func _on_animation_player_animation_finished(anim_name: StringName) -> void:
 		game_over()
 
 func try_reload():
-	if (!G.reload_cooldown_active and !reload_anim_played) or (character_state_machine.get_active_state().name == "reloading" and $Sprite2D/AnimationPlayer.current_animation == ""):
+	if (!G.reload_cooldown_active and !reload_anim_played) or (character_state_machine.get_active_state().name == "reloading" and skin_anim.current_animation == ""):
 		if G.ammo < 6:
-			$Sprite2D/AnimationPlayer.play("reload")
+			skin_anim.play("reload")
 			reload_anim_played = true		
 
 func _on_death_timer_timeout() -> void:
@@ -454,7 +511,7 @@ func _on_death_timer_timeout() -> void:
 		G.moving = false
 		if G.sound_on == true:
 			$RobloxOof.play()
-		$Sprite2D/AnimationPlayer.play("death")
+		skin_anim.play("death")
 		
 
 		
@@ -478,3 +535,24 @@ func freeze_script():
 	$DeathTimer.stop()
 	G.moving = false
 	$Run.stop()
+
+func _try_bind_existing_skin() -> void:
+	if skin_container.get_child_count() == 0:
+		return
+
+	var candidate := skin_container.get_child(0)
+	if not candidate is Node2D:
+		return
+
+	if not candidate.has_node("Sprite2D") or not candidate.has_node("AnimationPlayer"):
+		return
+
+	skin_instance = candidate
+	skin_sprite = candidate.get_node("Sprite2D")
+	skin_anim = candidate.get_node("AnimationPlayer")
+
+	# подключаем сигналы
+	skin_anim.animation_started.connect(_on_skin_animation_started)
+	skin_anim.animation_finished.connect(_on_skin_animation_finished)
+
+	print("✔ Using skin already placed in scene:", skin_instance.name)

@@ -327,7 +327,7 @@ func shield_tracking():
 				shield_node.ducked = false
 				print("unducked")
 				
-			if $character/Sprite2D/AnimationPlayer.current_animation == "dodge":
+			if $character.skin_anim.current_animation == "dodge":
 				shield_node.dodging = true
 			else:
 				shield_node.dodging = false
@@ -426,6 +426,7 @@ func _on_start_game_button_button_down() -> void:
 
 func _on_wardrobe_button_button_down():
 	$CanvasLayer/StartGameButton.disabled = true
+	
 	await get_tree().process_frame
 	#print(.disabled) # true
 	G.emit_signal("to_wardrobe")

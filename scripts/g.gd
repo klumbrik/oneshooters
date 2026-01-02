@@ -26,6 +26,27 @@ signal score_changed(score)
 
 var json_path = "user://essential_data.json"
 
+var current_skin: String = "default"
+var skins := {
+	"default": preload("res://scenes/default_skin.tscn"),
+	"snowman": preload("res://scenes/snowman_skin.tscn"),
+}
+signal skin_changed(new_skin: String)
+
+func set_skin(new_skin: String) -> void: #change skin only through this func
+	if not skins.has(new_skin):
+		push_error("Skin does not exist: " + str(new_skin))
+		return
+
+	if current_skin == new_skin:
+		return # ничего не делаем
+
+	current_skin = new_skin
+	emit_signal("skin_changed", current_skin)
+
+
+
+
 var e_data: Dictionary = {}
 var coins: int = 0
 var skin2bought = false
@@ -82,6 +103,7 @@ var main_menu_already_loaded_first_time = false
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	emit_signal("skin_changed", "default")
 	process_mode = PROCESS_MODE_ALWAYS #always processes even if paused
 	connect("move_last_cover", self._move_last_cover)
 	print(load_json_file())
@@ -122,6 +144,10 @@ func reset(): #reset essential variables
 	G.number_of_dodges = 1
 	G.shield_enabled = false
 	G.drone_active = false
+	
+	G.moving = false
+	G.right_swipe_detected = false
+	G.left_swipe_detected = false
 	
 	difficulty_level = 1.0
 	difficulty_growth_rate = 0.05 # increases each n secs

@@ -27,7 +27,7 @@ var dialogue := {
 	},
 	"intro_4": {
 		"speaker": "Jed",
-		"text": "Патроны закончились. зажми и держи, чтобы перезарядиться до 6",
+		"text": "Патроны закончились. зажми и держи палец или SPACE, чтобы перезарядиться до 6",
 		"action": "enable_reloading",
 		"next": "intro_5"
 	},
@@ -51,7 +51,7 @@ var dialogue := {
 	},
 	"intro_8": {
 		"speaker": "Jed",
-		"text": "Этот парень опасный, пригнись",
+		"text": "Этот парень опасный, пригнись! зажми и держи палец или SPACE",
 		"action": "only_duck",
 		"next": "intro_9",
 	},
@@ -429,7 +429,7 @@ func shield_tracking():
 				shield_node.ducked = false
 				print("unducked")
 				
-			if $character/Sprite2D/AnimationPlayer.current_animation == "dodge":
+			if $character.skin_anim.current_animation == "dodge":
 				shield_node.dodging = true
 			else:
 				shield_node.dodging = false
@@ -656,6 +656,9 @@ func handle_action(action: String):
 			$character.dontduck = true
 			$character.dontshoot = false
 			Input.action_release("press")
+			Input.action_release("space")
+			#await get_tree().create_timer(0.2).timeout
+			#G.character_ref.shot()
 			get_tree().paused = false
 			
 			var timer = get_tree().create_timer(0.2)
