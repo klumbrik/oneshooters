@@ -24,6 +24,8 @@ var swiping = false
 var swipe_cur_pos: Vector2
 var swipe_start_pos: Vector2
 var swipe_threshold = 30
+var hold_deadzone := 25.0 # допустимое движение пальца для удержания
+
 
 var ducking = false
 var shoot_cooldown_passed = false
@@ -196,13 +198,19 @@ func _on_shootingrange_body_exited(body: Node2D) -> void: #bullet range restrict
 func shoot_controls():
 	if controls_blocked:
 		return
-	else:
-		if swipe_start_pos.distance_to(swipe_cur_pos) == 0: #if finger is not moving
-			if Input.is_action_pressed("press"): 
-				if swipe_cur_pos == swipe_start_pos:
-					ducking = true
-		if Input.is_action_just_released("press"): #were on one level 
-				ducking = false
+
+	# палец удерживается
+	if Input.is_action_pressed("press"):
+		var dist := swipe_start_pos.distance_to(swipe_cur_pos)
+
+		# если НЕ правый свайп и движение в пределах deadzone → duck
+		if dist <= hold_deadzone and not G.right_swipe_detected:
+			ducking = true
+
+	# палец отпущен → встаём
+	if Input.is_action_just_released("press"):
+		ducking = false
+
 		
 func shot():
 	if G.ammo > 0:
