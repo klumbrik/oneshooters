@@ -26,6 +26,7 @@ func _on_animation_player_animation_finished(anim_name: StringName) -> void:
 func _on_transition_animation_finished(anim_name: StringName) -> void:
 	if anim_name == "fade":
 		G.emit_signal("reload_game")
+		G.game_started = false
 		queue_free()
 
 

@@ -5,7 +5,7 @@ var animation_playing
 
 var mouse_on_skin2 = false
 
-var skin2price = 0
+var skin2price = 200
 #NOTE: implement with an array
 var skin_status_labels = []
 # Called when the node enters the scene tree for the first time.
@@ -14,14 +14,24 @@ func _ready() -> void:
 		$Skin2/Sprite.texture = load("res://sprites/Jedanims/Snowman/snowmanshoot/snowmanshoot1.png")
 		$Skin2/Label.text = "-CLICK TO EQUIP-"
 		hide_price()
+	else:
+		$Skin2/Sprite.texture = load("res://snowman_black_white.png")
+		$Skin2/Label.text = "-CLICK TO BUY-"
 	skin_name.text = "Jed"
 	animation_playing = false
 	skin_status_labels.append($Skin1/Label)
 	skin_status_labels.append($Skin2/Label)
+	match G.current_skin:
+		"default":
+			$Skin1/Label.text = "*EQUIPPED*"
+		"snowman":
+			$Skin2/Label.text = "*EQUIPPED*"
 	
-	
-
-
+func _input(event: InputEvent) -> void:
+	if Input.is_action_just_released("left"):
+		_on_arrow_button_l_button_up()
+	elif Input.is_action_just_released("right"):
+		_on_arrow_button_r_button_up()
 func _on_arrow_button_r_button_up() -> void:
 	$impact.play()
 	print("changing")
@@ -108,7 +118,9 @@ func equip_skin(skin_bought, sprite, label, skin_name):
 		tween.tween_property(sprite, "scale", Vector2(8, 8), 0.1).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
 		label.text = "*EQUIPPED*"
 		
+		$reload.play()
 		G.set_skin(skin_name)  
+		G.save_json_file()
 		
 		var this_label_index = skin_status_labels.find(label)
 		for i in range(0, skin_status_labels.size()):

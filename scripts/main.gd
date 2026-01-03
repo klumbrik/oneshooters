@@ -1,6 +1,7 @@
 extends Node2D
 class_name MainScreen
 
+
 @export var spawn_enabled: bool = false
 var room = preload("res://scenes/room.tscn")
 @onready var sprite = $CanvasLayer/CenterContainer/ui_weapon
@@ -52,6 +53,8 @@ var bullet_removal_in_progress = false
 
 var revolver
 
+var start_game_button
+
 func _ready() -> void:
 	G.connect("cover_create_room", _create_room_on_swipe)
 	G.tutorial_mode = false
@@ -77,7 +80,8 @@ func _ready() -> void:
 	5:slot5,
 	6:slot6
 	} #slots indexes match their positions
-
+	
+	start_game_button = $CanvasLayer/StartGameButton
 
 	await get_tree().process_frame #to not get null when adding the first room to array
 	G.rooms.clear()
@@ -438,14 +442,12 @@ func animate_start_button():
 	tween.tween_property(button, "scale", Vector2.ZERO, 0.3).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
 
 func _on_player_died():
-	G.game_started = false
-	
 	var tween = create_tween()
 	tween.set_parallel()
 	tween.tween_property(camera, "zoom", Vector2(3, 3), 0.5).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
 	tween.tween_property(camera, "position", Vector2(-60, -110), 0.5).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
 
 	#$CanvasLayer/TapToStartLabel.visible = true
-	$enemyspawn.enabled = false
+	spawn_enabled = false
 	$CanvasLayer/CenterContainer.visible = false
 	$CanvasLayer/DodgeBar.visible = false

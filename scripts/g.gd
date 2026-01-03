@@ -167,7 +167,8 @@ func load_json_file():
 			"best_score": 0,
 			"coins": 0,
 			"skin2bought": false,
-			"tutorial_finished": false
+			"tutorial_finished": false,
+			"equipped_skin": "default"
 			}
 		save_json_file()
 		return e_data
@@ -198,6 +199,8 @@ func load_json_file():
 		skin2bought = e_data["skin2bought"]
 	if e_data.has("tutorial_finished"):
 		tutorial_finished = e_data["tutorial_finished"]
+	if e_data.has("equipped_skin"):
+		current_skin = e_data["equipped_skin"]
 		
 	return e_data
 
@@ -211,6 +214,7 @@ func save_json_file():
 	e_data["coins"] = coins
 	e_data["skin2bought"] = skin2bought
 	e_data["tutorial_finished"] = tutorial_finished
+	e_data["equipped_skin"] = current_skin
 	var json_string = JSON.stringify(e_data)
 	file.store_string(json_string)
 	file.close()

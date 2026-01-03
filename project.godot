@@ -79,6 +79,10 @@ space={
 
 pointing/emulate_touch_from_mouse=true
 
+[internationalization]
+
+locale/translations=PackedStringArray("res://TutorialLocalization.en.translation", "res://TutorialLocalization.ru.translation")
+
 [layer_names]
 
 2d_physics/layer_1="character layer"

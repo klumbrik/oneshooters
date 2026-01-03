@@ -12,6 +12,7 @@ var dontduck: bool
 var dontrun: bool
 var dontdodge: bool
 var dontleft: bool
+var dontduck_up: bool
 
 var controls_blocked = false
 #var ammo = G.ammo
@@ -207,6 +208,7 @@ func shot():
 	if G.ammo > 0:
 		skin_anim.seek(0)
 		skin_anim.play("shoot")
+		$CollisionPlayer.play("shoot")
 		var new_bullet = bullet.instantiate()
 		new_bullet.global_position = Vector2(5, -5) #bullet position for jed in space of the character scene (25, -5)
 		add_child(new_bullet)
@@ -257,6 +259,7 @@ func shooting_enter():
 	#G.number_of_right_swipes = 0
 	skin_sprite.flip_h = false
 	skin_anim.play("RESET")
+	$CollisionPlayer.play("RESET")
 	G.moving = false
 	$Timer.paused = false #starting Timer from the same time where it was paused
 	if shoot_cooldown_passed and !G.moving and !dontshoot:
@@ -288,6 +291,7 @@ func duckingdown_enter():
 		anim_pos = skin_anim.current_animation_position
 	#print(anim_pos)
 	skin_anim.play("duck")
+	$CollisionPlayer.play("duck")
 	skin_anim.seek(anim_pos, true) # Continue from current pos
 	$Timer.paused = true #We pause the timer to stop shooting
 func duckingdown_update(delta: float):
@@ -306,20 +310,22 @@ func duckingdown_update(delta: float):
 
 func duckingup_enter():
 	skin_anim.play_backwards("duck")
+	$CollisionPlayer.play_backwards("duck")
 func duckingup_update(delta: float):
-	shoot_controls() #to detect input
-	if ducking:
-		#$Sprite2D/AnimationPlayer.seek($Sprite2D/AnimationPlayer.current_animation_position)
-		character_state_machine.dispatch(&"to downduck")
-	elif skin_anim.current_animation_position == 0.0 and skin_anim.current_animation == "": #empty animation string is default stand pose
-		character_state_machine.dispatch(&"to shoot")
-	
-	#elif $Sprite2D/AnimationPlayer.current_animation_position >= 0: #changing to the shooting state if we're currently on the 0 sec of the duck animation
-		##print("mistake", $Sprite2D/AnimationPlayer.current_animation, $Sprite2D/AnimationPlayer.current_animation_position)
-		#character_state_machine.dispatch(&"to shoot")
+	if !dontduck_up:
+		shoot_controls() #to detect input
+		if ducking:
+			#$Sprite2D/AnimationPlayer.seek($Sprite2D/AnimationPlayer.current_animation_position)
+			character_state_machine.dispatch(&"to downduck")
+		elif skin_anim.current_animation_position == 0.0 and skin_anim.current_animation == "": #empty animation string is default stand pose
+			character_state_machine.dispatch(&"to shoot")
 		
-	if G.moving and !dontrun: #the same condition added on every state update
-		character_state_machine.dispatch(&"to run")
+		#elif $Sprite2D/AnimationPlayer.current_animation_position >= 0: #changing to the shooting state if we're currently on the 0 sec of the duck animation
+			##print("mistake", $Sprite2D/AnimationPlayer.current_animation, $Sprite2D/AnimationPlayer.current_animation_position)
+			#character_state_machine.dispatch(&"to shoot")
+			
+		if G.moving and !dontrun: #the same condition added on every state update
+			character_state_machine.dispatch(&"to run")
 
 func reloading_enter(): 
 	try_reload()
@@ -338,12 +344,16 @@ func reloading_update(delta: float):
 func running_enter():
 	if G.tutorial_mode:
 		emit_signal("tut_run")
+		print("TUT RUN EMITTED")
+	else:
+		print("NOT TUTORIAL")
 	
 	if G.sound_on:
 		$Run.play()
 	$Timer.paused = true
 	shoot_cooldown_passed = false
 	skin_anim.play("run")
+	$CollisionPlayer.play("run")
 	
 	left_swipe_blocked = true
 	await get_tree().create_timer(left_swipe_block_duration).timeout
@@ -387,6 +397,7 @@ func dodging_enter():
 		$Roll.play()
 	invincible = true
 	skin_anim.play("dodge")
+	$CollisionPlayer.play("dodge")
 	dodge_old_pos_x = position.x #remembering the old position to calculate dodge distance
 	
 	
@@ -512,6 +523,7 @@ func _on_death_timer_timeout() -> void:
 		if G.sound_on == true:
 			$RobloxOof.play()
 		skin_anim.play("death")
+		$CollisionPlayer.play("death")
 		
 
 		

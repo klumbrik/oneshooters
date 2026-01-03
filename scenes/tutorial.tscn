@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=3 uid="uid://bpx5p86bec1n3"]
+[gd_scene load_steps=31 format=3 uid="uid://bpx5p86bec1n3"]
 
 [ext_resource type="Script" path="res://scripts/tutorial.gd" id="1_lxkb4"]
 [ext_resource type="PackedScene" uid="uid://d4biv87sinkk1" path="res://scenes/character.tscn" id="2_rfyld"]
@@ -19,6 +19,9 @@
 [ext_resource type="Texture2D" uid="uid://d203xjmnn03io" path="res://sprites/space/space_no_stars.png" id="17_lhflu"]
 [ext_resource type="Shader" path="res://scripts/up_and_down_stars.gdshader" id="18_7mr3i"]
 [ext_resource type="Texture2D" uid="uid://drqqepykcmgvj" path="res://sprites/space/space_yes_stars.png" id="19_7axcg"]
+[ext_resource type="Texture2D" uid="uid://c0gwq8hmmp3wd" path="res://ui/desks/deskui.png" id="20_0d4ke"]
+[ext_resource type="FontFile" uid="uid://cjsn6sorvmyt6" path="res://demo/assets/fonts/8bitOperatorPlusSC-Bold.ttf" id="21_nae8x"]
+[ext_resource type="AudioStream" uid="uid://2ew1hvttxqv6" path="res://sounds/sfx/noshum1sec.mp3" id="22_ompbq"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_haprv"]
 radius = 13.0384
@@ -381,6 +384,40 @@ offset_bottom = 762.0
 texture = ExtResource("19_7axcg")
 stretch_mode = 1
 
+[node name="ButtonLayer" type="CanvasLayer" parent="."]
+
+[node name="loc_button" type="TextureButton" parent="ButtonLayer"]
+process_mode = 3
+texture_filter = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -61.5
+offset_top = 18.0
+offset_right = 61.5
+offset_bottom = 48.0
+grow_horizontal = 2
+focus_mode = 1
+toggle_mode = true
+texture_normal = ExtResource("20_0d4ke")
+
+[node name="LocLabel" type="RichTextLabel" parent="ButtonLayer/loc_button"]
+layout_mode = 0
+offset_left = 6.0
+offset_top = -3.0
+offset_right = 116.0
+offset_bottom = 37.0
+mouse_filter = 1
+theme_override_fonts/normal_font = ExtResource("21_nae8x")
+theme_override_font_sizes/normal_font_size = 20
+text = "English"
+metadata/_edit_lock_ = true
+
+[node name="impact" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("22_ompbq")
+volume_db = 10.0
+
 [connection signal="child_entered_tree" from="." to="." method="_on_child_entered_tree"]
 [connection signal="body_entered" from="CanvasLayer/CenterContainer/Area2D" to="." method="_on_area_2d_body_entered"]
 [connection signal="body_exited" from="CanvasLayer/CenterContainer/Area2D" to="." method="_on_area_2d_body_exited"]
+[connection signal="toggled" from="ButtonLayer/loc_button" to="." method="_on_loc_button_toggled"]

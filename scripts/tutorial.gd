@@ -11,77 +11,77 @@ signal tap_enemy
 var dialogue := {
 	"intro_1": {
 		"speaker": "Jed",
-		"text": "Привет, добро пожаловать в oneshooters! Потому что один выстрел решает всё.",
+		"text": "intro_1",
 		"next": "intro_2"
 	},
 	"intro_2": {
 		"speaker": "Jed",
-		"text": "Сейчас быстро введу в курс дела",
+		"text": "intro_2",
 		"next": "intro_3"
 	},
 	"intro_3": {
 		"speaker": "Jed",
-		"text": "Я стреляю автоматически",
+		"text": "intro_3",
 		"action": "enable_shooting",
 		"next": "intro_4"
 	},
 	"intro_4": {
 		"speaker": "Jed",
-		"text": "Патроны закончились. зажми и держи палец или SPACE, чтобы перезарядиться до 6",
+		"text": "intro_4",
 		"action": "enable_reloading",
 		"next": "intro_5"
 	},
 	"intro_5": {
 		"speaker": "Jed",
-		"text": "Видишь, враг идёт к огоньку? Нажми на него, чтобы переключить цель",
+		"text": "intro_5",
 		"action": "await_fire_tap",
 		"next": "intro_6"
 	},
 	"intro_6": {
 		"speaker": "Jed",
-		"text": "Отлично, убив врага в огоньке ты получаешь пак. Смотри.",
+		"text": "intro_6",
 		"action": "await_pack_use",
 		"next": "intro_7"
 	},
 	"intro_7": {
 		"speaker": "Jed",
-		"text": "Видишь? Патроны закончились, но пак меня выручил",
+		"text": "intro_7",
 		"action": "spawn_shooting_enemy",
 		"next": "intro_8",
 	},
 	"intro_8": {
 		"speaker": "Jed",
-		"text": "Этот парень опасный, пригнись! зажми и держи палец или SPACE",
+		"text": "intro_8",
 		"action": "only_duck",
 		"next": "intro_9",
 	},
 	"intro_9": {
 		"speaker": "Jed",
-		"text": "Время бежать. Свайпни вправо. или нажми 'D' на клавиатуре",
+		"text": "intro_9",
 		"action": "run",
 		"next": "intro_10",
 	},
 	"intro_10": {
 		"speaker": "Jed",
-		"text": "Ой-ой, перекат!(Снова свайпни вправо или нажми 'D' на клавиатуре)",
+		"text": "intro_10",
 		"action": "dodge",
 		"next": "intro_11",
 	},
 	"intro_11": {
 		"speaker": "Jed",
-		"text": "Перекатиться между укрытиями можно лишь раз! А теперь возьми этого дрона",
+		"text": "intro_11",
 		"action": "drone_and_watch",
 		"next": "intro_12",
 	},
 	"intro_12": {
 		"speaker": "Jed",
-		"text": "Хорошо, свайпни влево или нажми 'A' на клавиатуре, чтобы вернутся назад",
+		"text": "intro_12",
 		"action": "back",
 		"next": "intro_13",
 	},
 	"intro_13": {
 		"speaker": "Jed",
-		"text": "Так держать!",
+		"text": "intro_13",
 		"action": "done"
 	}
 }
@@ -140,6 +140,7 @@ var revolver
 	
 
 func _ready() -> void:
+	
 	G.tutorial_mode = true
 	G.pause_added = false
 	G.game_started = false
@@ -653,22 +654,31 @@ func handle_action(action: String):
 			
 			await $character.tut_ducked
 			
+			$character.dontduck_up = true
+			
+			get_tree().paused = false
+			
 			$character.dontduck = true
 			$character.dontshoot = false
-			Input.action_release("press")
-			Input.action_release("space")
+			
 			#await get_tree().create_timer(0.2).timeout
 			#G.character_ref.shot()
-			get_tree().paused = false
+			
 			
 			var timer = get_tree().create_timer(0.2)
 			await timer.timeout
 			
 			
+			Input.action_release("press")
+			Input.action_release("space")
+			
+			$character.shot()
+			
 			current_id = dialogue.get(current_id).get("next", "")
 			show_next_dialogue()
 			
 		"run":
+			$character.dontduck_up = false
 			$character.dontshoot = true
 			await tapped
 			$CanvasLayer/Jedbigres/AnimationPlayer.play_backwards("popup")
@@ -678,6 +688,7 @@ func handle_action(action: String):
 			$character.dontdodge = true
 			$character.process_mode = Node.PROCESS_MODE_PAUSABLE
 			
+			print("AWAITING FOR TUT RUN")
 			await $character.tut_run
 			
 			var timer = get_tree().create_timer(0.5)
@@ -789,3 +800,13 @@ func handle_action(action: String):
 		
 
 		
+
+
+func _on_loc_button_toggled(toggled_on: bool) -> void:
+	$impact.play()
+	if toggled_on:
+		$ButtonLayer/loc_button/LocLabel.text = "Russian"
+		TranslationServer.set_locale("ru")
+	else:
+		$ButtonLayer/loc_button/LocLabel.text = "English"
+		TranslationServer.set_locale("en")

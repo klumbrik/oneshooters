@@ -4,6 +4,8 @@ var body_in_area
 var current_bullet
 var scene_switching := false
 
+
+
 var ui_shown = false
 @onready var current_screen = "menu"
 
@@ -56,7 +58,9 @@ func _input(event: InputEvent) -> void: #space key start and restart
 			if game_over == null:
 				if !G.game_started and G.character_ref != null:
 					if G.character_ref.character_state_machine.get_active_state().name == "shooting":
-						main.start_game()
+						#await get_tree().create_timer(0.1).timeout
+						if main.start_game_button.visible:
+							main.start_game()
 			else:
 				game_over.animate_reload_button()  
 		
