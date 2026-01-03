@@ -119,13 +119,19 @@ func _input(event: InputEvent) -> void: #for pc controls
 			G.left_swipe_detected = false
 			G.number_of_right_swipes += 1
 			if !G.moving and G.current_cover_number <= G.last_cover_number:
-				G.emit_signal("cover_create_room") #to create a new room
+				#G.emit_signal("cover_create_room") #to create a new room
 				G.last_cover_number = G.current_cover_number
 		elif Input.is_action_just_pressed("left"):
 			if !left_swipe_blocked:
 				G.left_swipe_detected = true
 				G.right_swipe_detected = false
-		elif Input.is_action_pressed("space"):
+				
+			if !G.last_cover_moved: #move if running back to last cover
+				G.emit_signal("move_last_cover")
+				G.last_cover_moved = true
+				print("cover moved")
+				
+		elif Input.is_action_pressed("space") and !G.moving:
 			ducking = true
 		else:
 			ducking = false

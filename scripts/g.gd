@@ -156,7 +156,7 @@ func reset(): #reset essential variables
 
 func _move_last_cover():
 	G.last_cover_area_ref.position.x -= 30
-	#print("cover pos changed")
+	print("cover pos changed")
 
 func load_json_file():
 	var file = FileAccess.open(json_path, FileAccess.READ)

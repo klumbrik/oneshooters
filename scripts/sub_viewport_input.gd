@@ -68,6 +68,7 @@ func _input(event: InputEvent) -> void: #space key start and restart
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
+	print(G.rooms)
 	#print(current_bullet)
 	#print(mouse_on_screen)
 	

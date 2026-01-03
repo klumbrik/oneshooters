@@ -381,7 +381,6 @@ func choose_bonus_type() -> String:
 
 
 func start_game():
-	
 	animate_start_button()
 	
 	G.game_started = true
