@@ -83,10 +83,7 @@ func _ready() -> void:
 	
 	start_game_button = $CanvasLayer/StartGameButton
 
-	await get_tree().process_frame #to not get null when adding the first room to array
-	G.rooms.clear()
-	G.rooms.append($room) #adding the first room to array
-	
+	_initialize_rooms_if_needed()
 	
 	G.rotate_ui.connect(self._on_ui_rotate)
 	G.cancel_reload_rotation.connect(self.cancel_reload_sequence)
@@ -204,7 +201,7 @@ func _on_area_2d_body_exited(body: Node2D) -> void:
 	body_in_area = false
 
 func _create_room_on_swipe(triggering_room = null):
-	
+	_initialize_rooms_if_needed()
 	# 1. ПРОВЕРКА НА ВОЗВРАТ
 	# Если мы зашли в комнату, но она НЕ является последней в списке G.rooms,
 	# значит, мы вернулись назад. В таком случае ничего генерировать не нужно.
@@ -433,6 +430,7 @@ func _on_wardrobe_button_button_down():
 	await get_tree().process_frame
 	#print(.disabled) # true
 	G.emit_signal("to_wardrobe")
+	G.rooms.clear()
 	
 	
 func animate_start_button():
@@ -450,3 +448,10 @@ func _on_player_died():
 	spawn_enabled = false
 	$CanvasLayer/CenterContainer.visible = false
 	$CanvasLayer/DodgeBar.visible = false
+
+func _initialize_rooms_if_needed() -> void:
+	if not G.rooms.is_empty():
+		return
+	if is_instance_valid($room):
+		G.rooms.clear()
+		G.rooms.append($room) #adding the first room to array

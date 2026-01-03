@@ -5,7 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://b0clrx6pdvkxi" path="res://scenes/mainmenu.tscn" id="2_owi17"]
 [ext_resource type="Script" path="res://scripts/button.gd" id="3_1e27r"]
 [ext_resource type="AudioStream" uid="uid://cvem6kg526qhp" path="res://sounds/music/synthoneshootersdemo4.mp3" id="4_cvftn"]
-[ext_resource type="AudioStream" uid="uid://c5tdkfnrcyaja" path="res://Oneshot Main Menu.wav" id="5_04ep3"]
+[ext_resource type="AudioStream" uid="uid://ckqouy6hs3nn5" path="res://Oneshot Main Menu ver 2.wav" id="5_d2lu8"]
 [ext_resource type="Texture2D" uid="uid://ceku7bkys0cr8" path="res://ui/pause/pause.png" id="7_v5td5"]
 [ext_resource type="FontFile" uid="uid://cjsn6sorvmyt6" path="res://demo/assets/fonts/8bitOperatorPlusSC-Bold.ttf" id="8_o3xom"]
 [ext_resource type="Script" path="res://scripts/center_container.gd" id="9_0ubch"]
@@ -169,7 +169,7 @@ parameters/looping = true
 
 [node name="LobbyMusic" type="AudioStreamPlayer2D" parent="."]
 process_mode = 3
-stream = ExtResource("5_04ep3")
+stream = ExtResource("5_d2lu8")
 volume_db = 5.0
 bus = &"LobbyMusic"
 
